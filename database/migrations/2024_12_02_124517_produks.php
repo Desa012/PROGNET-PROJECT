@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id('id_produk');
             $table->bigInteger('id_penjual');
             $table->bigInteger('id_kategori');
+            $table->bigInteger('id_diskon');
             $table->string('nama_produk');
             $table->text('deskripsi_produk');
             $table->binary('gambar_produk');
