@@ -11,6 +11,7 @@
               <a href="/" class="rounded-md {{ request()->is('/')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}" aria-current="page">Home</a>
               <a href="kontaks" class="rounded-md {{ request()->is('kontaks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Contacts</a>
               <a href="about" class="rounded-md {{ request()->is('about')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">About</a>
+              <a href="diskons" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Diskon</a>
               @if(Auth::guard('penjual')->check())
                 <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
                     @csrf
@@ -98,6 +99,7 @@
         <a href="/" class="block rounded-md {{ request()->is('/')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}" aria-current="page">Home</a>
         <a href="kontaks" class="block rounded-md {{ request()->is('kontaks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}">Contacts</a>
         <a href="about" class="block rounded-md {{ request()->is('about')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}">About</a>
+        <a href="diskons" class="block rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}">Diskon</a>
         @if(Auth::guard('penjual')->check())
         <form action="{{ route('logout-penjual') }}" method="POST" class="block">
             @csrf
