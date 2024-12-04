@@ -11,6 +11,16 @@
               <a href="/" class="rounded-md {{ request()->is('/')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}" aria-current="page">Home</a>
               <a href="kontaks" class="rounded-md {{ request()->is('kontaks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Contacts</a>
               <a href="about" class="rounded-md {{ request()->is('about')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">About</a>
+              @if(Auth::guard('penjual')->check())
+                <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="rounded-md {{ Route::currentRouteName()==='logout-penjual'?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                        Logout
+                    </button>
+                </form>
+              {{-- @else
+                 <a href="{{ route('login-penjual') }}" class="rounded-md {{ Route::currentRouteName()==='login-penjual'?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Login</a> --}}
+              @endif
             </div>
           </div>
         </div>
@@ -44,7 +54,7 @@
                   From: "transform opacity-100 scale-100"
                   To: "transform opacity-0 scale-95"
               -->
-              <div 
+              <div
                 x-show="isOpen"
                 x-transition:enter="transition ease-out duration-100 transform"
                 x-transition:enter-start="opacity-0 scale-95"
@@ -81,13 +91,21 @@
 
     <!-- Mobile menu, show/hide based on menu state. -->
     <div x-show="isOpen" class="md:hidden" id="mobile-menu">
-      <div 
-        
+      <div
+
         class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <a href="/" class="block rounded-md {{ request()->is('/')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}" aria-current="page">Home</a>
         <a href="kontaks" class="block rounded-md {{ request()->is('kontaks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}">Contacts</a>
         <a href="about" class="block rounded-md {{ request()->is('about')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}">About</a>
+        @if(Auth::guard('penjual')->check())
+        <form action="{{ route('logout-penjual') }}" method="POST" class="block">
+            @csrf
+            <button type="submit" class="block rounded-md {{ Route::currentRouteName()==='logout-penjual'?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                Logout
+            </button>
+        </form>
+      @endif
       </div>
       <div class="border-t border-gray-700 pb-3 pt-4">
         <div class="flex items-center px-5">
@@ -107,7 +125,7 @@
           </button>
         </div>
         <div
-             
+
             class="mt-3 space-y-1 px-2">
           <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Your Profile</a>
           <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a>
