@@ -11,16 +11,8 @@
               <a href="/" class="rounded-md {{ request()->is('/')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}" aria-current="page">Home</a>
               <a href="kontaks" class="rounded-md {{ request()->is('kontaks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Contacts</a>
               <a href="about" class="rounded-md {{ request()->is('about')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">About</a>
-              @if(Auth::guard('penjual')->check())
-                <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" class="rounded-md {{ Route::currentRouteName()==='logout-penjual'?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
-                        Logout
-                    </button>
-                </form>
-              {{-- @else
-                 <a href="{{ route('login-penjual') }}" class="rounded-md {{ Route::currentRouteName()==='login-penjual'?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Login</a> --}}
-              @endif
+              <a href="diskons" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Diskon</a>
+              <a href="kategori_produks" class="rounded-md {{ request()->is('kategori_produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kategori Produk</a>
             </div>
           </div>
         </div>
@@ -66,7 +58,16 @@
                 <!-- Active: "bg-gray-100", Not Active: "" -->
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+                @if(Auth::guard('penjual')->check())
+                <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="block px-4 py-2 text-sm text-gray-700 {{ Route::currentRouteName()==='logout-penjual'?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+                        Logout
+                    </button>
+                </form>
+              {{-- @else
+                 <a href="{{ route('login-penjual') }}" class="rounded-md {{ Route::currentRouteName()==='login-penjual'?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Login</a> --}}
+              @endif
               </div>
             </div>
           </div>
@@ -98,6 +99,7 @@
         <a href="/" class="block rounded-md {{ request()->is('/')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}" aria-current="page">Home</a>
         <a href="kontaks" class="block rounded-md {{ request()->is('kontaks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}">Contacts</a>
         <a href="about" class="block rounded-md {{ request()->is('about')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}">About</a>
+        <a href="diskons" class="block rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white'}}">Diskon</a>
         @if(Auth::guard('penjual')->check())
         <form action="{{ route('logout-penjual') }}" method="POST" class="block">
             @csrf
