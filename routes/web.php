@@ -16,7 +16,10 @@ Route::get('home', function () {
 
 Route::resource('kontaks', KontakController::class);
 Route::resource('diskons', DiskonController::class);
+<<<<<<< HEAD
 Route::resource('kategori_produks', KategoriProdukController::class);
+=======
+>>>>>>> cc583cce281caca55f3750969736dd02688de1de
 
 Route::get('about', function () {
     return view('about');
