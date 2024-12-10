@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-    < class="max-w-lg mx-auto mt-12 bg-white p-8 rounded-lg shadow-md">
+    <div class="max-w-lg mx-auto mt-12 bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold text-center mb-8">Register Pelanggan</h2>
 
         @if ($errors->any())
@@ -32,7 +32,7 @@
                 <input type="text" name="alamat" id="alamat" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
 
-            <div class="mb-5"></div>
+            <div class="mb-5">
                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="email" name="email" id="email" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
@@ -48,9 +48,11 @@
             </div>
 
             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">Daftar</button>
-            <div class="flex justify-between mt-4">
-                <a href="{{ route('login-pelanggan') }}" class="text-blue-600 hover:text-blue-800">Sudah punya akun? Login</a>
         </form>
+
+        <div class="flex justify-between mt-4">
+            <a href="{{ route('login-pelanggan') }}" class="text-blue-600 hover:text-blue-800">Sudah punya akun? Login</a>
+        </div>
     </div>
 </body>
 </html>

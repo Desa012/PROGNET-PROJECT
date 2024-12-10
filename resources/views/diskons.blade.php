@@ -4,71 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diskon</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        /* Global Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            padding-top: 100px; /* Space for navbar */
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Navbar */
         .navbar {
-            background-color: #343a40;
-            padding: 1rem;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 100;
+            position: relative;
+            z-index: 10; 
         }
 
-        .navbar .logo {
-            color: #ffffff;
-            font-size: 24px;
-            font-weight: bold;
-            text-transform: uppercase;
+        .main-content {
+            padding-top: 4rem; /* Menyesuaikan dengan tinggi navbar */
         }
 
-        .navbar a {
-            color: #ffffff;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 16px;
-        }
-
-        .navbar a:hover {
-            color: #007bff;
-        }
-
-        /* Button Style */
-        .add-discount-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            text-align: center;
-            display: inline-block;
-            margin-bottom: 2rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .add-discount-btn:hover {
-            background-color: #0056b3;
-        }
-
-        /* Card Styles */
         .card {
             display: flex;
             flex-direction: column;
@@ -101,7 +47,6 @@
             color: #555;
         }
 
-        /* Button Group */
         .button-group {
             display: flex;
             gap: 10px;
@@ -130,7 +75,6 @@
             background-color: #c82333;
         }
 
-        /* Media Queries for responsiveness */
         @media (max-width: 768px) {
             .card {
                 flex-direction: column;
@@ -142,36 +86,64 @@
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100">
 
   <!-- Navbar -->
-  <nav class="navbar">
-      <div class="container">
-          <span class="logo">Toko Saya</span>
-          <a href="dashboard-penjual">Home</a>
-          <a href="diskons">Diskon</a>
-          <a href="kategori_produks">Kategori Produk</a>
+  <nav class="navbar bg-gray-800" x-data="{ isOpen: false }">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <img class="h-8 w-8" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+              <a href="diskons" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Diskon</a>
+              <a href="kategori_produks" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kategori Produk</a>
+              <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Produk</a>
+            </div>
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-4 flex items-center md:ml-6">
+            <div class="relative ml-3">
+              <button type="button" @click="isOpen = !isOpen" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User profile">
+              </button>
+              <div x-show="isOpen" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg">
+                <a href="profile" class="block px-4 py-2 text-sm text-gray-700">Your Profile</a>
+                <a href="settings" class="block px-4 py-2 text-sm text-gray-700">Settings</a>
+                @if(Auth::guard('penjual')->check())
+                  <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="block px-4 py-2 text-sm text-gray-700">Logout</button>
+                  </form>
+                @else
+                  <a href="{{ route('login-penjual') }}" class="block px-4 py-2 text-sm text-gray-700">Login</a>
+                @endif
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
   </nav>
 
   <!-- Main Content -->
-  <div class="container">
+  <div class="main-content container mx-auto">
     <!-- Add Discount Button -->
-    <button class="add-discount-btn" onclick="location.href='{{ route('diskons.create') }}'">Tambah Diskon</button>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-5" onclick="location.href='{{ route('diskons.create') }}'">Tambah Diskon</button>
 
     <!-- Diskon List -->
     @foreach ($diskon as $dis)
       <div class="card">
         <label>Persentase Diskon</label>
         <h5>{{ $dis['persentase_diskon'] }}%</h5>
-
         <label>Tanggal Mulai</label>
         <p>{{ $dis['tanggal_mulai'] }}</p>
-
         <label>Tanggal Selesai</label>
         <p>{{ $dis['tanggal_selesai'] }}</p>
-
-        <!-- Button Group (Edit & Delete) -->
         <div class="button-group">
           <button onclick="location.href='{{ route('diskons.edit',$dis['id_diskon']) }}'">Edit</button>
           <form action="{{ route('diskons.destroy',$dis['id_diskon']) }}" method="POST">

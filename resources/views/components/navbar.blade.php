@@ -11,6 +11,7 @@
               <a href="home" class="rounded-md {{ request()->is('home')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}" aria-current="page">Home</a>
               <a href="diskons" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Diskon</a>
               <a href="kategori_produks" class="rounded-md {{ request()->is('kategori_produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kategori Produk</a>
+              <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Produk</a>
             </div>
           </div>
         </div>

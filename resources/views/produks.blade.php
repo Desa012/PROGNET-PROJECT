@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman dengan Navbar Rapi</title>
+    <title>Produk</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .navbar {
@@ -15,7 +15,6 @@
             padding-top: 4rem; /* Menyesuaikan dengan tinggi navbar */
         }
 
-        /* Style tambahan agar sesuai dengan diskon */
         .card {
             display: flex;
             flex-direction: column;
@@ -48,7 +47,6 @@
             color: #555;
         }
 
-        /* Button Group */
         .button-group {
             display: flex;
             gap: 10px;
@@ -77,7 +75,6 @@
             background-color: #c82333;
         }
 
-        /* Media Queries for responsiveness */
         @media (max-width: 768px) {
             .card {
                 flex-direction: column;
@@ -102,35 +99,27 @@
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
               <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
-              <a href="diskons" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Diskon</a>
+              <a href="produk" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Produk</a>
               <a href="kategori_produks" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kategori Produk</a>
-              <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Produk</a>
             </div>
           </div>
         </div>
-
-        <!-- Profile and Logout Dropdown -->
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
             <div class="relative ml-3">
-              <div>
-                <button type="button" @click="isOpen = !isOpen" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                  <span class="absolute -inset-1.5"></span>
-                  <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User profile">
-                </button>
-              </div>
-
-              <div x-show="isOpen" x-transition:enter="transition ease-out duration-100 transform" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
+              <button type="button" @click="isOpen = !isOpen" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User profile">
+              </button>
+              <div x-show="isOpen" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg">
                 <a href="profile" class="block px-4 py-2 text-sm text-gray-700">Your Profile</a>
                 <a href="settings" class="block px-4 py-2 text-sm text-gray-700">Settings</a>
                 @if(Auth::guard('penjual')->check())
                   <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
                     @csrf
-                    <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                    <button type="submit" class="block px-4 py-2 text-sm text-gray-700">Logout</button>
                   </form>
                 @else
-                  <a href="{{ route('login-penjual') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
+                  <a href="{{ route('login-penjual') }}" class="block px-4 py-2 text-sm text-gray-700">Login</a>
                 @endif
               </div>
             </div>
@@ -141,8 +130,35 @@
   </nav>
 
   <!-- Main Content -->
-  <div class="main-content">
-    <h1 class="text-3xl font-semibold text-center text-gray-800 py-10">Selamat datang di halaman utama</h1>
+  <div class="main-content container mx-auto">
+    <!-- Add Product Button -->
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-5" onclick="location.href='{{ route('produks.create') }}'">Tambah Produk</button>
+
+    <!-- Produk List -->
+    @foreach ($produk as $prod)
+      <div class="card">
+        <label>Nama Produk</label>
+        <h5>{{ $prod->nama_produk }}</h5>
+        <label>Kategori</label>
+        <p>{{ $prod->kategori }}</p>
+        <label>Diskon</label>
+        <p>{{ $prod->diskon ? $prod->diskon->persentase_diskon . '%' : 'Tidak ada diskon' }}</p>
+        <label>Harga</label>
+        <p>Rp {{ number_format($prod->harga, 0, ',', '.') }}</p>
+        <label>Stok</label>
+        <p>{{ $prod->stok }}</p>
+        <label>Gambar</label>
+        <img src="{{ asset('storage/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-32 h-32 object-cover mb-2" />
+        <div class="button-group">
+          <button onclick="location.href='{{ route('produks.edit', $prod->id_produk) }}'">Edit</button>
+          <form action="{{ route('produks.destroy', $prod->id_produk) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="delete-btn">Delete</button>
+          </form>
+        </div>
+      </div>
+    @endforeach
   </div>
 
 </body>
