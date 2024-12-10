@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Facade;
 
-class AuthController extends Controller
+class AuthPenjualController extends Controller
 {
     public function register_penjual(Request $request)
     {
@@ -63,7 +63,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->intended('home')->with('success', 'Login berhasil!');
+            return redirect()->intended('dashboard-penjual')->with('success', 'Login berhasil!');
         }
 
         \Log::error('Login gagal: Email atau password salah');

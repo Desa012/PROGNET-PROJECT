@@ -1,21 +1,122 @@
-<x-layout>
-    <x-slot:header>Tambah Diskon</x-slot>
-    <form class="max-w-md mx-auto" method="POST" action="{{ route('diskons.store') }}">
-        @csrf
-        <div class="relative z-0 w-full mb-5 group">
-            <input type="number" name="persentase_diskon" id="persentase_diskon" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-            <label for="persentase_diskon" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Persentase Diskon</label>
-        </div>
-        <div class="relative z-0 w-full mb-5 group">
-            <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-            <label for="tanggal_mulai" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tanggal Mulai</label>
-        </div>
-        <div class="relative z-0 w-full mb-5 group">
-            <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-            <label for="tanggal_selesai" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tanggal Selesai</label>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Diskon</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        /* Navbar */
+        .navbar {
+            background-color: #343a40;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        .navbar .logo {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .navbar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+        .navbar a:hover {
+            color: #007bff;
+        }
+        /* Form Styling */
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 5rem;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .form-container input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        .form-container label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .form-container button {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
 
-        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-    </form>
+  <!-- Navbar -->
+  <nav class="navbar">
+      <div class="container">
+          <span class="logo">Toko Saya</span>
+          <a href="dashboard-penjual">Home</a>
+          <a href="diskons">Diskon</a>
+          <a href="kategori_produks">Kategori Produk</a>
+      </div>
+  </nav>
 
-</x-layout>
+  <!-- Main Content -->
+  <div class="container">
+    <div class="form-container">
+        <h2 class="text-center text-2xl font-semibold mb-5">Tambah Diskon</h2>
+        <form method="POST" action="{{ route('diskons.store') }}">
+            @csrf
+            <div class="form-group">
+                <label for="persentase_diskon">Persentase Diskon</label>
+                <input type="number" name="persentase_diskon" id="persentase_diskon" required placeholder="Masukkan persentase diskon" />
+            </div>
+            <div class="form-group">
+                <label for="tanggal_mulai">Tanggal Mulai</label>
+                <input type="date" name="tanggal_mulai" id="tanggal_mulai" required />
+            </div>
+            <div class="form-group">
+                <label for="tanggal_selesai">Tanggal Selesai</label>
+                <input type="date" name="tanggal_selesai" id="tanggal_selesai" required />
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+  </div>
+
+</body>
+</html>

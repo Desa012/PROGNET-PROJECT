@@ -8,7 +8,7 @@
 </head>
 <body class="bg-gray-100">
     <div class="max-w-lg mx-auto mt-12 bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-semibold text-center mb-8">Register</h2>
+        <h2 class="text-2xl font-semibold text-center mb-8">Register Penjual</h2>
 
         @if ($errors->any())
             <div class="mb-4">

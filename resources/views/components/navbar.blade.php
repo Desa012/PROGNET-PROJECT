@@ -8,9 +8,7 @@
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <a href="/" class="rounded-md {{ request()->is('/')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}" aria-current="page">Home</a>
-              <a href="kontaks" class="rounded-md {{ request()->is('kontaks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Contacts</a>
-              <a href="about" class="rounded-md {{ request()->is('about')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">About</a>
+              <a href="home" class="rounded-md {{ request()->is('home')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}" aria-current="page">Home</a>
               <a href="diskons" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Diskon</a>
               <a href="kategori_produks" class="rounded-md {{ request()->is('kategori_produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kategori Produk</a>
             </div>
