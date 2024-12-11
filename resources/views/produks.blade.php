@@ -144,7 +144,9 @@
         <label>Diskon</label>
         <p>{{ $prod->diskon ? $prod->diskon->persentase_diskon . '%' : 'Tidak ada diskon' }}</p>
         <label>Harga</label>
-        <p>Rp {{ number_format($prod->harga, 0, ',', '.') }}</p>
+        <p>Rp {{ number_format($prod->harga, 3, ',', '.') }}</p>
+        <label>Harga Setelah Diskon</label>
+        <p>Rp {{ number_format(($prod->harga - ($prod->harga * ($prod->diskon->persentase_diskon / 100))), 3, ',', ',') }}</p>
         <label>Stok</label>
         <p>{{ $prod->stok }}</p>
         <label>Gambar</label>
