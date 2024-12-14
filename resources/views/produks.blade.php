@@ -52,16 +52,16 @@
       @foreach ($produk as $prod)
         <div class="bg-white p-6 rounded-lg shadow-md">
           <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ $prod->nama_produk }}</h3>
-          <p class="text-sm text-gray-600"><strong>Kategori:</strong> {{ $prod->nama_kategori }}</p>
+          <div class="my-4">
+            <img src="{{ asset('images/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-full h-50 object-cover rounded-md mt-4">
+          </div>
+          <p class="text-sm text-gray-600"><strong>Kategori:</strong> {{ $prod->Kategori_Produk->nama_kategori }}</p>
           <p class="text-sm text-gray-600"><strong>Diskon:</strong> {{ $prod->diskon ? $prod->diskon->persentase_diskon . '%' : 'Tidak ada diskon' }}</p>
           <p class="text-sm text-gray-600"><strong>Harga:</strong> Rp {{ number_format($prod->harga, 3, ',', '.') }}</p>
           <p class="text-sm text-gray-600">
             <strong>Harga Setelah Diskon:</strong> Rp 
             {{ number_format(($prod->harga - ($prod->harga * ($prod->diskon->persentase_diskon ?? 0) / 100)), 3, ',', '.') }}</p>
           <p class="text-sm text-gray-600"><strong>Stok:</strong> {{ $prod->stok }}</p>
-          <div class="my-4">
-            <img src="{{ asset('storage/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-full h-32 object-cover rounded">
-          </div>
           <div class="flex justify-between items-center">
             <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded" onclick="location.href='{{ route('produks.edit', $prod->id_produk) }}'">Edit</button>
             <form action="{{ route('produks.destroy', $prod->id_produk) }}" method="POST">

@@ -66,7 +66,6 @@
     </div>
   </div>
 
-
 <!-- Tampilan Produk -->
 <div class="container mx-auto mt-10">
     <h3 class="text-2xl font-bold text-gray-800 mb-4">Semua Produk</h3>
@@ -74,7 +73,8 @@
         @foreach ($produk as $prod)
             <div class="bg-white shadow-md rounded-lg p-5">
                 <h4 class="text-xl font-semibold text-gray-800">{{ $prod->nama_produk }}</h4>
-                <p class="text-gray-600">Kategori: {{ $prod->id_kategori }}</p>
+                <img src="{{ asset('images/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-full h-50 object-cover rounded-md mt-4">
+                <p class="text-gray-600">Kategori: {{ $prod->Kategori_Produk->nama_kategori }}</p>
                 <p class="text-gray-600">Harga: Rp {{ number_format($prod->harga, 3, ',', '.') }}</p>
                 <p class="text-gray-600">Diskon: 
                     {{ $prod->diskon ? $prod->diskon->persentase_diskon . '%' : 'Tidak ada diskon' }}
@@ -83,7 +83,6 @@
                   <strong>Harga Setelah Diskon:</strong> Rp 
                   {{ number_format(($prod->harga - ($prod->harga * ($prod->diskon->persentase_diskon ?? 0) / 100)), 3, ',', '.') }}</p>
                 <p class="text-gray-600">Stok: {{ $prod->stok }}</p>
-                <img src="{{ asset('storage/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-full h-32 object-cover rounded-md mt-4">
             </div>
         @endforeach
     </div>
