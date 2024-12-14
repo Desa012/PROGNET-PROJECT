@@ -15,7 +15,9 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produk = Produk::all(); // Ambil semua produk
+        $penjualId = auth()->guard('penjual')->id(); // Mendapatkan ID penjual dari session
+        $produk = Produk::where('id_penjual', $penjualId)->get();
+    
         return view('produks', compact('produk'));
     }
 
@@ -34,42 +36,44 @@ class ProdukController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'id_penjual' => 'required|exists:penjuals,id_penjual',
-            'id_kategori' => 'required|exists:kategori_produks,id_kategori',
-            'id_diskon' => 'required|exists:diskons,id_diskon',
-            'nama_produk' => 'required|string|max:255',
-            'deskripsi_produk' => 'nullable|string',
-            'gambar_produk' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'harga' => 'required|numeric',
-            'stok' => 'required|integer',
-        ]);
+{
+    // Validasi input
+    $request->validate([
+        'id_kategori' => 'required|exists:kategori_produks,id_kategori',
+        'id_diskon' => 'nullable|exists:diskons,id_diskon',
+        'nama_produk' => 'required|string|max:255',
+        'deskripsi_produk' => 'nullable|string',
+        'gambar_produk' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'harga' => 'required|numeric',
+        'stok' => 'required|integer',
+    ]);
 
-        // Upload gambar jika ada
-        if ($request->hasFile('gambar_produk')) {
-            $imageName = time() . '.' . $request->gambar_produk->extension();
-            $request->gambar_produk->move(public_path('images'), $imageName);
-        } else {
-            $imageName = null;
-        }
+    // Ambil ID Penjual dari sesi login
+    $penjualId = auth()->guard('penjual')->id();
 
-        // Simpan produk baru
-        $produk = new Produk();
-        $produk->id_penjual = $request->id_penjual;
-        $produk->id_kategori = $request->id_kategori;
-        $produk->id_diskon = $request->id_diskon;
-        $produk->nama_produk = $request->nama_produk;
-        $produk->deskripsi_produk = $request->deskripsi_produk;
-        $produk->gambar_produk = $imageName;
-        $produk->harga = $request->harga;
-        $produk->stok = $request->stok;
-
-        $produk->save();
-
-        return redirect()->route('produks.index');
+    // Upload gambar jika ada
+    $imageName = null;
+    if ($request->hasFile('gambar_produk')) {
+        $imageName = time() . '.' . $request->gambar_produk->extension();
+        $request->gambar_produk->move(public_path('images'), $imageName);
     }
+
+    // Simpan produk baru
+    $produk = new Produk();
+    $produk->id_penjual = $penjualId; // Gunakan ID penjual dari sesi login
+    $produk->id_kategori = $request->id_kategori;
+    $produk->id_diskon = $request->id_diskon;
+    $produk->nama_produk = $request->nama_produk;
+    $produk->deskripsi_produk = $request->deskripsi_produk;
+    $produk->gambar_produk = $imageName;
+    $produk->harga = $request->harga;
+    $produk->stok = $request->stok;
+
+    $produk->save();
+
+    return redirect()->route('produks.index')->with('success', 'Produk berhasil ditambahkan!');
+}
+
 
     /**
      * Display the specified resource.

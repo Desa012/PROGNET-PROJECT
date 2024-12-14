@@ -4,132 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Diskon</title>
-    <style>
-        /* Global styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Navbar */
-        .navbar {
-            background-color: #343a40;
-            padding: 1rem;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 100;
-        }
-
-        .navbar .logo {
-            color: #ffffff;
-            font-size: 24px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .navbar a {
-            color: #ffffff;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 16px;
-        }
-
-        .navbar a:hover {
-            color: #007bff;
-        }
-
-        /* Form Styling */
-        .form-container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-top: 5rem;
-        }
-
-        .form-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .form-container input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        .form-container label {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 5px;
-        }
-
-        .form-container button {
-            background-color: #007bff;
-            color: #ffffff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-        }
-
-        .form-container button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100">
 
   <!-- Navbar -->
-  <nav class="navbar">
-      <div class="container">
-          <span class="logo">Toko Saya</span>
-          <a href="dashboard-penjual">Home</a>
-          <a href="diskons">Diskon</a>
-          <a href="kategori_produks">Kategori Produk</a>
-          
+  <nav class="navbar bg-gray-800 shadow-lg">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <img class="h-8 w-8" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
+              <a href="diskons" class="rounded-md bg-gray-900 text-white">Kelola Diskon</a>
+              <a href="Produks" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kelola Produk</a>
+            </div>
+          </div>
+        </div>
+        <div class="hidden md:block">
+          <div class="ml-4 flex items-center md:ml-6">
+            <div class="relative ml-3">
+                  @if(Auth::guard('penjual')->check())
+                    <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
+                      @csrf
+                      <button type="submit" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Logout</button>
+                    </form>
+                  @else
+                    <a href="{{ route('login-penjual') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
+                  @endif
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
   </nav>
 
   <!-- Main Content -->
-  <div class="container">
-    <div class="form-container">
-        <h2 class="text-center text-2xl font-semibold mb-5">Edit Diskon</h2>
-        <form method="POST" action="{{ route('diskons.update', $diskon['id_diskon']) }}">
-            @csrf
-            @method('PUT')
-            <div class="form-group">
-                <label for="persentase_diskon">Persentase Diskon</label>
-                <input type="number" name="persentase_diskon" id="persentase_diskon" value="{{ $diskon['persentase_diskon'] }}" required placeholder="Masukkan persentase diskon" />
-            </div>
-            <div class="form-group">
-                <label for="tanggal_mulai">Tanggal Mulai</label>
-                <input type="date" name="tanggal_mulai" id="tanggal_mulai" value="{{ $diskon['tanggal_mulai'] }}" required />
-            </div>
-            <div class="form-group">
-                <label for="tanggal_selesai">Tanggal Selesai</label>
-                <input type="date" name="tanggal_selesai" id="tanggal_selesai" value="{{ $diskon['tanggal_selesai'] }}" required />
-            </div>
+  <div class="container mx-auto py-10">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+      <h2 class="text-center text-2xl font-semibold mb-5">Edit Diskon</h2>
+      <form method="POST" action="{{ route('diskons.update', $diskon['id_diskon']) }}">
+        @csrf
+        @method('PUT')
+        
+        <div class="mb-4">
+          <label for="persentase_diskon" class="block text-sm font-medium text-gray-700">Persentase Diskon</label>
+          <input type="number" name="persentase_diskon" id="persentase_diskon" value="{{ $diskon['persentase_diskon'] }}" required 
+                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                 placeholder="Masukkan persentase diskon">
+        </div>
 
-            <button type="submit">Simpan</button>
-        </form>
+        <div class="mb-4">
+          <label for="tanggal_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
+          <input type="date" name="tanggal_mulai" id="tanggal_mulai" value="{{ $diskon['tanggal_mulai'] }}" required 
+                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+
+        <div class="mb-4">
+          <label for="tanggal_selesai" class="block text-sm font-medium text-gray-700">Tanggal Selesai</label>
+          <input type="date" name="tanggal_selesai" id="tanggal_selesai" value="{{ $diskon['tanggal_selesai'] }}" required 
+                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+
+        <button type="submit" 
+                class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow">
+          Simpan
+        </button>
+      </form>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-300 py-6">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2024 Dashboard Penjual. All rights reserved.</p>
+    </div>
+  </footer>
 
 </body>
 </html>

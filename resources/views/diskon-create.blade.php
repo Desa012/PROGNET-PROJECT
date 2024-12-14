@@ -5,16 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Diskon</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        .navbar {
-            position: relative;
-            z-index: 10;
-        }
-
-        .main-content {
-            padding-top: 4rem; /* Menyesuaikan dengan tinggi navbar */
-        }
-    </style>
+  
 </head>
 <body class="bg-gray-100">
 
@@ -28,31 +19,23 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
-              <a href="diskons" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Diskon</a>
-              <a href="kategori_produks" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kategori Produk</a>
-              <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Produk</a>
+              <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
+              <a href="diskons" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kelola Diskon</a>
+              <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Produk</a>
             </div>
           </div>
         </div>
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
             <div class="relative ml-3">
-              <button type="button" @click="isOpen = !isOpen" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User profile">
-              </button>
-              <div x-show="isOpen" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg">
-                <a href="profile" class="block px-4 py-2 text-sm text-gray-700">Your Profile</a>
-                <a href="settings" class="block px-4 py-2 text-sm text-gray-700">Settings</a>
-                @if(Auth::guard('penjual')->check())
-                  <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" class="block px-4 py-2 text-sm text-gray-700">Logout</button>
-                  </form>
-                @else
-                  <a href="{{ route('login-penjual') }}" class="block px-4 py-2 text-sm text-gray-700">Login</a>
-                @endif
-              </div>
+                  @if(Auth::guard('penjual')->check())
+                    <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
+                      @csrf
+                      <button type="submit" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Logout</button>
+                    </form>
+                  @else
+                    <a href="{{ route('login-penjual') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
+                  @endif
             </div>
           </div>
         </div>
@@ -82,6 +65,13 @@
         </form>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-300 py-6">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2024 Dashboard Penjual. All rights reserved.</p>
+    </div>
+  </footer>
 
 </body>
 </html>

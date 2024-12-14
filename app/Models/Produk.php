@@ -42,19 +42,4 @@ class Produk extends Model
         return $this->hasMany(Ulasan::class, 'id_produk', 'id_produk');
     }
 
-    // Add methods to handle the product image, pricing, etc.
-    public function getGambarProdukUrlAttribute()
-    {
-        return asset('storage/' . $this->gambar_produk);
-    }
-
-    // Optional: Add a method to calculate the price after discount (if applicable)
-    public function hargaSetelahDiskon()
-    {
-        if ($this->diskon) {
-            $diskon = $this->diskon->persentase_diskon;
-            return $this->harga - ($this->harga * ($diskon / 100));
-        }
-        return $this->harga;
-    }
 }
