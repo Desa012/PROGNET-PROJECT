@@ -4,105 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Pelanggan</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
+<style>
+    .horizontal-scroll-container {
+    display: flex;
+    overflow-x: auto; /* Memungkinkan scroll horizontal */
+    gap: 1rem; /* Jarak antar produk */
+    padding: 1rem; /* Padding untuk kenyamanan visual */
+}
+
+.horizontal-scroll-container::-webkit-scrollbar {
+    height: 8px; /* Tinggi scrollbar */
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888; /* Warna scrollbar */
+    border-radius: 4px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.produk-item {
+    min-width: 200px; /* Lebar minimum produk */
+    flex: 0 0 auto; /* Agar produk tidak menyusut */
+}
+
+.card-img-top {
+    width: 100%; /* Gambar menyesuaikan lebar container */
+    height: 200px; /* Tetapkan tinggi gambar agar konsisten */
+    object-fit: cover; /* Potong gambar agar proporsional tanpa merusak rasio */
+    border-radius: 8px; /* Opsional: Beri sudut membulat */
+}
+
+</style>
 <body class="bg-gray-100">
 
-    <!-- Navbar -->
-    <nav class="bg-gray-800 fixed w-full z-10 top-0 shadow">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-white font-bold text-lg">Toko Saya</span>
-                </div>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-300 hover:text-white">Dashboard</a>
-                    <a href="#" class="text-gray-300 hover:text-white">Pesanan</a>
-                    <a href="#" class="text-gray-300 hover:text-white">Profil</a>
-                    <a href="#" class="text-gray-300 hover:text-white">Logout</a>
-                </div>
+<!-- Navbar -->
+<nav class="navbar bg-gray-800 shadow-lg">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <img class="h-8 w-8" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a href="dashboard-pelanggan" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
+            <!-- Taruh navbar baru disini -->
             </div>
+          </div>
         </div>
-    </nav>
 
-    <!-- Sidebar + Main Content -->
-    <div class="flex pt-20">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-white shadow h-screen">
-            <div class="p-4">
-                <h2 class="text-lg font-bold text-gray-700">Menu Pelanggan</h2>
-                <ul class="mt-4 space-y-2">
-                    <li>
-                        <a href="#" class="block p-2 text-gray-700 rounded hover:bg-gray-100">Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block p-2 text-gray-700 rounded hover:bg-gray-100">Pesanan Saya</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block p-2 text-gray-700 rounded hover:bg-gray-100">Riwayat Belanja</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block p-2 text-gray-700 rounded hover:bg-gray-100">Notifikasi</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block p-2 text-gray-700 rounded hover:bg-gray-100">Pengaturan Akun</a>
-                    </li>
-                </ul>
+        <!-- Profile and Logout Dropdown -->
+        <div class="hidden md:block">
+          <div class="ml-4 flex items-center md:ml-6">
+            <div class="relative ml-3">
+              <div>
+                    <form action="{{ route('logout-pelanggan') }}" method="POST" class="inline">
+                      @csrf
+                      <button type="submit" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Logout</button>
+                    </form>
+              </div>
             </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 p-6 bg-gray-50">
-            <h1 class="text-2xl font-bold text-gray-800">Selamat Datang, Pelanggan!</h1>
-            <p class="mt-2 text-gray-600">Berikut adalah ringkasan aktivitas Anda:</p>
-
-            <!-- Ringkasan Aktivitas -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                <div class="p-4 bg-white shadow rounded">
-                    <h2 class="text-xl font-bold text-gray-800">Pesanan Aktif</h2>
-                    <p class="mt-2 text-gray-600">3 Pesanan sedang diproses</p>
-                </div>
-                <div class="p-4 bg-white shadow rounded">
-                    <h2 class="text-xl font-bold text-gray-800">Saldo Wallet</h2>
-                    <p class="mt-2 text-gray-600">Rp 150.000</p>
-                </div>
-                <div class="p-4 bg-white shadow rounded">
-                    <h2 class="text-xl font-bold text-gray-800">Poin Reward</h2>
-                    <p class="mt-2 text-gray-600">120 Poin</p>
-                </div>
-            </div>
-
-            <!-- Pesanan Terbaru -->
-            <div class="mt-8">
-                <h2 class="text-lg font-bold text-gray-700">Pesanan Terbaru</h2>
-                <div class="mt-4 bg-white shadow rounded">
-                    <table class="w-full border-collapse">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="p-3 text-left text-gray-600">#</th>
-                                <th class="p-3 text-left text-gray-600">Tanggal</th>
-                                <th class="p-3 text-left text-gray-600">Total</th>
-                                <th class="p-3 text-left text-gray-600">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="p-3 border-b">1</td>
-                                <td class="p-3 border-b">2024-12-10</td>
-                                <td class="p-3 border-b">Rp 250.000</td>
-                                <td class="p-3 border-b text-green-600">Selesai</td>
-                            </tr>
-                            <tr>
-                                <td class="p-3 border-b">2</td>
-                                <td class="p-3 border-b">2024-12-09</td>
-                                <td class="p-3 border-b">Rp 120.000</td>
-                                <td class="p-3 border-b text-yellow-600">Diproses</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </main>
+          </div>
+        </div>
+      </div>
     </div>
+  </nav>
+
+<div class="container mx-auto mt-10">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Semua Produk Berdasarkan Kategori</h2>
+    
+    @foreach ($kategoriProduks as $kategori)
+    <h3>{{ $kategori->nama_kategori }}</h3>
+    <div class="horizontal-scroll-container">
+        @foreach ($kategori->produks as $produk)
+            <div class="produk-item">
+                <div class="card">
+                    <img src="{{ asset('images/' . $produk->gambar_produk) }}" alt="{{ $produk->nama_produk }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $produk->nama_produk }}</h5>
+                        <p>Harga: Rp {{ number_format($produk->harga, 3, ',', '.') }}</p>
+                        <p>Stok: {{ $produk->stok }}</p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+    @endforeach
+</div>
+
 </body>
 </html>

@@ -8,6 +8,7 @@ use App\Http\Middleware\AuthPenjual;
 use App\Http\Middleware\AuthPelanggan;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\DashboardPenjualController;
+use App\Http\Controllers\DashboardPelangganController;
 
 
 // Route untuk halaman home
@@ -19,9 +20,11 @@ Route::get('/', function () {
 Route::get('register-penjual', [AuthPenjualController::class, 'register_penjual'])->name('register-penjual');
 Route::post('register-penjual', [AuthPenjualController::class, 'post_register_penjual'])->name('post-register-penjual');
 
+
 // Route untuk register pelanggan
 Route::get('register-pelanggan', [AuthPelangganController::class, 'register_pelanggan'])->name('register-pelanggan');
 Route::post('register-pelanggan', [AuthPelangganController::class, 'post_register_pelanggan'])->name('post-register-pelanggan');
+
 
 // Route untuk login dan dashboard penjual
 Route::get('login-penjual', [AuthPenjualController::class, 'login_penjual'])->name('login-penjual');
@@ -32,6 +35,7 @@ Route::get('dashboard-penjual', function () {
 })->middleware(AuthPenjual::class);
 Route::get('dashboard-penjual', [DashboardPenjualController::class, 'index'])->name('dashboard-penjual');
 
+
 // Route untuk login dan dashboard pelanggan
 Route::get('login-pelanggan', [AuthPelangganController::class, 'login_pelanggan'])->name('login-pelanggan');
 Route::post('login-pelanggan', [AuthPelangganController::class, 'post_login_pelanggan'])->name('post-login-pelanggan');
@@ -39,6 +43,7 @@ Route::post('logout-pelanggan', [AuthPelangganController::class, 'logout_pelangg
 Route::get('dashboard-pelanggan', function () {
     return view('dashboard-pelanggan');
 })->middleware(AuthPelanggan::class);
+Route::get('dashboard-pelanggan', [DashboardPelangganController::class, 'index'])->name('dashboard.pelanggan');
 
 
 // Route untuk resource diskon 
