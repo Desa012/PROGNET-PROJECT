@@ -44,13 +44,6 @@
                         <h5 class="font-bold text-lg">{{ $produk->nama_produk }}</h5>
                         <p class="text-gray-600">Harga: Rp {{ number_format($produk->harga, 3, ',', '.') }}</p>
                         <p class="text-gray-600">Stok: {{ $produk->stok }}</p>
-                        <form action="{{ route('keranjang.tambah') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="id_produk" value="{{ $produk->id_produk }}">
-                            <button type="submit" class="mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-                                Tambah ke Keranjang
-                            </button>
-                        </form>
                     </div>
                 </div>
             @endforeach

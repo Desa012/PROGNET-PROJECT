@@ -21,6 +21,7 @@
               <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
               <a href="diskons" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kelola Diskon</a>
               <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Produk</a>
+              <a href="" class="rounded-md {{ request()->is('')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Pesanan</a>
             </div>
           </div>
         </div>
@@ -56,11 +57,11 @@
         </div>
         <div class="bg-green-600 p-6 rounded-lg shadow-md">
           <h3 class="text-xl font-bold">Total Penjualan</h3>
-          <p class="text-2xl mt-2">Rp 15.000.000</p>
+          <p class="text-2xl mt-2">Rp</p>
         </div>
         <div class="bg-yellow-600 p-6 rounded-lg shadow-md">
-          <h3 class="text-xl font-bold">Diskon Aktif</h3>
-          <p class="text-2xl mt-2">10</p>
+          <h3 class="text-xl font-bold">Total Pesanan</h3>
+          <p class="text-2xl mt-2">0</p>
         </div>
       </div>
     </div>
@@ -87,6 +88,8 @@
         @endforeach
     </div>
 </div>
+
+
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-gray-300 py-6">
