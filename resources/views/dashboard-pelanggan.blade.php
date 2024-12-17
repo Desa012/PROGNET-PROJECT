@@ -6,97 +6,85 @@
     <title>Dashboard Pelanggan</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-
-<style>
-    .horizontal-scroll-container {
-    display: flex;
-    overflow-x: auto; /* Memungkinkan scroll horizontal */
-    gap: 1rem; /* Jarak antar produk */
-    padding: 1rem; /* Padding untuk kenyamanan visual */
-}
-
-.horizontal-scroll-container::-webkit-scrollbar {
-    height: 8px; /* Tinggi scrollbar */
-}
-
-.horizontal-scroll-container::-webkit-scrollbar-thumb {
-    background-color: #888; /* Warna scrollbar */
-    border-radius: 4px;
-}
-
-.horizontal-scroll-container::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-}
-
-.produk-item {
-    min-width: 200px; /* Lebar minimum produk */
-    flex: 0 0 auto; /* Agar produk tidak menyusut */
-}
-
-.card-img-top {
-    width: 100%; /* Gambar menyesuaikan lebar container */
-    height: 200px; /* Tetapkan tinggi gambar agar konsisten */
-    object-fit: cover; /* Potong gambar agar proporsional tanpa merusak rasio */
-    border-radius: 8px; /* Opsional: Beri sudut membulat */
-}
-
-</style>
 <body class="bg-gray-100">
 
 <!-- Navbar -->
-<nav class="navbar bg-gray-800 shadow-lg">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 items-center justify-between">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <img class="h-8 w-8" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
-          </div>
-          <div class="hidden md:block">
-            <div class="ml-10 flex items-baseline space-x-4">
-              <a href="dashboard-pelanggan" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
-            <!-- Taruh navbar baru disini -->
-            </div>
-          </div>
+<nav class="bg-gray-800 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center h-16 px-4">
+        <div class="text-white text-2xl font-bold">
+            Dashboard
         </div>
-
-        <!-- Profile and Logout Dropdown -->
-        <div class="hidden md:block">
-          <div class="ml-4 flex items-center md:ml-6">
-            <div class="relative ml-3">
-              <div>
-                    <form action="{{ route('logout-pelanggan') }}" method="POST" class="inline">
-                      @csrf
-                      <button type="submit" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Logout</button>
-                    </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <form action="{{ route('logout-pelanggan') }}" method="POST" class="inline">
+            @csrf
+            <button type="submit" class="text-gray-300 hover:text-white">Logout</button>
+        </form>
     </div>
-  </nav>
+</nav>
 
-<div class="container mx-auto mt-10">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Semua Produk Berdasarkan Kategori</h2>
-    
-    @foreach ($kategoriProduks as $kategori)
-    <h3>{{ $kategori->nama_kategori }}</h3>
-    <div class="horizontal-scroll-container">
-        @foreach ($kategori->produks as $produk)
-            <div class="produk-item">
-                <div class="card">
-                    <img src="{{ asset('images/' . $produk->gambar_produk) }}" alt="{{ $produk->nama_produk }}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $produk->nama_produk }}</h5>
-                        <p>Harga: Rp {{ number_format($produk->harga, 3, ',', '.') }}</p>
-                        <p>Stok: {{ $produk->stok }}</p>
-                    </div>
-                </div>
-            </div>
+<!-- Kategori Tombol -->
+<div class="container mx-auto mt-6 px-4">
+    <div class="flex flex-wrap gap-4 mb-6">
+        <button class="filter-btn bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" data-filter="all">Semua</button>
+        @foreach ($kategoriProduks as $kategori)
+            <button class="filter-btn bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" data-filter="{{ $kategori->nama_kategori }}">
+                {{ $kategori->nama_kategori }}
+            </button>
         @endforeach
     </div>
-    @endforeach
 </div>
+
+<!-- Produk Container -->
+<div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 produk-container">
+        @foreach ($kategoriProduks as $kategori)
+            @foreach ($kategori->produks as $produk)
+                <div class="produk-item hidden shadow-lg bg-white rounded-lg overflow-hidden" data-kategori="{{ $kategori->nama_kategori }}">
+                    <img src="{{ asset('images/' . $produk->gambar_produk) }}" alt="{{ $produk->nama_produk }}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h5 class="font-bold text-lg">{{ $produk->nama_produk }}</h5>
+                        <p class="text-gray-600">Harga: Rp {{ number_format($produk->harga, 3, ',', '.') }}</p>
+                        <p class="text-gray-600">Stok: {{ $produk->stok }}</p>
+                        <form action="{{ route('keranjang.tambah') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id_produk" value="{{ $produk->id_produk }}">
+                            <button type="submit" class="mt-2 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                                Tambah ke Keranjang
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endforeach
+        @endforeach
+    </div>
+</div>
+
+<!-- JavaScript Filter -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const produkItems = document.querySelectorAll(".produk-item");
+
+        // Fungsi untuk menyembunyikan semua produk secara default
+        produkItems.forEach(item => item.classList.add("hidden"));
+
+        // Event Listener untuk setiap tombol filter
+        filterButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const filter = button.getAttribute("data-filter");
+
+                produkItems.forEach(item => {
+                    const kategori = item.getAttribute("data-kategori");
+
+                    if (filter === "all" || kategori === filter) {
+                        item.classList.remove("hidden"); // Tampilkan produk
+                    } else {
+                        item.classList.add("hidden"); // Sembunyikan produk
+                    }
+                });
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

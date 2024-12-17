@@ -51,3 +51,6 @@ Route::resource('diskons', DiskonController::class)->middleware(AuthPenjual::cla
 
 // Route untuk produk
 Route::resource('produks', ProdukController::class)->middleware(AuthPenjual::class);
+
+Route::post('/dashboard-pelanggan/keranjang/tambah', [DashboardPelangganController::class, 'tambahKeKeranjang'])->name('keranjang.tambah');
+Route::get('/dashboard-pelanggan/keranjang', [DashboardPelangganController::class, 'lihatKeranjang'])->name('keranjang.lihat');
