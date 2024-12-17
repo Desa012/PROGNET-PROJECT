@@ -17,7 +17,7 @@ class ProdukController extends Controller
     {
         $penjualId = auth()->guard('penjual')->id(); // Mendapatkan ID penjual dari session
         $produk = Produk::where('id_penjual', $penjualId)->get();
-    
+
         return view('produks', compact('produk'));
     }
 
@@ -80,7 +80,7 @@ class ProdukController extends Controller
      */
     public function show(string $id_produk)
     {
-        
+
     }
 
     /**
@@ -103,7 +103,7 @@ class ProdukController extends Controller
         // Validasi input
         $request->validate([
             'id_kategori' => 'required|exists:kategori_produks,id_kategori',
-            'id_diskon' => 'required|exists:diskons,id_diskon',
+            'id_diskon' => 'nullable|exists:diskons,id_diskon',
             'nama_produk' => 'required|string|max:255',
             'deskripsi_produk' => 'nullable|string',
             'gambar_produk' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

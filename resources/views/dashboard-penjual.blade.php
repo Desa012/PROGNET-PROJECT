@@ -76,13 +76,13 @@
                 <h4 class="text-xl font-semibold text-gray-800">{{ $prod->nama_produk }}</h4>
                 <img src="{{ asset('images/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-full h-50 object-cover rounded-md mt-4">
                 <p class="text-gray-600">Kategori: {{ $prod->Kategori_Produk->nama_kategori }}</p>
-                <p class="text-gray-600">Harga: Rp {{ number_format($prod->harga, 3, ',', '.') }}</p>
-                <p class="text-gray-600">Diskon: 
+                <p class="text-gray-600">Harga: Rp {{ number_format($prod->harga, 0, ',', '.') }}</p>
+                <p class="text-gray-600">Diskon:
                     {{ $prod->diskon ? $prod->diskon->persentase_diskon . '%' : 'Tidak ada diskon' }}
                 </p>
                 <p class="text-sm text-gray-600">
-                  <strong>Harga Setelah Diskon:</strong> Rp 
-                  {{ number_format(($prod->harga - ($prod->harga * ($prod->diskon->persentase_diskon ?? 0) / 100)), 3, ',', '.') }}</p>
+                  <strong>Harga Setelah Diskon:</strong> Rp
+                  {{ number_format(($prod->harga - ($prod->harga * ($prod->diskon->persentase_diskon ?? 0) / 100)), 0, ',', '.') }}</p>
                 <p class="text-gray-600">Stok: {{ $prod->stok }}</p>
             </div>
         @endforeach

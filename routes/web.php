@@ -10,6 +10,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\DashboardPenjualController;
 use App\Http\Controllers\DashboardPelangganController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\KeranjangController;
 
 
 // Route untuk halaman home
@@ -47,10 +48,11 @@ Route::get('dashboard-pelanggan', function () {
 Route::get('dashboard-pelanggan', [DashboardPelangganController::class, 'index'])->name('dashboard.pelanggan');
 
 
-// Route untuk resource diskon 
+// Route untuk resource diskon
 Route::resource('diskons', DiskonController::class)->middleware(AuthPenjual::class);
 
 // Route untuk produk
 Route::resource('produks', ProdukController::class)->middleware(AuthPenjual::class);
 
-
+// Route untuk keranjang
+Route::resource('keranjangs', KeranjangController::class)->middleware(AuthPelanggan::class);

@@ -13,7 +13,7 @@ class Produk extends Model
     protected $primaryKey = 'id_produk';
 
     protected $fillable = [
-        'id_penjual', 'id_kategori', 'id_diskon', 'nama_produk', 
+        'id_penjual', 'id_kategori', 'id_diskon', 'nama_produk',
         'deskripsi_produk', 'gambar_produk', 'harga', 'stok'
     ];
 
@@ -40,6 +40,11 @@ class Produk extends Model
     public function ulasans(): HasMany
     {
         return $this->hasMany(Ulasan::class, 'id_produk', 'id_produk');
+    }
+
+    public function keranjangs(): HasMany
+    {
+        return $this->hasMany(Keranjang::class, 'id_produk', 'id_produk');
     }
 
 }

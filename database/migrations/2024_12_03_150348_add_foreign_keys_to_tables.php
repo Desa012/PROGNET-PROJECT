@@ -44,6 +44,14 @@ return new class extends Migration
             $table->unsignedbigInteger('id_produk')->change();
             $table->foreign('id_produk')->references('id_produk')->on('produks')->onDelete('cascade');
         });
+
+        Schema::table('keranjangs', function(Blueprint $table) {
+            $table->unsignedbigInteger('id_pelanggan')->change();
+            $table->foreign('id_pelanggan')->references('id_pelanggan')->on('pelanggans')->onDelete('cascade');
+
+            $table->unsignedbigInteger('id_produk')->change();
+            $table->foreign('id_produk')->references('id_produk')->on('produks')->onDelete('cascade');
+        });
     }
 
     /**

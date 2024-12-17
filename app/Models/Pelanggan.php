@@ -30,5 +30,10 @@ class Pelanggan extends Authenticatable
     {
         return $this->hasMany(Pesanan::class, 'id_pelanggan', 'id_pelanggan');
     }
+
+    public function keranjangs(): HasMany
+    {
+        return $this->hasMany(Keranjang::class, 'id_pelanggan', 'id_pelanggan');
+    }
 }
 
