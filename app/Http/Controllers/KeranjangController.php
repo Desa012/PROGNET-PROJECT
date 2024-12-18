@@ -95,9 +95,20 @@ class KeranjangController extends Controller
             'id_produk' => $request->id_produk,
             'jumlah' => $request->jumlah,
        ]);
-       $keranjang->save();
+    //    $keranjang->save();
 
-       return redirect()->route('keranjangs.index');
+       $total_harga = $keranjang->produks->harga * $keranjang->jumlah;
+
+       $total_harga_keranjang = Keranjang::where('id_pelanggan', auth()->guard('pelanggan')->id())->with('produks')->get()->sum(function ($item) {
+            return $item->produks->harga * $item->jumlah;
+       });
+
+       $formatted_total_harga_keranjang = number_format($total_harga_keranjang, 0, ',', '.');
+
+       return response()->json([
+            'total_harga' => number_format($total_harga, 0, ',', '.'),
+            'total_harga_keranjang' => $formatted_total_harga_keranjang,
+        ]);
     }
 
     /**
