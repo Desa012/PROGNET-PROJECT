@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('diskons', function (Blueprint $table) {
             $table->id('id_diskon');
+            $table->string('nama_diskon')->nullable();
             $table->float('persentase_diskon');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');

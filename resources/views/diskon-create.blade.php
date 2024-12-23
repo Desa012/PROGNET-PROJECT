@@ -19,9 +19,10 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
-              <a href="diskons" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kelola Diskon</a>
+              <a href="dashboard-penjual" class="rounded-md {{ request()->is('dashboard-penjual')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Dashboard</a>
+              <a href="diskons" class="rounded-md {{ request()->is('')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Diskon</a>
               <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Produk</a>
+              <a href="" class="rounded-md {{ request()->is('')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Pesanan</a>
             </div>
           </div>
         </div>
@@ -49,6 +50,10 @@
         <h2 class="text-2xl font-semibold text-center mb-6">Tambah Diskon</h2>
         <form method="POST" action="{{ route('diskons.store') }}">
             @csrf
+            <div class="mb-4">
+                <label for="nama_diskon" class="block text-sm font-medium text-gray-700">Nama Diskon</label>
+                <input type="text" name="nama_diskon" id="nama_diskon" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Masukkan nama diskon" required>
+            </div>
             <div class="mb-4">
                 <label for="persentase_diskon" class="block text-sm font-medium text-gray-700">Persentase Diskon</label>
                 <input type="number" name="persentase_diskon" id="persentase_diskon" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Masukkan persentase diskon" required>

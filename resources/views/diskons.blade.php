@@ -18,9 +18,10 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
-              <a href="diskons" class="rounded-md bg-gray-900 text-white">Kelola Diskon</a>
-              <a href="produks" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kelola Produk</a>
+            <a href="dashboard-penjual" class="rounded-md {{ request()->is('dashboard-penjual')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Dashboard</a>
+              <a href="diskons" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Diskon</a>
+              <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Produk</a>
+              <a href="" class="rounded-md {{ request()->is('')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Pesanan</a>
             </div>
           </div>
         </div>
@@ -51,7 +52,8 @@
       @foreach ($diskon as $dis)
       <!-- Diskon Card -->
       <div class="bg-white p-6 rounded-lg shadow-lg">
-        <h4 class="text-lg font-semibold mb-2">Diskon {{ $dis['persentase_diskon'] }}%</h4>
+        <h4 class="text-lg font-semibold mb-2">{{ $dis['nama_diskon'] }}</h4>
+        <p class="text-lg font-semibold mb-2">Diskon {{ $dis['persentase_diskon'] }}%</p>
         <p class="text-gray-500 mb-2"><strong>Tanggal Mulai:</strong> {{ $dis['tanggal_mulai'] }}</p>
         <p class="text-gray-500 mb-2"><strong>Tanggal Selesai:</strong> {{ $dis['tanggal_selesai'] }}</p>
         <div class="flex justify-between mt-4">

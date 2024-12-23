@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\DiskonController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\AuthPenjualController;
 use App\Http\Controllers\AuthPelangganController;
 use App\Http\Middleware\AuthPenjual;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diskon;
+use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -31,15 +32,15 @@ class DiskonController extends Controller
     public function store(Request $request)
     {
         $newDiskon = new Diskon();
-
+        $newDiskon->nama_diskon = $request['nama_diskon'];
         $newDiskon->persentase_diskon = $request['persentase_diskon'];
         $newDiskon->tanggal_mulai = $request['tanggal_mulai'];
         $newDiskon->tanggal_selesai = $request['tanggal_selesai'];
-
         $newDiskon->save();
 
         return redirect()->route('diskons.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -65,6 +66,7 @@ class DiskonController extends Controller
     {
         $diskon = Diskon::find($id_diskon);
 
+        $diskon->nama_diskon = $request['nama_diskon'];
         $diskon->persentase_diskon = $request['persentase_diskon'];
         $diskon->tanggal_mulai = $request['tanggal_mulai'];
         $diskon->tanggal_selesai = $request['tanggal_selesai'];
@@ -83,4 +85,5 @@ class DiskonController extends Controller
         $diskon->delete();
         return redirect()->route('diskons.index');
     }
+    
 }

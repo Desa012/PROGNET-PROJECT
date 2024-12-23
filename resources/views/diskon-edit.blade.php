@@ -18,9 +18,10 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
-              <a href="diskons" class="rounded-md bg-gray-900 text-white">Kelola Diskon</a>
-              <a href="Produks" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kelola Produk</a>
+            <a href="dashboard-penjual" class="rounded-md {{ request()->is('dashboard-penjual')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Dashboard</a>
+              <a href="diskons" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Diskon</a>
+              <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Produk</a>
+              <a href="" class="rounded-md {{ request()->is('')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Pesanan</a>
             </div>
           </div>
         </div>
@@ -49,14 +50,18 @@
       <form method="POST" action="{{ route('diskons.update', $diskon['id_diskon']) }}">
         @csrf
         @method('PUT')
-        
+        <div class="mb-4">
+          <label for="nama_diskon" class="block text-sm font-medium text-gray-700">Nama Diskon</label>
+          <input type="text" name="nama_diskon" id="nama_diskon" value="{{ $diskon['nama_diskon'] }}" required 
+                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                 placeholder="Masukkan nama diskon">
+        </div>
         <div class="mb-4">
           <label for="persentase_diskon" class="block text-sm font-medium text-gray-700">Persentase Diskon</label>
           <input type="number" name="persentase_diskon" id="persentase_diskon" value="{{ $diskon['persentase_diskon'] }}" required 
                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
                  placeholder="Masukkan persentase diskon">
         </div>
-
         <div class="mb-4">
           <label for="tanggal_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
           <input type="date" name="tanggal_mulai" id="tanggal_mulai" value="{{ $diskon['tanggal_mulai'] }}" required 

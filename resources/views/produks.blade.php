@@ -18,9 +18,10 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <a href="dashboard-penjual" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
-              <a href="diskons" class="rounded-md bg-gray-900 text-white">Kelola Diskon</a>
-              <a href="produks" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kelola Produk</a>
+              <a href="dashboard-penjual" class="rounded-md {{ request()->is('dashboard-penjual')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Dashboard</a>
+              <a href="diskons" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Kelola Diskon</a>
+              <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Produk</a>
+              <a href="" class="rounded-md {{ request()->is('')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Pesanan</a>
             </div>
           </div>
         </div>
@@ -56,7 +57,9 @@
             <img src="{{ asset('images/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-full h-50 object-cover rounded-md mt-4">
           </div>
           <p class="text-sm text-gray-600"><strong>Kategori:</strong> {{ $prod->Kategori_Produk->nama_kategori }}</p>
-          <p class="text-sm text-gray-600"><strong>Diskon:</strong> {{ $prod->diskon ? $prod->diskon->persentase_diskon . '%' : 'Tidak ada diskon' }}</p>
+          <p class="text-sm text-gray-600"><strong>Diskon:</strong> 
+            {{ $prod->diskon ? $prod->diskon->nama_diskon : '' }}
+            {{ $prod->diskon ? $prod->diskon->persentase_diskon . '%' : 'Tidak ada diskon' }}</p>
           <p class="text-sm text-gray-600"><strong>Harga:</strong> Rp {{ number_format($prod->harga, 0, ',', '.') }}</p>
           <p class="text-sm text-gray-600">
             <strong>Harga Setelah Diskon:</strong> Rp
