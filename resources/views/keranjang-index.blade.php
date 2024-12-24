@@ -1,5 +1,5 @@
 <x-layout-pelanggan>
-   <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <h1>Keranjang Belanja</h1>
     <div class="cart-items">
         @foreach($keranjangs as $item)
@@ -40,7 +40,7 @@
         $(document).on('click', '.plus, .minus', function() {
             var action = $(this).data('action');
             var keranjang_id = $(this).data('id');
-            var produk_id =$(this).data('id-produk');
+            var produk_id = $(this).data('id-produk');
             var jumlah_input = $('#jumlah-' + keranjang_id);
             var jumlah = parseInt(jumlah_input.val());
 
@@ -52,7 +52,9 @@
 
             // Request Ajax
             $.ajax({
-                url: '{{ route('keranjangs.update', '') }}/' + keranjang_id,
+                url: '{{ route('
+                keranjangs.update ', '
+                ') }}/' + keranjang_id,
                 method: 'PUT',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -78,7 +80,6 @@
                 }
             });
         });
-
     </script>
 
 </x-layout-pelanggan>

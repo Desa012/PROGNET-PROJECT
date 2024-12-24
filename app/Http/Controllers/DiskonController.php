@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Diskon;
 use App\Models\Produk;
+use App\Models\Kategori_Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -14,7 +15,8 @@ class DiskonController extends Controller
      */
     public function index()
     {
-        $diskon = Diskon::all();
+        $penjualId = auth()->guard('penjual')->id();
+        $diskon = Diskon::where('id_penjual', $penjualId)->get();
         return view('diskons', compact('diskon'));
     }
 
@@ -23,7 +25,9 @@ class DiskonController extends Controller
      */
     public function create()
     {
-        return view('diskon-create');
+        $kategori = Kategori_Produk::all();
+        $produk = Produk::all();
+        return view('diskon-create', compact('kategori', 'produk'));
     }
 
     /**
@@ -31,16 +35,37 @@ class DiskonController extends Controller
      */
     public function store(Request $request)
     {
-        $newDiskon = new Diskon();
-        $newDiskon->nama_diskon = $request['nama_diskon'];
-        $newDiskon->persentase_diskon = $request['persentase_diskon'];
-        $newDiskon->tanggal_mulai = $request['tanggal_mulai'];
-        $newDiskon->tanggal_selesai = $request['tanggal_selesai'];
-        $newDiskon->save();
+        $request->validate([
+            'nama_diskon' => 'required|string|max:255',
+            'persentase_diskon' => 'required|numeric|min:0|max:100',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+        ]);
 
-        return redirect()->route('diskons.index');
+        // Dapatkan id_penjual dari autentikasi
+        $penjualId = auth()->guard('penjual')->id();
+
+        // Simpan diskon dengan menambahkan id_penjual
+        $diskon = Diskon::create([
+            'nama_diskon' => $request->nama_diskon,
+            'persentase_diskon' => $request->persentase_diskon,
+            'tanggal_mulai' => $request->tanggal_mulai,
+            'tanggal_selesai' => $request->tanggal_selesai,
+            'id_penjual' => $penjualId, // Tambahkan id_penjual
+        ]);
+
+        // Logika untuk kategori produk dan produk
+        if ($request->kategori_produk) {
+            $produkKategori = Produk::where('id_kategori', $request->kategori_produk)->pluck('id_produk');
+            $diskon->produk()->attach($produkKategori);
+        }
+
+        if ($request->has('produk')) {
+            $diskon->produk()->attach($request->produk);
+        }
+
+        return redirect()->route('diskons.index')->with('success', 'Diskon berhasil ditambahkan.');
     }
-
 
     /**
      * Display the specified resource.
@@ -85,5 +110,4 @@ class DiskonController extends Controller
         $diskon->delete();
         return redirect()->route('diskons.index');
     }
-    
 }

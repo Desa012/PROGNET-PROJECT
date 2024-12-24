@@ -13,13 +13,16 @@ class DashboardPenjualController extends Controller
     {
         // Ambil produk yang ingin ditampilkan di dashboard (misalnya 5 produk terbaru)
         $penjualId = auth()->guard('penjual')->id(); // Mendapatkan ID penjual dari session
-        $produk = Produk::where('id_penjual', $penjualId)->get();
+        $produk = Produk::where('id_penjual', $penjualId)
+            ->with('diskon') // Eager load relasi diskon
+            ->get();
+
 
         // Hitung total produk
         $totalProduk = Produk::where('id_penjual', $penjualId)->count();
 
         $pesanan = Pesanan::with('pelanggan')->get();
-        
+
         return view('dashboard-penjual', compact('produk', 'totalProduk', 'pesanan')); // Kirim data produk ke view
     }
 }

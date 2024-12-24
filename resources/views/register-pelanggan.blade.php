@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Pelanggan</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100">
     <div class="max-w-lg mx-auto mt-12 bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold text-center mb-8">Register Pelanggan</h2>
 
         @if ($errors->any())
-            <div class="mb-4">
-                <ul class="text-red-500">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div class="mb-4">
+            <ul class="text-red-500">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
 
         <form method="POST" action="{{ route('post-register-pelanggan') }}">
@@ -55,4 +57,5 @@
         </div>
     </div>
 </body>
+
 </html>

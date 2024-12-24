@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Penjual</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Penjual</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100">
 
   <!-- Navbar -->
@@ -32,13 +34,13 @@
             <div class="relative ml-3">
               <div>
                 @if(Auth::guard('penjual')->check())
-                    <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
-                      @csrf
-                      <button type="submit" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Logout</button>
-                    </form>
-                  @else
-                    <a href="{{ route('login-penjual') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
-                  @endif
+                <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
+                  @csrf
+                  <button type="submit" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Logout</button>
+                </form>
+                @else
+                <a href="{{ route('login-penjual') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
+                @endif
               </div>
             </div>
           </div>
@@ -67,30 +69,44 @@
     </div>
   </div>
 
-<!-- Tampilan Produk -->
-<div class="container mx-auto mt-10">
+  <!-- Tampilan Produk -->
+  <div class="container mx-auto mt-10">
     <h3 class="text-2xl font-bold text-gray-800 mb-4">Semua Produk</h3>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach ($produk as $prod)
-            <div class="bg-white shadow-md rounded-lg p-5">
-                <h4 class="text-xl font-semibold text-gray-800">{{ $prod->nama_produk }}</h4>
-                <img src="{{ asset('images/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-full h-50 object-cover rounded-md mt-4">
-                <p class="text-gray-600">Kategori: {{ $prod->Kategori_Produk->nama_kategori }}</p>
-                <p class="text-gray-600">Harga: Rp {{ number_format($prod->harga, 0, ',', '.') }}</p>
-                <p class="text-gray-600">Diskon:
-                    {{ $prod->diskon ? $prod->diskon->nama_diskon : '' }}
-                    {{ $prod->diskon ? $prod->diskon->persentase_diskon . '%' : 'Tidak ada diskon' }}
-                </p>
-                <p class="text-sm text-gray-600">
-                  <strong>Harga Setelah Diskon:</strong> Rp
-                  {{ number_format(($prod->harga - ($prod->harga * ($prod->diskon->persentase_diskon ?? 0) / 100)), 0, ',', '.') }}</p>
-                <p class="text-gray-600">Stok: {{ $prod->stok }}</p>
-            </div>
-        @endforeach
-    </div>
-</div>
+      @foreach ($produk as $prod)
+      <div class="bg-white shadow-md rounded-lg p-5">
+        <h4 class="text-xl font-semibold text-gray-800">{{ $prod->nama_produk }}</h4>
+        <img src="{{ asset('images/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-full h-50 object-cover rounded-md mt-4">
+        <p class="text-gray-600">Kategori: {{ $prod->Kategori_Produk->nama_kategori ?? 'Tidak ada kategori' }}</p>
+        <p class="text-gray-600">Harga: Rp {{ number_format($prod->harga, 0, ',', '.') }}</p>
 
+        <!-- Diskon -->
+        @if ($prod->diskon->isNotEmpty())
+        <p class="text-gray-600">Diskon:</p>
+        <ul class="text-gray-600">
+          @foreach ($prod->diskon as $diskon)
+          <li>{{ $diskon->nama_diskon }} ({{ $diskon->persentase_diskon }}%)</li>
+          @endforeach
+        </ul>
+        @else
+        <p class="text-gray-600">Diskon: Tidak ada diskon</p>
+        @endif
 
+        <!-- Harga Setelah Diskon -->
+        @php
+        $totalDiskon = $prod->diskon->sum(function($d) use ($prod) {
+        return $prod->harga * ($d->persentase_diskon / 100);
+        });
+        $hargaSetelahDiskon = $prod->harga - $totalDiskon;
+        @endphp
+        <p class="text-sm text-gray-600">
+          <strong>Harga Setelah Diskon:</strong> Rp {{ number_format($hargaSetelahDiskon, 0, ',', '.') }}
+        </p>
+        <p class="text-gray-600">Stok: {{ $prod->stok }}</p>
+      </div>
+      @endforeach
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-gray-300 py-6">
@@ -100,4 +116,5 @@
   </footer>
 
 </body>
+
 </html>

@@ -30,4 +30,9 @@ class Penjual extends Authenticatable
     {
         return $this->hasMany(Produk::class, 'id_penjual', 'id_penjual');
     }
+
+    public function diskon()
+    {
+        return $this->hasMany(Diskon::class, 'id_penjual', 'id_penjual');
+    }
 }

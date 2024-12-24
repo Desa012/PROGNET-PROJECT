@@ -27,9 +27,9 @@ class Produk extends Model
         return $this->belongsTo(Kategori_Produk::class, 'id_kategori');
     }
 
-    public function diskon(): BelongsTo
+    public function diskon()
     {
-        return $this->belongsTo(Diskon::class, 'id_diskon');
+        return $this->belongsToMany(Diskon::class, 'produk_diskon', 'id_produk', 'id_diskon');
     }
 
     public function detail_pesanans(): HasMany

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id('id_produk');
             $table->unsignedbigInteger('id_penjual');
             $table->unsignedbigInteger('id_kategori');
-            $table->unsignedbigInteger('id_diskon');
             $table->string('nama_produk');
             $table->text('deskripsi_produk');
             $table->binary('gambar_produk');

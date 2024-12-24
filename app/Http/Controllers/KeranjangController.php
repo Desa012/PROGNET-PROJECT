@@ -33,32 +33,32 @@ class KeranjangController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
+        $request->validate([
             'id_produk' => 'required|exists:produks,id_produk',
             'jumlah' => 'required|integer|min:1',
-       ]);
+        ]);
 
-       $id_produk = $request->id_produk;
-       $pelanggan = auth()->guard('pelanggan')->id();
+        $id_produk = $request->id_produk;
+        $pelanggan = auth()->guard('pelanggan')->id();
 
-       if (!$pelanggan) {
+        if (!$pelanggan) {
             return redirect()->route('login-pelanggan');
-       }
+        }
 
-       $item_keranjang = Keranjang::where('id_pelanggan', $pelanggan)->where('id_produk', $id_produk)->first();
+        $item_keranjang = Keranjang::where('id_pelanggan', $pelanggan)->where('id_produk', $id_produk)->first();
 
-       if ($item_keranjang) {
+        if ($item_keranjang) {
             $item_keranjang->jumlah += $request->jumlah;
             $item_keranjang->save();
-       } else {
+        } else {
             Keranjang::create([
                 'id_pelanggan' => $pelanggan,
                 'id_produk' => $id_produk,
                 'jumlah' => $request->jumlah,
             ]);
-       }
+        }
 
-       return redirect()->route('keranjangs.index');
+        return redirect()->route('keranjangs.index');
     }
 
     /**
@@ -88,24 +88,24 @@ class KeranjangController extends Controller
         $request->validate([
             'id_produk' => 'required|exists:produks,id_produk',
             'jumlah' => 'required|integer|min:1',
-       ]);
+        ]);
 
-       $keranjang = Keranjang::findOrFail($id);
-       $keranjang->update([
+        $keranjang = Keranjang::findOrFail($id);
+        $keranjang->update([
             'id_produk' => $request->id_produk,
             'jumlah' => $request->jumlah,
-       ]);
-    //    $keranjang->save();
+        ]);
+        //    $keranjang->save();
 
-       $total_harga = $keranjang->produks->harga * $keranjang->jumlah;
+        $total_harga = $keranjang->produks->harga * $keranjang->jumlah;
 
-       $total_harga_keranjang = Keranjang::where('id_pelanggan', auth()->guard('pelanggan')->id())->with('produks')->get()->sum(function ($item) {
+        $total_harga_keranjang = Keranjang::where('id_pelanggan', auth()->guard('pelanggan')->id())->with('produks')->get()->sum(function ($item) {
             return $item->produks->harga * $item->jumlah;
-       });
+        });
 
-       $formatted_total_harga_keranjang = number_format($total_harga_keranjang, 0, ',', '.');
+        $formatted_total_harga_keranjang = number_format($total_harga_keranjang, 0, ',', '.');
 
-       return response()->json([
+        return response()->json([
             'total_harga' => number_format($total_harga, 0, ',', '.'),
             'total_harga_keranjang' => $formatted_total_harga_keranjang,
         ]);
