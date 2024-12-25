@@ -25,9 +25,10 @@ class DiskonController extends Controller
      */
     public function create()
     {
+        $penjualId = auth()->guard('penjual')->id();
         $kategori = Kategori_Produk::all();
-        $produk = Produk::all();
-        return view('diskon-create', compact('kategori', 'produk'));
+        $produk = Produk::where('id_penjual', $penjualId)->get();
+        return view('diskon-create', compact('kategori', 'produk', 'penjualId'));
     }
 
     /**
@@ -80,8 +81,11 @@ class DiskonController extends Controller
      */
     public function edit(string $id_diskon)
     {
+        $penjualId = auth()->guard('penjual')->id();
+        $kategori = Kategori_Produk::all();
+        $produk = Produk::where('id_penjual', $penjualId)->get();
         $diskon =  Diskon::find($id_diskon);
-        return view('diskon-edit', compact('diskon'));
+        return view('diskon-edit', compact('diskon', 'produk', 'kategori', 'penjualId'));
     }
 
     /**
@@ -91,15 +95,43 @@ class DiskonController extends Controller
     {
         $diskon = Diskon::find($id_diskon);
 
+        $request->validate([
+            'nama_diskon' => 'required|string|max:255',
+            'persentase_diskon' => 'required|numeric|min:0|max:100',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+        ]);
+
         $diskon->nama_diskon = $request['nama_diskon'];
         $diskon->persentase_diskon = $request['persentase_diskon'];
         $diskon->tanggal_mulai = $request['tanggal_mulai'];
         $diskon->tanggal_selesai = $request['tanggal_selesai'];
 
+        // Update relasi kategori produk
+        if ($request->kategori_produk) {
+            $produkKategori = Produk::where('id_kategori', $request->kategori_produk)->pluck('id_produk')->toArray();
+        } else {
+            $produkKategori = [];
+        }
+
+        // Update relasi produk langsung
+        if ($request->has('produk')) {
+            $produkLangsung = $request->produk;
+        } else {
+            $produkLangsung = [];
+        }
+
+        // Gabungkan produk dari kategori dan produk langsung
+        $produkBaru = array_merge($produkKategori, $produkLangsung);
+
+        // Sync relasi produk dengan diskon
+        $diskon->produk()->sync($produkBaru);
+
         $diskon->save();
 
-        return redirect()->route('diskons.index');
+        return redirect()->route('diskons.index')->with('success', 'Diskon berhasil diperbarui.');
     }
+
 
     /**
      * Remove the specified resource from storage.
