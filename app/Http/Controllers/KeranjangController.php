@@ -62,10 +62,7 @@ class KeranjangController extends Controller
             return $item->produks->harga * $item->jumlah;
         });
 
-        return response()->json([
-            'message' => 'Produk berhasil ditambahkan ke keranjang',
-            'total_harga_keranjang' => number_format($total_harga_keranjang, 0, ',', '.'),
-        ]);
+        return redirect()->route('keranjangs.index');
     }
 
 

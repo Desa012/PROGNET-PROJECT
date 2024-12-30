@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Keranjang;
+use App\Models\Pelanggan;
 use App\Models\Pesanan;
 use App\Models\Metode_Pembayaran;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PesananController extends Controller
@@ -17,14 +19,14 @@ class PesananController extends Controller
             return $item->produks->harga * $item->jumlah;
         });
 
-        return view('pesanan.index', compact('keranjangs', 'total_harga'));
+        return view('pesanan-index', compact('keranjangs', 'total_harga'));
     }
 
     public function create()
     {
         // Ambil produk di keranjang berdasarkan id_pelanggan dan id_keranjang
-        $pelanggan = auth()->guard('pelanggan')->id();
-        $keranjangs = Keranjang::where('id_pelanggan', $pelanggan)
+        $pelanggan = auth()->guard('pelanggan')->user();
+        $keranjangs = Keranjang::where('id_pelanggan', $pelanggan->id_pelanggan)
             ->with('produks')
             ->get();
         // $keranjangs = Keranjang::join('produks', 'keranjangs.id_produk', '=', 'produks.id_produk')
@@ -32,6 +34,8 @@ class PesananController extends Controller
         //     ->where('keranjangs.id_keranjang', $keranjang_id)
         //     ->select('keranjangs.*', 'produks.nama_produk', 'produks.harga', 'produks.gambar_produk')
         //     ->firstOrFail();
+
+
 
 
         // dd($keranjangs);
@@ -44,7 +48,10 @@ class PesananController extends Controller
         // Ambil metode pembayaran
         $metode_pembayaran = Metode_Pembayaran::all();
 
-        return view('pesanan-create', compact('keranjangs', 'total_harga', 'metode_pembayaran'));
+        //Ambil alamat pelanggan
+        $alamat = $pelanggan->alamat ?? 'Alamat Belum Diatur';
+
+        return view('pesanan-create', compact('keranjangs', 'alamat', 'total_harga', 'metode_pembayaran'));
     }
 
     // public function create($keranjang_id)
@@ -85,10 +92,11 @@ class PesananController extends Controller
 
         // Membuat pesanan baru
         $pesanan = new Pesanan();
-        $pesanan->user_id = auth()->id();
-        $pesanan->alamat = $request->alamat;
-        $pesanan->metode_pembayaran = $request->metode_pembayaran;
-        $pesanan->status = 'menunggu'; // status bisa berbeda sesuai kebutuhan
+        $pesanan->id_pelanggan = auth()->guard('pelanggan')->id();
+        $pesanan->tanggal_pesanan = Carbon::now(); // Tanggal dan waktu saat ini
+        $pesanan->total_harga = $request->total_harga;
+        $pesanan->id_metode = $request->metode_pembayaran;
+        $pesanan->status = 'sudah bayar'; // status bisa berbeda sesuai kebutuhan
         $pesanan->save();
 
         // Menambahkan produk ke dalam pesanan

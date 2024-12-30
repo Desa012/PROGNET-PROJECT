@@ -11,6 +11,9 @@ class Pesanan extends Model
     // Menentukan nama tabel jika tidak mengikuti konvensi Laravel
     protected $table = 'pesanans';
 
+    protected $dates = ['tanggal_pesanan'];
+
+
     // Definisi kolom yang dapat diisi massal
     protected $fillable = ['id_pelanggan', 'tanggal_pesanan', 'status', 'total_harga'];
 

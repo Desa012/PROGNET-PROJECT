@@ -61,4 +61,4 @@ Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->name('ker
 // Route untuk pemesanan
 Route::get('pesanans/create', [PesananController::class, 'create'])->name('pesanan.create');
 Route::get('pesanans/index', [PesananController::class, 'index'])->name('pesanan.index');
-Route::get('pesanans/store', [PesananController::class, 'store'])->name('pesanan.store');
+Route::post('pesanans/store', [PesananController::class, 'store'])->name('pesanan.store');
