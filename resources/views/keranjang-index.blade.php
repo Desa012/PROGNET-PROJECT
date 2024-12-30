@@ -52,9 +52,7 @@
 
             // Request Ajax
             $.ajax({
-                url: '{{ route('
-                keranjangs.update ', '
-                ') }}/' + keranjang_id,
+                url: '{{ route('keranjangs.update', '') }}/' + keranjang_id,
                 method: 'PUT',
                 data: {
                     _token: '{{ csrf_token() }}',
