@@ -19,22 +19,61 @@ class PesananController extends Controller
 
         return view('pesanan.index', compact('keranjangs', 'total_harga'));
     }
-    public function create($keranjangId)
+
+    public function create()
     {
-        // Ambil produk di keranjang berdasarkan id_pelanggan dan keranjangId
-        $keranjang = Keranjang::where('id_pelanggan', auth()->id())
-            ->where('id', $keranjangId)
-            ->with('produk')
-            ->firstOrFail();
+        // Ambil produk di keranjang berdasarkan id_pelanggan dan id_keranjang
+        $pelanggan = auth()->guard('pelanggan')->id();
+        $keranjangs = Keranjang::where('id_pelanggan', $pelanggan)
+            ->with('produks')
+            ->get();
+        // $keranjangs = Keranjang::join('produks', 'keranjangs.id_produk', '=', 'produks.id_produk')
+        //     ->where('keranjangs.id_pelanggan', $pelanggan)
+        //     ->where('keranjangs.id_keranjang', $keranjang_id)
+        //     ->select('keranjangs.*', 'produks.nama_produk', 'produks.harga', 'produks.gambar_produk')
+        //     ->firstOrFail();
+
+
+        // dd($keranjangs);
 
         // Hitung total harga
-        $totalHarga = $keranjang->produk->sum('harga'); // Sesuaikan sesuai kebutuhan
+        $total_harga = $keranjangs->sum(function ($keranjang) {
+            return $keranjang->produks->harga * $keranjang->jumlah;
+        }); // Sesuaikan sesuai kebutuhan
 
         // Ambil metode pembayaran
-        $metodePembayaran = Metode_Pembayaran::all();
+        $metode_pembayaran = Metode_Pembayaran::all();
 
-        return view('pesanan.create', compact('keranjang', 'totalHarga', 'metodePembayaran'));
+        return view('pesanan-create', compact('keranjangs', 'total_harga', 'metode_pembayaran'));
     }
+
+    // public function create($keranjang_id)
+    // {
+    //     // Ambil produk di keranjang berdasarkan id_pelanggan dan id_keranjang
+    //     $pelanggan = auth()->guard('pelanggan')->id();
+    //     $keranjangs = Keranjang::where('id_pelanggan', $pelanggan)
+    //         ->where('id_keranjang', $keranjang_id)
+    //         ->with('produks')
+    //         ->get();
+    //     // $keranjangs = Keranjang::join('produks', 'keranjangs.id_produk', '=', 'produks.id_produk')
+    //     //     ->where('keranjangs.id_pelanggan', $pelanggan)
+    //     //     ->where('keranjangs.id_keranjang', $keranjang_id)
+    //     //     ->select('keranjangs.*', 'produks.nama_produk', 'produks.harga', 'produks.gambar_produk')
+    //     //     ->firstOrFail();
+
+
+    //     // dd($keranjangs);
+
+    //     // Hitung total harga
+    //     $total_harga = $keranjangs->sum(function ($keranjang) {
+    //         return $keranjang->produks->harga * $keranjang->jumlah;
+    //     }); // Sesuaikan sesuai kebutuhan
+
+    //     // Ambil metode pembayaran
+    //     $metode_pembayaran = Metode_Pembayaran::all();
+
+    //     return view('pesanan-create', compact('keranjangs', 'total_harga', 'metode_pembayaran'));
+    // }
 
 
     public function store(Request $request)

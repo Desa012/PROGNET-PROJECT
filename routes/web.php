@@ -58,5 +58,7 @@ Route::resource('produks', ProdukController::class)->middleware(AuthPenjual::cla
 Route::resource('keranjangs', KeranjangController::class)->middleware(AuthPelanggan::class);
 Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjangs.update');
 
-//Route untuk pemesanan
+// Route untuk pemesanan
 Route::get('pesanans/create', [PesananController::class, 'create'])->name('pesanan.create');
+Route::get('pesanans/index', [PesananController::class, 'index'])->name('pesanan.index');
+Route::get('pesanans/store', [PesananController::class, 'store'])->name('pesanan.store');

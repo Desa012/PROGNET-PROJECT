@@ -32,20 +32,27 @@
                     @method('DELETE')
                     <button type="submit">Hapus</button>
                 </form>
-                <a href="{{ route('pesanan.create') }}" class="btn btn-primary">
-                    Lanjutkan Pemesanan
-                </a>
             </div>
         @endforeach
+    </div>
+
+    <div class="order-items">
+
     </div>
 
     <div class="total-summary">
         <h3>Total Harga Keranjang</h3>
         <p id="total-all">Rp
             {{number_format($keranjangs->sum(function ($item) {
-    return $item->produks->harga * $item->jumlah; }), 0, ',', '.') }}
+            return $item->produks->harga * $item->jumlah; }), 0, ',', '.') }}
         </p>
-        {{-- <a href="{{ route('checkout.index') }}" class="btn-beli">Beli</a> --}}
+        @if ($keranjangs->isNotEmpty())
+            <a href="{{ route('pesanan.create') }}" class="btn btn-primary">
+                Lanjutkan Pemesanan
+            </a>
+        @else
+            <p>Keranjang kosong.</p>
+        @endif
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
