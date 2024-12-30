@@ -56,7 +56,4 @@ Route::resource('produks', ProdukController::class)->middleware(AuthPenjual::cla
 
 // Route untuk keranjang
 Route::resource('keranjangs', KeranjangController::class)->middleware(AuthPelanggan::class);
-
-
-Route::get('pesanan', [CheckoutController::class, 'index'])->middleware(AuthPelanggan::class)->name('pesanan.index');
-Route::post('pesanan', [CheckoutController::class, 'store'])->middleware(AuthPelanggan::class)->name('pesanan.store');
+Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjangs.update');

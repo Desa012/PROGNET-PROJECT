@@ -42,7 +42,7 @@ class KeranjangController extends Controller
         $pelanggan = auth()->guard('pelanggan')->id();
 
         if (!$pelanggan) {
-            return redirect()->route('login-pelanggan');
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         $item_keranjang = Keranjang::where('id_pelanggan', $pelanggan)->where('id_produk', $id_produk)->first();
@@ -58,8 +58,16 @@ class KeranjangController extends Controller
             ]);
         }
 
-        return redirect()->route('keranjangs.index');
+        $total_harga_keranjang = Keranjang::where('id_pelanggan', $pelanggan)->with('produks')->get()->sum(function ($item) {
+            return $item->produks->harga * $item->jumlah;
+        });
+
+        return response()->json([
+            'message' => 'Produk berhasil ditambahkan ke keranjang',
+            'total_harga_keranjang' => number_format($total_harga_keranjang, 0, ',', '.'),
+        ]);
     }
+
 
     /**
      * Display the specified resource.
