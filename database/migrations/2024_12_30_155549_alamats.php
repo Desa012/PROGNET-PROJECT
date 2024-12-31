@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('kota');
             $table->string('provinsi');
             $table->string('kode_pos');
+            $table->boolean('is_default');
             $table->timestamps();
         });
     }

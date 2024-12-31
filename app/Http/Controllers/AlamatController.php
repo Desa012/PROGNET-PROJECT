@@ -29,6 +29,7 @@ class AlamatController extends Controller
             Alamat::where('id_user', $user->id_user)->update(['is_default' => false]);
         }
 
+
         Alamat::create([
             'id_user' => $user->id_user,
             'alamat' => $request->alamat,
