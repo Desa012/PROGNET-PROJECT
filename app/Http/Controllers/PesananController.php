@@ -21,7 +21,11 @@ class PesananController extends Controller
             return $item->produks->harga * $item->jumlah;
         });
 
-        return view('pesanan-index', compact('keranjangs', 'total_harga'));
+        $pesanans = Pesanan::where('id_user', $user)
+            ->with('pengiriman') // Pastikan relasi pengiriman di-load
+            ->get();
+
+        return view('pesanan-index', compact('keranjangs', 'total_harga', 'pesanans'));
     }
 
     public function create()
@@ -74,11 +78,23 @@ class PesananController extends Controller
 
         // Menambahkan produk ke dalam pesanan
         $keranjangs = Keranjang::where('id_user', $user->id_user)->with('produks')->get();
-        foreach ($keranjangs as $produk) {
+        foreach ($keranjangs as $keranjang) {
+            $produk = $keranjang->produks;
+
+            // Periksa apakah stok cukup
+            if ($produk->stok < $keranjang->jumlah) {
+                return redirect()->back()->withErrors(['stok' => "Stok untuk produk {$produk->nama_produk} tidak mencukupi."]);
+            }
+
+            // Kurangi stok produk
+            $produk->stok -= $keranjang->jumlah;
+            $produk->save();
+
+            // Tambahkan detail pesanan
             $pesanan->detail_pesanans()->create([
                 'id_produk' => $produk->id_produk,
-                'jumlah' => $produk->jumlah,
-                'subtotal' => $produk->produks->harga * $produk->jumlah,
+                'jumlah' => $keranjang->jumlah,
+                'subtotal' => $produk->harga * $keranjang->jumlah,
             ]);
         }
 
@@ -88,4 +104,39 @@ class PesananController extends Controller
         return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil dibuat');
     }
 
+    public function kelolaPesanan()
+    {
+        $penjual = Auth::user()->penjuals;
+
+        $pesanans = Pesanan::where('id_penjual', $penjual->id_penjual)
+            ->with(['users', 'alamats', 'detail_pesanans.produk'])
+            ->get();
+
+        return view('kelola-pesanan', compact('pesanans'));
+    }
+
+    public function updatePengiriman(Request $request, $id)
+    {
+        $request->validate([
+            'status_pengiriman' => 'required|in:sudah dikirim,dalam perjalanan,belum dikirim',
+            'tanggal_pengiriman' => 'nullable|date',
+            'tanggal_diterima' => 'nullable|date|after_or_equal:tanggal_pengiriman',
+            'no_resi' => 'nullable|string|max:255',
+        ]);
+
+        $pesanan = Pesanan::findOrFail($id);
+
+        // Perbarui atau buat pengiriman
+        $pengiriman = $pesanan->pengiriman()->updateOrCreate(
+            ['id_pesanan' => $pesanan->id_pesanan],
+            [
+                'status_pengiriman' => $request->status_pengiriman,
+                'tanggal_pengiriman' => $request->tanggal_pengiriman,
+                'tanggal_diterima' => $request->tanggal_diterima,
+                'no_resi' => $request->no_resi,
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Pengiriman berhasil diperbarui.');
+    }
 }

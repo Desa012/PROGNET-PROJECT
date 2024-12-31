@@ -52,6 +52,12 @@ Route::resource('diskons', DiskonController::class)->middleware(AuthPenjual::cla
 // Route untuk produk
 Route::resource('produks', ProdukController::class)->middleware(AuthPenjual::class);
 
+// Route untuk kelola pesanan
+Route::get('kelola-pesanan', [PesananController::class, 'kelolaPesanan'])->name('pesanan.kelola');
+
+//Pengiriman
+Route::patch('/pengiriman/{id}', [PesananController::class, 'updatePengiriman'])->name('pengiriman.update');
+
 // Route untuk keranjang
 Route::resource('keranjangs', KeranjangController::class)->middleware(AuthPelanggan::class);
 Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->middleware(AuthPelanggan::class)->name('keranjangs.update');

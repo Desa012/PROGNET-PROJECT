@@ -15,6 +15,9 @@ class Pesanan extends Model
 
     protected $dates = ['tanggal_pesanan'];
 
+    protected $casts = [
+        'tanggal_pesanan' => 'datetime',
+    ];
 
     // Definisi kolom yang dapat diisi massal
     protected $fillable = [
@@ -27,10 +30,10 @@ class Pesanan extends Model
         'total_harga'
     ];
 
-     // Relasi dengan model Pelanggan
-    public function pelanggan(): BelongsTo
+    // Relasi dengan model Pelanggan
+    public function users(): BelongsTo
     {
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id_pelanggan');
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
     public function penjual(): BelongsTo
@@ -45,9 +48,9 @@ class Pesanan extends Model
     }
 
     // Relasi dengan model Pengiriman
-    public function pengiriman(): BelongsTo
+    public function pengiriman()
     {
-        return $this->belongsTo(Pengiriman::class, 'id_pesanan', 'id_pesanan');
+        return $this->hasOne(Pengiriman::class, 'id_pesanan', 'id_pesanan');
     }
 
     // Relasi dengan model Metode_Pembayaran

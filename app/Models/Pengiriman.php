@@ -2,13 +2,25 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Pengiriman extends Model
 {
-    public function pesanan(): BelongsTo
+    use HasFactory;
+
+    protected $table = 'pengirimans'; // Pastikan nama tabel sesuai dengan database
+
+    protected $fillable = [
+        'id_pesanan',
+        'status_pengiriman',
+        'tanggal_pengiriman',
+        'tanggal_diterima',
+        'no_resi',
+    ];
+
+    public function pesanan()
     {
-        return $this->belongsTo(Pesanan::class, 'id_pesanan');
+        return $this->belongsTo(Pesanan::class, 'id_pesanan', 'id_pesanan');
     }
 }

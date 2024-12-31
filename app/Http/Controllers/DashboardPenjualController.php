@@ -27,8 +27,10 @@ class DashboardPenjualController extends Controller
         // Hitung total produk
         $totalProduk = Produk::where('id_penjual', $toko->id_penjual)->count();
 
-        $pesanan = Pesanan::where('id_penjual', $toko->id_penjual)->with('pelanggan')->get();
+        $totalPesanan = Pesanan::where('id_penjual', $toko->id_penjual)->count();
 
-        return view('dashboard-penjual', compact('produk', 'totalProduk', 'pesanan', 'toko')); // Kirim data produk ke view
+        $pesanan = Pesanan::where('id_penjual', $toko->id_penjual)->with('users')->get();
+
+        return view('dashboard-penjual', compact('produk', 'totalProduk', 'pesanan', 'toko', 'totalPesanan')); // Kirim data produk ke view
     }
 }
