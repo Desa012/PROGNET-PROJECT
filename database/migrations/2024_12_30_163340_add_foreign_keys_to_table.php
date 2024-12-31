@@ -26,6 +26,9 @@ return new class extends Migration
             $table->unsignedbigInteger('id_penjual')->change();
             $table->foreign('id_penjual')->references('id_penjual')->on('penjuals')->onDelete('cascade');
 
+            $table->unsignedbigInteger('id_alamat')->change();
+            $table->foreign('id_alamat')->references('id_alamat')->on('alamats')->onDelete('cascade');
+
             $table->unsignedbigInteger('id_metode')->change();
             $table->foreign('id_metode')->references('id_metode')->on('metode_pembayarans')->onDelete('cascade');
         });
@@ -56,15 +59,6 @@ return new class extends Migration
         Schema::table('alamats', function (Blueprint $table) {
             $table->unsignedbigInteger('id_user')->change();
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
-
-            $table->unsignedbigInteger('id_penjual')->change();
-            $table->foreign('id_penjual')->references('id_penjual')->on('penjuals')->onDelete('cascade');
-
-            $table->unsignedbigInteger('id_alamat')->change();
-            $table->foreign('id_alamat')->references('id_alamat')->on('alamats')->onDelete('cascade');
-
-            $table->unsignedbigInteger('id_metode')->change();
-            $table->foreign('id_metode')->references('id_metode')->on('metode_pembayarans')->onDelete('cascade');
         });
 
         Schema::table('produk_diskons', function (Blueprint $table) {
@@ -106,6 +100,7 @@ return new class extends Migration
         Schema::table('pesanans', function (Blueprint $table) {
             $table->dropForeign(['id_user']);
             $table->dropForeign(['id_penjual']);
+            $table->dropForeign(['id_alamat']);
             $table->dropForeign(['id_metode']);
         });
 
@@ -128,6 +123,11 @@ return new class extends Migration
 
         Schema::table('alamats', function (Blueprint $table) {
             $table->dropForeign(['id_user']);
+        });
+
+        Schema::table('produk_diskons', function (Blueprint $table) {
+            $table->dropForeign(['id_produk']);
+            $table->dropForeign(['id_diskon']);
         });
 
         Schema::table('penjuals', function (Blueprint $table) {
