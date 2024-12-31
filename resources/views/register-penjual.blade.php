@@ -25,31 +25,18 @@
         <form method="POST" action="{{ route('post-register-penjual') }}">
             @csrf
             <div class="mb-5">
-                <label for="nama_penjual" class="block text-sm font-medium text-gray-700">Nama Toko</label>
-                <input type="text" name="nama_penjual" id="nama_penjual" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                <label for="nama_toko" class="block text-sm font-medium text-gray-700">Nama Toko</label>
+                <input type="text" name="nama_toko" id="nama_toko" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
 
             <div class="mb-5">
                 <label for="deskripsi_toko" class="block text-sm font-medium text-gray-700">Deskripsi Toko</label>
-                <input type="text" name="deskripsi_toko" id="deskripsi_toko" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border
-                <div class=" mb-5">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" name="email" id="email" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                <input type="text" name="deskripsi_toko" id="deskripsi_toko" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
 
-            <div class="mb-5">
-                <label for="password_toko" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
-                <input type="password" name="password_toko" id="password_toko" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-            </div>
-
-            <div class="mb-5">
-                <label for="password_toko_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Kata Sandi</label>
-                <input type="password" name="password_toko_confirmation" id="password_toko_confirmation" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-            </div>
-
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">Daftar</button>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">Daftar Toko</button>
             <div class="flex justify-between mt-4">
-                <a href="{{ route('login-penjual') }}" class="text-blue-600 hover:text-blue-800">Sudah punya akun? Login</a>
+                <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-800">Sudah punya akun? Login</a>
         </form>
     </div>
 </body>

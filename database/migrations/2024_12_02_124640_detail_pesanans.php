@@ -18,10 +18,6 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->float('subtotal');
             $table->timestamps();
-
-            // $table->foreign('id_pesanan')->references('id_pesanan')->on('pesanans')->onDelete('cascade');
-
-            // $table->foreign('id_produk')->references('id_produk')->on('produks')->onDelete('cascade');
         });
     }
 

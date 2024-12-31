@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pelanggan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,22 +20,20 @@ class AuthPelangganController extends Controller
         \Log::info('Data yang diterima: ', $request->all());
 
         $validated = $request->validate([
-            'nama_pelanggan'  => 'required',
-            'email'     => 'required|email|unique:pelanggans,email',
-            'password_pelanggan'  => 'required|string|min:8|confirmed',
-            'alamat' => 'required',
+            'nama'  => 'required',
+            'email'     => 'required|email|unique:users,email',
+            'password'  => 'required|string|min:8|confirmed',
         ]);
 
         \Log::info('Validasi berhasil: ', $validated);
 
-        Pelanggan::create([
-            'nama_pelanggan'  => $validated['nama_pelanggan'],
+        User::create([
+            'nama'  => $validated['nama'],
             'email'  => $validated['email'],
-            'password_pelanggan'  => Hash::make($validated['password_pelanggan']),
-            'alamat' => $validated['alamat'],
+            'password'  => Hash::make($validated['password']),
         ]);
 
-        return redirect()->route('login-pelanggan')->with('success', 'Registrasi berhasil!');
+        return redirect()->route('login')->with('success', 'Registrasi berhasil!');
     }
 
     public function login_pelanggan(Request $request)
@@ -49,21 +47,25 @@ class AuthPelangganController extends Controller
 
         $credential = $request->validate([
             'email'     => 'required',
-            'password_pelanggan'  => 'required',
+            'password'  => 'required',
         ]);
 
         \Log::info('Credential setelah validasi:', $credential);
 
-        $pelanggan = Pelanggan::where('email', $credential['email'])->first();
+        $user = User::where('email', $credential['email'])->first();
 
-        if ($pelanggan && Hash::check($credential['password_pelanggan'], $pelanggan->password_pelanggan)) {
+        if ($user && Hash::check($credential['password'], $user->password)) {
             \Log::info('Password berhasil diverifikasi.');
 
-            Auth::guard('pelanggan')->login($pelanggan);
+            if ($user->role !== 'pelanggan') {
+                return back()->withErrors(['email' => 'Akun ini bukan akun pelanggan.']);
+            }
+
+            Auth::login($user);
 
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard-pelanggan')->with('success', 'Login berhasil!');
+            return redirect()->route('dashboard-pelanggan')->with('success', 'Login berhasil!');
         }
 
         \Log::error('Login gagal: Email atau password salah');
@@ -75,7 +77,7 @@ class AuthPelangganController extends Controller
 
     public function logout_pelanggan(Request $request)
     {
-        Auth::guard('pelanggan')->logout();
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

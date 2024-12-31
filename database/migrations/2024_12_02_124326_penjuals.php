@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('penjuals', function (Blueprint $table) {
             $table->id('id_penjual');
-            $table->string('nama_penjual');
+            $table->unsignedBigInteger('id_user');
+            $table->string('nama_toko');
             $table->text('deskripsi_toko');
-            $table->string('email');
-            $table->string('password_toko');
             $table->timestamps();
         });
     }

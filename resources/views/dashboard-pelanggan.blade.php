@@ -1,4 +1,4 @@
-<x-layout-pelanggan>
+<x-layout-pelanggan :user="$user" :toko="$toko">
     <div class="kategori-carousel">
         @foreach ($kategoriProduks as $kategori)
         <div class="kategori-item">

@@ -14,7 +14,7 @@
         <h2 class="text-2xl font-semibold text-center mb-6">Login Sebagai Penjual</h2>
 
         <!-- Form Login -->
-        <form method="POST" action="{{ route('post-login-penjual') }}" class="bg-white p-6 rounded-lg shadow-lg">
+        <form method="POST" action="{{ route('post-login') }}" class="bg-white p-6 rounded-lg shadow-lg">
             @csrf
 
             <!-- Email Field -->

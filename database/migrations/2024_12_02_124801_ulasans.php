@@ -18,8 +18,6 @@ return new class extends Migration
             $table->text('komentar');
             $table->date('tanggal_ulasan');
             $table->timestamps();
-
-            // $table->foreign('id_produk')->references('id_produk')->on('produks')->onDelete('cascade');
         });
     }
 

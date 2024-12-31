@@ -7,6 +7,7 @@ use App\Models\Produk;
 use App\Models\Kategori_Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class DiskonController extends Controller
 {
@@ -15,7 +16,7 @@ class DiskonController extends Controller
      */
     public function index()
     {
-        $penjualId = auth()->guard('penjual')->id();
+        $penjualId = Auth::user()->penjuals->id_penjual;
         $diskon = Diskon::where('id_penjual', $penjualId)->get();
         return view('diskons', compact('diskon'));
     }
@@ -25,7 +26,7 @@ class DiskonController extends Controller
      */
     public function create()
     {
-        $penjualId = auth()->guard('penjual')->id();
+        $penjualId = Auth::user()->penjuals->id_penjual;
         $kategori = Kategori_Produk::all();
         $produk = Produk::where('id_penjual', $penjualId)->get();
         return view('diskon-create', compact('kategori', 'produk', 'penjualId'));
@@ -44,7 +45,7 @@ class DiskonController extends Controller
         ]);
 
         // Dapatkan id_penjual dari autentikasi
-        $penjualId = auth()->guard('penjual')->id();
+        $penjualId = Auth::user()->penjuals->id_penjual;
 
         // Simpan diskon dengan menambahkan id_penjual
         $diskon = Diskon::create([
@@ -81,10 +82,11 @@ class DiskonController extends Controller
      */
     public function edit(string $id_diskon)
     {
-        $penjualId = auth()->guard('penjual')->id();
+        $penjualId = Auth::user()->penjuals->id_penjual;
         $kategori = Kategori_Produk::all();
         $produk = Produk::where('id_penjual', $penjualId)->get();
         $diskon =  Diskon::find($id_diskon);
+        $diskon_produk = $diskon->produk->pluck('id_produk')->toArray();
         return view('diskon-edit', compact('diskon', 'produk', 'kategori', 'penjualId'));
     }
 

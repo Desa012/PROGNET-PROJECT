@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KeranjangController extends Controller
 {
@@ -14,8 +15,8 @@ class KeranjangController extends Controller
      */
     public function index()
     {
-        $pelanggan = auth()->guard('pelanggan')->id();
-        $keranjangs = Keranjang::where('id_pelanggan', $pelanggan)->with('produks')->get();
+        $user = Auth::id();
+        $keranjangs = Keranjang::where('id_user', $user)->with('produks')->get();
         return view('keranjang-index', compact('keranjangs'));
     }
 
@@ -39,26 +40,29 @@ class KeranjangController extends Controller
         ]);
 
         $id_produk = $request->id_produk;
-        $pelanggan = auth()->guard('pelanggan')->id();
+        $user = Auth::user()->id_user;
 
-        if (!$pelanggan) {
+
+        if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $item_keranjang = Keranjang::where('id_pelanggan', $pelanggan)->where('id_produk', $id_produk)->first();
+
+        $item_keranjang = Keranjang::where('id_user', $user)->where('id_produk', $id_produk)->first();
 
         if ($item_keranjang) {
             $item_keranjang->jumlah += $request->jumlah;
             $item_keranjang->save();
         } else {
             Keranjang::create([
-                'id_pelanggan' => $pelanggan,
+                'id_user' => $user,
                 'id_produk' => $id_produk,
                 'jumlah' => $request->jumlah,
             ]);
         }
 
-        $total_harga_keranjang = Keranjang::where('id_pelanggan', $pelanggan)->with('produks')->get()->sum(function ($item) {
+
+        $total_harga_keranjang = Keranjang::where('id_user', $user)->with('produks')->get()->sum(function ($item) {
             return $item->produks->harga * $item->jumlah;
         });
 
@@ -90,6 +94,8 @@ class KeranjangController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $user = Auth::id();
+
         $request->validate([
             'id_produk' => 'required|exists:produks,id_produk',
             'jumlah' => 'required|integer|min:1',
@@ -104,7 +110,7 @@ class KeranjangController extends Controller
 
         $total_harga = $keranjang->produks->harga * $keranjang->jumlah;
 
-        $total_harga_keranjang = Keranjang::where('id_pelanggan', auth()->guard('pelanggan')->id())->with('produks')->get()->sum(function ($item) {
+        $total_harga_keranjang = Keranjang::where('id_user', $user)->with('produks')->get()->sum(function ($item) {
             return $item->produks->harga * $item->jumlah;
         });
 

@@ -25,13 +25,8 @@
         <form method="POST" action="{{ route('post-register-pelanggan') }}">
             @csrf
             <div class="mb-5">
-                <label for="nama_pelanggan" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                <input type="text" name="nama_pelanggan" id="nama_pelanggan" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-            </div>
-
-            <div class="mb-5">
-                <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
-                <input type="text" name="alamat" id="alamat" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                <input type="text" name="nama" id="nama" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
 
             <div class="mb-5">
@@ -40,20 +35,20 @@
             </div>
 
             <div class="mb-5">
-                <label for="password_pelanggan" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
-                <input type="password" name="password_pelanggan" id="password_pelanggan" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
+                <input type="password" name="password" id="password" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
 
             <div class="mb-5">
-                <label for="password_pelanggan_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Kata Sandi</label>
-                <input type="password" name="password_pelanggan_confirmation" id="password_pelanggan_confirmation" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Kata Sandi</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
 
             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">Daftar</button>
         </form>
 
         <div class="flex justify-between mt-4">
-            <a href="{{ route('login-pelanggan') }}" class="text-blue-600 hover:text-blue-800">Sudah punya akun? Login</a>
+            <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-800">Sudah punya akun? Login</a>
         </div>
     </div>
 </body>

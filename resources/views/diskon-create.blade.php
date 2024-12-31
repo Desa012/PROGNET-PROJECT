@@ -31,13 +31,13 @@
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
             <div class="relative ml-3">
-              @if(Auth::guard('penjual')->check())
-              <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
+              @if(Auth::check() && Auth::user()->role === 'penjual')
+              <form action="{{ route('logout') }}" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="rounded-md text-gray-300 hover:bg-gray-700 hover:text-white">Logout</button>
               </form>
               @else
-              <a href="{{ route('login-penjual') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
+              <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
               @endif
             </div>
           </div>

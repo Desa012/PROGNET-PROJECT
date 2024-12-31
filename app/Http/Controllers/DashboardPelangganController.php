@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kategori_Produk;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardPelangganController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+
         // Ambil semua kategori beserta produk di dalamnya
         $kategoriProduks = Kategori_Produk::with('produks')->get();
 
-        return view('dashboard-pelanggan', compact('kategoriProduks'));
+        // Cek pengguna ada toko
+        $toko = $user->penjuals;
+
+        return view('dashboard-pelanggan', compact('kategoriProduks', 'user', 'toko'));
     }
 
     public function tambahKeKeranjang(Request $request)

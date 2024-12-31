@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('metode_pembayarans', function (Blueprint $table) {
             $table->id('id_metode');
-            $table->enum('jenis_metode', ['transfer', 'COD', 'QRIS']);
+            $table->enum('jenis_metode', ['Bank Transfer', 'COD', 'QRIS', 'E-Wallet']);
             $table->text('deskripsi');
             $table->timestamps();
         });

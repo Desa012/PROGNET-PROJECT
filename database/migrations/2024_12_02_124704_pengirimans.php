@@ -19,8 +19,6 @@ return new class extends Migration
             $table->date('tanggal_diterima');
             $table->string('no_resi');
             $table->timestamps();
-
-            // $table->foreign('id_pesanan')->references('id_pesanan')->on('pesanans')->onDelete('cascade');
         });
     }
 

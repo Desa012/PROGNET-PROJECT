@@ -15,16 +15,15 @@ class Penjual extends Authenticatable
     protected $table = 'penjuals';
     protected $primaryKey = 'id_penjual';
     protected $fillable = [
-        'nama_penjual',
+        'id_user',
+        'nama_toko',
         'deskripsi_toko',
-        'email',
-        'password_toko',
     ];
 
-    protected $hidden = [
-        'password_toko',
-        'remember_token',
-    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 
     public function produks(): HasMany
     {
@@ -34,5 +33,10 @@ class Penjual extends Authenticatable
     public function diskon()
     {
         return $this->hasMany(Diskon::class, 'id_penjual', 'id_penjual');
+    }
+
+    public function pesanans()
+    {
+        return $this->hasMany(Pesanan::class, 'id_penjual', 'id_penjual');
     }
 }

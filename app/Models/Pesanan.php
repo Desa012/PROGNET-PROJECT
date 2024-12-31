@@ -23,6 +23,11 @@ class Pesanan extends Model
         return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id_pelanggan');
     }
 
+    public function penjual(): BelongsTo
+    {
+        return $this->belongsTo(Penjual::class, 'id_penjual');
+    }
+
     // Relasi dengan model Detail_Pesanan
     public function detail_pesanans(): HasMany
     {

@@ -19,23 +19,26 @@ class AuthPenjualController extends Controller
     {
         \Log::info('Data yang diterima: ', $request->all());
 
+        $user = Auth::user();
+
         $validated = $request->validate([
-            'nama_penjual'  => 'required',
-            'deskripsi_toko'    => 'nullable',
-            'email'     => 'required|email|unique:penjuals,email',
-            'password_toko'  => 'required|string|min:8|confirmed',
+            'nama_toko' => 'required|string|max:255',
+            'deskripsi_toko' => 'required|string|max:255',
         ]);
 
         \Log::info('Validasi berhasil: ', $validated);
 
         Penjual::create([
-            'nama_penjual'  => $validated['nama_penjual'],
-            'deskripsi_toko'  => $validated['deskripsi_toko'],
-            'email'  => $validated['email'],
-            'password_toko'  => Hash::make($validated['password_toko']),
+            'id_user'  => $user->id_user,
+            'nama_toko' => $validated['nama_toko'],
+            'deskripsi_toko' => $validated['deskripsi_toko'],
         ]);
 
-        return redirect()->route('login-penjual')->with('success', 'Registrasi berhasil!');
+        $user->update(['role' => 'penjual']);
+
+        $request->session()->regenerate();
+
+        return redirect()->route('dashboard-penjual')->with('success', 'Registrasi toko berhasil!');
     }
 
     public function login_penjual(Request $request)
@@ -48,22 +51,26 @@ class AuthPenjualController extends Controller
         \Log::info('Data request login:', $request->all());
 
         $credential = $request->validate([
-            'email'     => 'required',
-            'password_toko'  => 'required',
+            'email'     => 'required|email',
+            'password'  => 'required',
         ]);
 
         \Log::info('Credential setelah validasi:', $credential);
 
-        $penjual = Penjual::where('email', $credential['email'])->first();
+        $user = User::where('email', $credential['email'])->first();
 
-        if ($penjual && Hash::check($credential['password_toko'], $penjual->password_toko)) {
+        if ($user && Hash::check($credential['password'], $users->password)) {
             \Log::info('Password berhasil diverifikasi.');
 
-            Auth::guard('penjual')->login($penjual);
+            if ($user->role !== 'penjual') {
+                return back()->withErrors(['email' => 'Akun ini bukan akun penjual.']);
+            }
+
+            Auth::login($user);
 
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard-penjual')->with('success', 'Login berhasil!');
+            return redirect()->route('dashboard-penjual')->with('success', 'Login berhasil!');
         }
 
         \Log::error('Login gagal: Email atau password salah');
@@ -75,7 +82,7 @@ class AuthPenjualController extends Controller
 
     public function logout_penjual(Request $request)
     {
-        Auth::guard('penjual')->logout();
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

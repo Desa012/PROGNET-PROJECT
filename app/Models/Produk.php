@@ -29,7 +29,7 @@ class Produk extends Model
 
     public function diskon()
     {
-        return $this->belongsToMany(Diskon::class, 'produk_diskon', 'id_produk', 'id_diskon');
+        return $this->belongsToMany(Diskon::class, 'produk_diskons', 'id_produk', 'id_diskon');
     }
 
     public function detail_pesanans(): HasMany

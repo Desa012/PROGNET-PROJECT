@@ -7,6 +7,7 @@ use App\Models\Penjual;
 use App\Models\Kategori_Produk;
 use App\Models\Diskon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProdukController extends Controller
 {
@@ -15,8 +16,8 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $penjualId = auth()->guard('penjual')->id(); // Mendapatkan ID penjual dari session
-        $produk = Produk::where('id_penjual', $penjualId)
+        $toko = Auth::user()->penjuals;
+        $produk = Produk::where('id_penjual', $toko->id_penjual)
             ->with('diskon') // Eager load relasi diskon
             ->get();
         return view('produks', compact('produk'));
@@ -48,7 +49,7 @@ class ProdukController extends Controller
         ]);
 
         // Ambil ID Penjual dari sesi login
-        $penjualId = auth()->guard('penjual')->id();
+        $toko = Auth::user()->penjuals->id_penjual;
 
         // Upload gambar jika ada
         $imageName = null;
@@ -59,7 +60,7 @@ class ProdukController extends Controller
 
         // Simpan produk baru
         $produk = new Produk();
-        $produk->id_penjual = $penjualId; // Gunakan ID penjual dari sesi login
+        $produk->id_penjual = $toko; // Gunakan ID penjual dari sesi login
         $produk->id_kategori = $request->id_kategori;
         $produk->nama_produk = $request->nama_produk;
         $produk->deskripsi_produk = $request->deskripsi_produk;

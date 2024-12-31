@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between w-full px-8 py-4">
 
         {{-- logo dan nama JuLi --}}
-        <a href="{{ route('dashboard.pelanggan') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="{{ route('dashboard-pelanggan') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
             <svg class="w-[34px] h-[34px] text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                 height="24" fill="currentColor" viewBox="0 0 24 24">
                 <path fill-rule="evenodd"
@@ -72,6 +72,12 @@
                     d="M17.133 12.632v-1.8a5.407 5.407 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.933.933 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175Zm-13.267-.8a1 1 0 0 1-1-1 9.424 9.424 0 0 1 2.517-6.391A1.001 1.001 0 1 1 6.854 5.8a7.43 7.43 0 0 0-1.988 5.037 1 1 0 0 1-1 .995Zm16.268 0a1 1 0 0 1-1-1A7.431 7.431 0 0 0 17.146 5.8a1 1 0 0 1 1.471-1.354 9.424 9.424 0 0 1 2.517 6.391 1 1 0 0 1-1 .995ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z" />
             </svg>
 
+            {{-- Masuk ke toko --}}
+            @if (Auth::user()->penjuals)
+                <a href="{{ route('dashboard-penjual') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Masuk ke Toko</a>
+            @else
+                <a href="{{ route('register-penjual') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Daftar Toko</a>
+            @endif
 
             {{-- Profil pelanggan --}}
             <div class="flex items-center md:order-2 space-x-4 md:space-x-2 rtl:space-x-reverse relative">
@@ -82,7 +88,7 @@
                     <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300" alt="user photo">
 
                     {{-- Nama pelanggan --}}
-                    <span class="text-sm font-medium text-gray-900 text-white whitespace-nowrap">User 1</span>
+                    <span class="text-sm font-medium text-gray-900 text-white whitespace-nowrap">{{ Auth::user()->nama }}</span>
 
                 </button>
 
@@ -91,7 +97,7 @@
                 <div id="dropdownHover"
                     class="absolute hidden z-50 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                     <div class="px-4 py-3">
-                        <span class="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                        <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
                     </div>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
                         <li>
@@ -103,14 +109,14 @@
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Pengaturan</a>
                         </li>
                         <li>
-                            @if(Auth::guard('pelanggan')->check())
+                            @if(Auth::check() && Auth::user()->role === 'pelanggan')
                                 <a href="#"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Keluar
                                 </a>
                                 <!-- Form Logout Tersembunyi -->
-                                <form id="logout-form" action="{{ route('logout-pelanggan') }}" method="POST"
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                     style="display: none;">
                                     @csrf
                                 </form>

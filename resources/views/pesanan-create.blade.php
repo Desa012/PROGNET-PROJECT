@@ -34,7 +34,7 @@
                 @endforeach
             </div>
             <button type="submit">Lanjutkan Pemesanan</button>
-        </form> 
+        </form>
     </div>
 </x-layout-pelanggan>
 

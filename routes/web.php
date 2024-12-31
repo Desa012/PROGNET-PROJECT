@@ -6,16 +6,19 @@ use App\Http\Controllers\AuthPenjualController;
 use App\Http\Controllers\AuthPelangganController;
 use App\Http\Middleware\AuthPenjual;
 use App\Http\Middleware\AuthPelanggan;
+use App\Http\Middleware\CheckPenjual;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\DashboardPenjualController;
 use App\Http\Controllers\DashboardPelangganController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AlamatController;
 
 
 // Route untuk halaman home
 Route::get('/', function () {
-    return view('home');
+    return view('login-pelanggan');
 });
 
 // Route untuk register penjual
@@ -28,24 +31,19 @@ Route::get('register-pelanggan', [AuthPelangganController::class, 'register_pela
 Route::post('register-pelanggan', [AuthPelangganController::class, 'post_register_pelanggan'])->name('post-register-pelanggan');
 
 
-// Route untuk login dan dashboard penjual
-Route::get('login-penjual', [AuthPenjualController::class, 'login_penjual'])->name('login-penjual');
-Route::post('login-penjual', [AuthPenjualController::class, 'post_login_penjual'])->name('post-login-penjual');
-Route::post('logout-penjual', [AuthPenjualController::class, 'logout_penjual'])->name('logout-penjual');
-Route::get('dashboard-penjual', function () {
-    return view('dashboard-penjual');
-})->middleware(AuthPenjual::class);
-Route::get('dashboard-penjual', [DashboardPenjualController::class, 'index'])->name('dashboard-penjual');
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'post_login'])->name('post-login');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
+// Route untuk login dan dashboard penjual
+Route::middleware([AuthPenjual::class, CheckPenjual::class])->group(function () {
+    Route::get('dashboard-penjual', [DashboardPenjualController::class, 'index'])->name('dashboard-penjual');
+});
 
 // Route untuk login dan dashboard pelanggan
-Route::get('login-pelanggan', [AuthPelangganController::class, 'login_pelanggan'])->name('login-pelanggan');
-Route::post('login-pelanggan', [AuthPelangganController::class, 'post_login_pelanggan'])->name('post-login-pelanggan');
-Route::post('logout-pelanggan', [AuthPelangganController::class, 'logout_pelanggan'])->name('logout-pelanggan');
-Route::get('dashboard-pelanggan', function () {
-    return view('dashboard-pelanggan');
-})->middleware(AuthPelanggan::class);
-Route::get('dashboard-pelanggan', [DashboardPelangganController::class, 'index'])->name('dashboard.pelanggan');
+Route::middleware([AuthPelanggan::class])->group(function () {
+    Route::get('dashboard-pelanggan', [DashboardPelangganController::class, 'index'])->name('dashboard-pelanggan');
+});
 
 
 // Route untuk resource diskon
@@ -56,9 +54,14 @@ Route::resource('produks', ProdukController::class)->middleware(AuthPenjual::cla
 
 // Route untuk keranjang
 Route::resource('keranjangs', KeranjangController::class)->middleware(AuthPelanggan::class);
-Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->name('keranjangs.update');
+Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->middleware(AuthPelanggan::class)->name('keranjangs.update');
 
 // Route untuk pemesanan
 Route::get('pesanans/create', [PesananController::class, 'create'])->name('pesanan.create');
 Route::get('pesanans/index', [PesananController::class, 'index'])->name('pesanan.index');
 Route::post('pesanans/store', [PesananController::class, 'store'])->name('pesanan.store');
+
+Route::middleware([AuthPelanggan::class])->group(function () {
+    Route::get('alamats/create', [AlamatController::class, 'create'])->name('alamats.create');
+    Route::post('alamats/store', [AlamatController::class, 'store'])->name('alamats.store');
+});

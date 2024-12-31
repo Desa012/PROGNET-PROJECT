@@ -57,7 +57,7 @@
                 <!-- Active: "bg-gray-100", Not Active: "" -->
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                @if(Auth::guard('penjual')->check())
+                @if(Auth::check() && Auth::user()->role === 'penjual')
                 <form action="{{ route('logout-penjual') }}" method="POST" class="inline">
                     @csrf
                     <button type="submit" class="block px-4 py-2 text-sm text-gray-700 {{ Route::currentRouteName()==='logout-penjual'?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">

@@ -10,10 +10,9 @@ class AuthPenjual
     public function handle($request, Closure $next)
     {
         // Cek apakah pengguna login sebagai penjual
-        if (!Auth::guard('penjual')->check()) {
-            return redirect('/login-penjual')->withErrors('Anda harus login sebagai penjual untuk mengakses halaman ini.');
+        if (!Auth::check() || Auth::user()->role !== 'penjual') {
+            return redirect('/login')->withErrors('Anda harus login sebagai penjual untuk mengakses halaman ini.');
         }
-
         return $next($request);
     }
 }

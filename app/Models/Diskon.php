@@ -24,7 +24,7 @@ class Diskon extends Model
 
     public function produk()
     {
-        return $this->belongsToMany(Produk::class, 'produk_diskon', 'id_diskon', 'id_produk');
+        return $this->belongsToMany(Produk::class, 'produk_diskons', 'id_diskon', 'id_produk');
     }
 
     public function penjual()
