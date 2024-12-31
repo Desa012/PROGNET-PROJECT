@@ -40,8 +40,8 @@ class KeranjangController extends Controller
         ]);
 
         $id_produk = $request->id_produk;
-        $user = Auth::user()->id_user;
 
+        $user = Auth::user()->id_user;
 
         if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);

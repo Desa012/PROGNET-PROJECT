@@ -87,6 +87,83 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            margin: 20px;
+        }
+
+        .gambar-produk {
+            position: sticky;
+            top: 20px;
+        }
+
+        .gambar-produk img {
+            width: 100%;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .info-produk {
+            overflow: hidden;
+        }
+
+        .info-produk h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .info-produk .deskripsi {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .info-produk .penjual {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .info-pembelian {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .info-pembelian h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .purcase.info input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .info-pembelian button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .info-pembelian button:hover {
+            background-color: #054080;
+            color: #fff;
+        }
     </style>
 </head>
 
