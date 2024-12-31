@@ -7,6 +7,7 @@ use App\Models\Pelanggan;
 use App\Models\Pesanan;
 use App\Models\Metode_Pembayaran;
 use App\Models\Alamat;
+use App\Models\Pengiriman;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -117,25 +118,14 @@ class PesananController extends Controller
 
     public function updatePengiriman(Request $request, $id)
     {
+
         $request->validate([
-            'status_pengiriman' => 'required|in:sudah dikirim,dalam perjalanan,belum dikirim',
-            'tanggal_pengiriman' => 'nullable|date',
-            'tanggal_diterima' => 'nullable|date|after_or_equal:tanggal_pengiriman',
-            'no_resi' => 'nullable|string|max:255',
+            'status_pengiriman' => 'required|in:dikemas,dikirim,selesai',
         ]);
 
-        $pesanan = Pesanan::findOrFail($id);
-
-        // Perbarui atau buat pengiriman
-        $pengiriman = $pesanan->pengiriman()->updateOrCreate(
-            ['id_pesanan' => $pesanan->id_pesanan],
-            [
-                'status_pengiriman' => $request->status_pengiriman,
-                'tanggal_pengiriman' => $request->tanggal_pengiriman,
-                'tanggal_diterima' => $request->tanggal_diterima,
-                'no_resi' => $request->no_resi,
-            ]
-        );
+        $pengiriman = Pengiriman::firstOrNew(['id_pesanan' => $id]);
+        $pengiriman->status_pengiriman = $request->status_pengiriman;
+        $pengiriman->save();
 
         return redirect()->back()->with('success', 'Pengiriman berhasil diperbarui.');
     }

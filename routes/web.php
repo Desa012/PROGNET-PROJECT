@@ -56,7 +56,7 @@ Route::resource('produks', ProdukController::class)->middleware(AuthPenjual::cla
 Route::get('kelola-pesanan', [PesananController::class, 'kelolaPesanan'])->name('pesanan.kelola');
 
 //Pengiriman
-Route::patch('/pengiriman/{id}', [PesananController::class, 'updatePengiriman'])->name('pengiriman.update');
+Route::patch('/pengiriman{id}', [PesananController::class, 'updatePengiriman'])->name('pengiriman.update');
 
 // Route untuk keranjang
 Route::resource('keranjangs', KeranjangController::class)->middleware(AuthPelanggan::class);
@@ -71,3 +71,6 @@ Route::middleware([AuthPelanggan::class])->group(function () {
     Route::get('alamats/create', [AlamatController::class, 'create'])->name('alamats.create');
     Route::post('alamats/store', [AlamatController::class, 'store'])->name('alamats.store');
 });
+
+
+

@@ -11,7 +11,7 @@
                 </div>
                 <div class="bg-blue-700 p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-bold">Total Penjualan</h3>
-                    <p class="text-3xl mt-2">Rp </p>
+                    <p class="text-3xl mt-2">{{ $totalPendapatan }}</p>
                 </div>
                 <div class="bg-blue-700 p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-bold">Total Pesanan</h3>

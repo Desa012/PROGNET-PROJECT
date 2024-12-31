@@ -11,12 +11,11 @@ class Pengiriman extends Model
 
     protected $table = 'pengirimans'; // Pastikan nama tabel sesuai dengan database
 
+    protected $primaryKey = 'id_pengiriman';
+
     protected $fillable = [
         'id_pesanan',
         'status_pengiriman',
-        'tanggal_pengiriman',
-        'tanggal_diterima',
-        'no_resi',
     ];
 
     public function pesanan()

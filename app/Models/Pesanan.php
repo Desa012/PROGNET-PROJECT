@@ -63,4 +63,5 @@ class Pesanan extends Model
     {
         return $this->belongsTo(Alamat::class, 'id_alamat');
     }
+
 }

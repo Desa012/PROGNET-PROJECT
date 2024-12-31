@@ -5,15 +5,16 @@
 
         <div class="table-container">
             <table class="table-auto w-full bg-white shadow-lg rounded-lg">
-                <thead class="bg-gray-800 text-white">
+                <thead class="bg-gradient-to-b from-blue-800 to-blue-900 border-gray-200 text-white">
                     <tr>
                         <th class="px-4 py-2">No.</th>
                         <th class="px-4 py-2">Nama Pelanggan</th>
                         <th class="px-4 py-2">Alamat</th>
                         <th class="px-4 py-2">Tanggal Pesanan</th>
+                        <th class="px-4 py-2">Nama Produk</th>
                         <th class="px-4 py-2">Total Harga</th>
                         <th class="px-4 py-2">Status</th>
-                        <th class="px-4 py-2">Pengiriman</th>
+                        <th class="px-4 py-2">Status Pengiriman</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,6 +24,9 @@
                         <td class="px-4 py-2">{{ optional($pesanan->users)->nama ?? 'Data pelanggan tidak tersedia' }}</td>
                         <td class="px-4 py-2">{{ $pesanan->alamats->alamat }}</td>
                         <td class="px-4 py-2">{{ $pesanan->tanggal_pesanan->format('d-m-Y') }}</td>
+                        @foreach ($pesanan->detail_pesanans as $detail)
+                        <td class="px-4 py-2">{{ $detail->produk->nama_produk }}</td>
+                        @endforeach
                         <td class="px-4 py-2 currency">Rp {{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
                         <td class="px-4 py-2">{{ $pesanan->status }}</td>
                         <td class="px-4 py-2 text-center">
@@ -30,16 +34,13 @@
                                 @csrf
                                 @method('PATCH')
                                 <select name="status_pengiriman" class="border p-1 rounded w-full">
-                                    <option value="belum dikirim" {{ ($pesanan->pengiriman->status_pengiriman ?? '') == 'belum dikirim' ? 'selected' : '' }}>Belum Dikirim</option>
-                                    <option value="dalam perjalanan" {{ ($pesanan->pengiriman->status_pengiriman ?? '') == 'dalam perjalanan' ? 'selected' : '' }}>Dalam Perjalanan</option>
-                                    <option value="sudah dikirim" {{ ($pesanan->pengiriman->status_pengiriman ?? '') == 'sudah dikirim' ? 'selected' : '' }}>Sudah Dikirim</option>
+                                    <option value="dikemas" {{ optional($pesanan->pengiriman)->status_pengiriman == 'dikemas' ? 'selected' : '' }}>Dikemas</option>
+                                    <option value="dikirim" {{ optional($pesanan->pengiriman)->status_pengiriman == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
                                 </select>
-                                <input type="date" name="tanggal_pengiriman" value="{{ $pesanan->pengiriman->tanggal_pengiriman ?? '' }}" class="border p-1 rounded w-full mt-2">
-                                <input type="date" name="tanggal_diterima" value="{{ $pesanan->pengiriman->tanggal_diterima ?? '' }}" class="border p-1 rounded w-full mt-2">
-                                <input type="text" name="no_resi" value="{{ $pesanan->pengiriman->no_resi ?? '' }}" placeholder="Nomor Resi" class="border p-1 rounded w-full mt-2">
                                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full">Update</button>
                             </form>
                         </td>
+
                     </tr>
                     @empty
                     <tr>

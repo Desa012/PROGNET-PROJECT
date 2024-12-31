@@ -23,7 +23,6 @@ class DashboardPenjualController extends Controller
             ->with('diskon') // Eager load relasi diskon
             ->get();
 
-
         // Hitung total produk
         $totalProduk = Produk::where('id_penjual', $toko->id_penjual)->count();
 
@@ -31,6 +30,10 @@ class DashboardPenjualController extends Controller
 
         $pesanan = Pesanan::where('id_penjual', $toko->id_penjual)->with('users')->get();
 
-        return view('dashboard-penjual', compact('produk', 'totalProduk', 'pesanan', 'toko', 'totalPesanan')); // Kirim data produk ke view
+        $totalPendapatan = Pesanan::where('id_penjual', $toko->id_penjual)
+            ->where('status', 'sudah bayar')
+            ->sum('total_harga');
+
+        return view('dashboard-penjual', compact('produk', 'totalProduk', 'pesanan', 'toko', 'totalPesanan', 'totalPendapatan')); // Kirim data produk ke view
     }
 }

@@ -14,10 +14,7 @@ return new class extends Migration
         Schema::create('pengirimans', function (Blueprint $table) {
             $table->id('id_pengiriman');
             $table->unsignedbigInteger('id_pesanan');
-            $table->enum('status_pengiriman',['sudah dikirim', 'dalam perjalanan', 'belum dikirim']);
-            $table->date('tanggal_pengiriman');
-            $table->date('tanggal_diterima');
-            $table->string('no_resi');
+            $table->enum('status_pengiriman',['dikemas', 'dikirm', 'selesai']);
             $table->timestamps();
         });
     }
