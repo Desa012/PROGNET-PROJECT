@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class Detail_Pesanan extends Model
 {
+    protected $table = 'detail_pesanans';
+
+    protected $fillable = [
+        'id_pesanan',
+        'id_produk',
+        'jumlah',
+        'subtotal',
+    ];
+
     public function pesanan(): belongsTo
     {
         return $this->belongsTo(Pesanan::class, 'id_pesanan');

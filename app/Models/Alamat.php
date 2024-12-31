@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 
 class Alamat extends Model
 {
@@ -22,5 +23,10 @@ class Alamat extends Model
     public function users(): belongsTo
     {
         return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function pesanans(): hasMany
+    {
+        return $this->hasMany(Alamat::class, 'id_alamat', 'id_alamat');
     }
 }

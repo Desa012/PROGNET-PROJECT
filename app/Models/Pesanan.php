@@ -11,11 +11,21 @@ class Pesanan extends Model
     // Menentukan nama tabel jika tidak mengikuti konvensi Laravel
     protected $table = 'pesanans';
 
+    protected $primaryKey = 'id_pesanan';
+
     protected $dates = ['tanggal_pesanan'];
 
 
     // Definisi kolom yang dapat diisi massal
-    protected $fillable = ['id_pelanggan', 'tanggal_pesanan', 'status', 'total_harga'];
+    protected $fillable = [
+        'id_user',
+        'id_penjual',
+        'id_alamat',
+        'id_metode',
+        'tanggal_pesanan',
+        'status',
+        'total_harga'
+    ];
 
      // Relasi dengan model Pelanggan
     public function pelanggan(): BelongsTo
@@ -44,5 +54,10 @@ class Pesanan extends Model
     public function metode_pembayaran(): BelongsTo
     {
         return $this->belongsTo(Metode_Pembayaran::class, 'id_metode', 'id_metode');
+    }
+
+    public function alamats(): BelongsTo
+    {
+        return $this->belongsTo(Alamat::class, 'id_alamat');
     }
 }

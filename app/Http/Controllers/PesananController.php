@@ -6,6 +6,7 @@ use App\Models\Keranjang;
 use App\Models\Pelanggan;
 use App\Models\Pesanan;
 use App\Models\Metode_Pembayaran;
+use App\Models\Alamat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,24 +28,15 @@ class PesananController extends Controller
     {
         // Ambil produk di keranjang berdasarkan id_pelanggan dan id_keranjang
         $user = auth()->user();
+
         $keranjangs = Keranjang::where('id_user', $user->id_user)
             ->with('produks')
             ->get();
-        // $keranjangs = Keranjang::join('produks', 'keranjangs.id_produk', '=', 'produks.id_produk')
-        //     ->where('keranjangs.id_pelanggan', $pelanggan)
-        //     ->where('keranjangs.id_keranjang', $keranjang_id)
-        //     ->select('keranjangs.*', 'produks.nama_produk', 'produks.harga', 'produks.gambar_produk')
-        //     ->firstOrFail();
-
-
-
-
-        // dd($keranjangs);
 
         // Hitung total harga
         $total_harga = $keranjangs->sum(function ($keranjang) {
             return $keranjang->produks->harga * $keranjang->jumlah;
-        }); // Sesuaikan sesuai kebutuhan
+        });
 
         // Ambil metode pembayaran
         $metode_pembayaran = Metode_Pembayaran::all();
@@ -52,41 +44,46 @@ class PesananController extends Controller
         $toko = Auth::user()->penjuals->id_penjual;
 
         //Ambil alamat pelanggan
-        // $alamat = $user->alamat ?? 'Alamat Belum Diatur';
+        $alamats = Alamat::where('id_user', $user->id_user)->get() ?? 'Alamat Belum Diatur';
 
-        return view('pesanan-create', compact('keranjangs', 'total_harga', 'metode_pembayaran', 'toko'));
+        return view('pesanan-create', compact('keranjangs', 'alamats', 'total_harga', 'metode_pembayaran', 'toko'));
     }
 
 
     public function store(Request $request)
     {
+
         $request->validate([
-            'alamat' => 'required',
-            'metode_pembayaran' => 'required',
+            'id_alamat' => 'required|exists:alamats,id_alamat',
+            'total_harga' => 'required|numeric',
+            'metode_pembayaran' => 'required|exists:metode_pembayarans,id_metode',
         ]);
 
-        // Membuat pesanan baru
-        $pesanan = new Pesanan();
-        $pesanan->id_user = auth()->id();
-        $pesanan->id_metode = $request->metode_pembayaran;
-        $pesanan->id_penjual = Auth::user()->penjuals->id_penjual;
-        $pesanan->tanggal_pesanan = Carbon::now(); // Tanggal dan waktu saat ini
-        $pesanan->total_harga = $request->total_harga;
-        $pesanan->status = 'sudah bayar'; // status bisa berbeda sesuai kebutuhan
-        $pesanan->save();
+        $user = Auth::user();
+
+        $pesanan = Pesanan::create([
+            'id_user' => $user->id_user,
+            'id_penjual' => $user->penjuals->id_penjual,
+            'id_alamat' => $request->id_alamat,
+            'id_metode' => $request->metode_pembayaran,
+            'tanggal_pesanan' => Carbon::now(),
+            'total_harga' => $request->total_harga,
+            'status' => 'Sudah Bayar',
+        ]);
+
 
         // Menambahkan produk ke dalam pesanan
-        $keranjang = session('keranjang', []);
-        foreach ($keranjang as $produk) {
-            $pesanan->detailPesanan()->create([
-                'produk_id' => $produk->id,
-                'jumlah' => 1, // Sesuaikan jumlah produk
-                'harga' => $produk->harga,
+        $keranjangs = Keranjang::where('id_user', $user->id_user)->with('produks')->get();
+        foreach ($keranjangs as $produk) {
+            $pesanan->detail_pesanans()->create([
+                'id_produk' => $produk->id_produk,
+                'jumlah' => $produk->jumlah,
+                'subtotal' => $produk->produks->harga * $produk->jumlah,
             ]);
         }
 
         // Kosongkan keranjang setelah pemesanan
-        session()->forget('keranjang');
+        Keranjang::where('id_user', $user->id_user)->delete();
 
         return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil dibuat');
     }

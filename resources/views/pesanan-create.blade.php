@@ -24,7 +24,13 @@
             </div>
             <div>
                 <label for="alamat">Alamat Pengiriman</label>
-                <textarea id="alamat" name="alamat" required>{{ old('alamat', $alamat) }}</textarea>
+                <select name="id_alamat" id="id_alamat" required>
+                    @foreach ($alamats as $alamat)
+                        <option value="{{ $alamat->id_alamat }}">
+                            {{ $alamat->alamat }}, {{ $alamat->kecamatan }}, {{ $alamat->kota }}, {{ $alamat->provinsi }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div>
                 <p>Total Harga: Rp {{ number_format($total_harga, 0, ',', '.') }}</p>
