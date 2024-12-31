@@ -12,7 +12,6 @@
             <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">JuLi</span>
         </a>
 
-
         {{-- Kolom pencarian --}}
         <form class="flex-grow mx-4" style="width: 300px;">
             <label for="default-search"
