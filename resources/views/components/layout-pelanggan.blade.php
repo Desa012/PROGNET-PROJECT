@@ -22,16 +22,70 @@
         }
 
         .kategori-item img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 50%;
+            width: auto;
+            height: 60px;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 10%;
             margin: 0 auto;
+            aspect-ratio: 1 / 1;
         }
 
         .kategori-item p {
             margin-top: 10px;
             font-size: 14px;
+        }
+
+        .kategori-header {
+            border: 2px solid #e5e7eb;
+            background-color: #f9fafb;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 120px;
+            margin-bottom: 25px;
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slick-dots {
+            position: relative;
+            margin-top: -15px;
+            margin-bottom: -40px;
+        }
+
+        .slick-dots li {
+            margin: 0 10px;
+        }
+
+        .slick-dots li button::before {
+            font-size: 8px;
+        }
+
+        /* Kustom CSS untuk Swiper Button */
+        .swiper-button-next,
+        .swiper-button-prev {
+            opacity:0;
+            transition: opacity 0.3s ease;
+        }
+
+        .swiper-container:hover .swiper-button-next,
+        .swiper-container:hover .swipper-button-prev {
+            opacity: 1;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 5px 5px 0px 0px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>

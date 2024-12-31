@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kategori_Produk;
+use App\Models\Produk;
+use App\Models\Alamat;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardPelangganController extends Controller
@@ -18,7 +20,27 @@ class DashboardPelangganController extends Controller
         // Cek pengguna ada toko
         $toko = $user->penjuals;
 
-        return view('dashboard-pelanggan', compact('kategoriProduks', 'user', 'toko'));
+        $produk = Produk::with('diskon')->get();
+
+        foreach ($kategoriProduks as $kategori) {
+            foreach ($kategori->produks as $produk) {
+
+                $penjual = $produk->penjual;
+
+                if ($penjual) {
+                    $alamat_default = Alamat::where('id_user', $penjual->id_user)->where('is_default', 1)->first();
+
+                    if ($alamat_default) {
+                        $produk->alamat_penjual = collect([
+                            'alamat' => $alamat_default->alamat,
+                            'kota' => $alamat_default->kota,
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return view('dashboard-pelanggan', compact('kategoriProduks', 'user', 'toko', 'produk'));
     }
 
     public function tambahKeKeranjang(Request $request)
