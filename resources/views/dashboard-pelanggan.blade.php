@@ -48,6 +48,7 @@
         });
     </script>
 
+
     <div class="container">
         {{-- Menampilkan produk berdasarkan kategori --}}
         @foreach($kategoriProduks as $kategori)
@@ -79,24 +80,31 @@
 
                             {{-- Menghitung diskon --}}
                             @php
-                                $total_diskon = $produk->diskon->sum(function($d) use ($produk) {
+                                $total_diskon = $produk->diskon->isNotEmpty()
+                                    ? $produk->diskon->sum(function($d) use ($produk) {
                                     return $produk->harga * ($d->persentase_diskon / 100);
-                                });
+                                    })
+                                    : 0;
+
                                 $harga_setelah_diskon = $produk->harga - $total_diskon;
                             @endphp
 
                             {{-- Menampilkan harga --}}
-                            <div class="flex items-center justify-between mt-2 pb-2.5 mx-3">
+                            {{-- <div class="flex items-center justify-between mt-2 pb-2.5 mx-3"> --}}
                                 @if ($total_diskon > 0)
                                     {{-- Harga setelah diskon --}}
-                                    <span class="text-lg font-bold text-red-500">
-                                        Rp{{ $produk->diskon ? number_format($produk->harga - ($produk->harga * $produk->diskon /100), 0, ',', '.') : number_format($produk->harga, 0, ',', '.') }}
-                                    </span>
+                                    <div>
+                                        <span class="text-lg font-bold text-red-500">
+                                            Rp{{ number_format($harga_setelah_diskon, 0, ',', '.') }}
+                                        </span>
+                                    </div>
 
                                     {{-- Harga sebelum diskon --}}
-                                    <span class="text-sm text-gray-500 line-through ml-2">
-                                        Rp{{ number_format($produk->harga, 0, ',', '.') }}
-                                    </span>
+                                    <div>
+                                        <span class="text-sm text-gray-500 line-through ml-2">
+                                            Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                                        </span>
+                                    </div>
                                 @else
                                     {{-- Harga tanpa diskon --}}
                                     <span class="text-lg font-bold text-gray-900">
@@ -112,7 +120,7 @@
                                         Tambah ke Keranjang
                                     </button>
                                 </form> --}}
-                            </div>
+                            {{-- </div> --}}
 
                             <div class="mx-3">
                                 <h5 class="text-xs font-normal text-gray-600">

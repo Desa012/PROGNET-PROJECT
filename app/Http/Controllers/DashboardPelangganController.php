@@ -15,12 +15,10 @@ class DashboardPelangganController extends Controller
         $user = Auth::user();
 
         // Ambil semua kategori beserta produk di dalamnya
-        $kategoriProduks = Kategori_Produk::with('produks')->get();
+        $kategoriProduks = Kategori_Produk::with('produks.diskon', 'produks.penjual')->get();
 
         // Cek pengguna ada toko
         $toko = $user->penjuals;
-
-        $produk = Produk::with('diskon')->get();
 
         foreach ($kategoriProduks as $kategori) {
             foreach ($kategori->produks as $produk) {
@@ -40,7 +38,7 @@ class DashboardPelangganController extends Controller
             }
         }
 
-        return view('dashboard-pelanggan', compact('kategoriProduks', 'user', 'toko', 'produk'));
+        return view('dashboard-pelanggan', compact('kategoriProduks', 'user', 'toko'));
     }
 
     public function tambahKeKeranjang(Request $request)
