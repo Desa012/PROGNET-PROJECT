@@ -8,8 +8,8 @@
                 {{-- Gambar Produk --}}
                 <div class="image-container">
                     <a href="{{ route('produks.show', $produk->id_produk) }}">
-                        <img src="{{ asset('images/' . $produk->gambar_produk) }}" 
-                             alt="{{ $produk->nama_produk }}" 
+                        <img src="{{ asset('images/' . $produk->gambar_produk) }}"
+                             alt="{{ $produk->nama_produk }}"
                              class="rounded-t-lg w-full h-48 object-cover">
                     </a>
                 </div>
@@ -57,7 +57,7 @@
                     {{-- Alamat Penjual --}}
                     <div class="mt-3">
                         <span class="text-xs text-gray-600">
-                            {{ $produk->alamat_penjual->get('kota', 'Kota tidak ditemukan.') }}
+                            {{ $produk->alamat_penjual?->kota ?? '' }}
                         </span>
                     </div>
 

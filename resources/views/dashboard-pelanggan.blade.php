@@ -116,7 +116,7 @@
 
                                 <div class="mb-2 mx-3">
                                     <h5 class="text-xs font-normal text-gray-600">
-                                        {{$produk->alamat_penjual->get('kota', 'kota tidak ditemukan.')}}
+                                        {{$produk->alamat_penjual?->kota ?? ''}}
                                     </h5>
                                 </div>
 
@@ -141,7 +141,7 @@
 
                                 <div class="mb-2 mx-3">
                                     <h5 class="text-xs font-normal text-gray-600">
-                                        {{$produk->alamat_penjual->get('kota', 'kota tidak ditemukan.')}}
+                                        {{$produk->alamat_penjual?->kota ?? ''}}
                                     </h5>
                                 </div>
 
