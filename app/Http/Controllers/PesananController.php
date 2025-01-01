@@ -75,9 +75,21 @@ class PesananController extends Controller
             $user->save();
         }
 
+        // Ambil keranjang pengguna
+        $keranjangs = Keranjang::where('id_user', $user->id_user)->with('produks.penjual')->get();
+
+        // Pastikan keranjang tidak kosong
+        if ($keranjangs->isEmpty()) {
+            return redirect()->back()->withErrors(['keranjang' => 'Keranjang Anda kosong.']);
+        }
+
+        // Ambil penjual dari produk pertama di keranjang
+        $penjual = $keranjangs->first()->produks->penjual;
+
+
         $pesanan = Pesanan::create([
             'id_user' => $user->id_user,
-            'id_penjual' => $user->penjuals->id_penjual,
+            'id_penjual' => $penjual->id_penjual,
             'id_alamat' => $request->id_alamat,
             'id_metode' => $request->metode_pembayaran,
             'tanggal_pesanan' => Carbon::now(),
@@ -87,10 +99,10 @@ class PesananController extends Controller
 
 
         // Menambahkan produk ke dalam pesanan
-        $keranjangs = Keranjang::where('id_user', $user->id_user)->with('produks')->get();
+        
         foreach ($keranjangs as $keranjang) {
             $produk = $keranjang->produks;
-
+            
             // Periksa apakah stok cukup
             if ($produk->stok < $keranjang->jumlah) {
                 return redirect()->back()->withErrors(['stok' => "Stok untuk produk {$produk->nama_produk} tidak mencukupi."]);
