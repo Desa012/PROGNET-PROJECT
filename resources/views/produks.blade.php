@@ -6,9 +6,9 @@
     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="location.href='{{ route('produks.create') }}'">Tambah Produk</button>
 
     <!-- Produk List -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+    <div class="grid grid-cols-5 gap-6 mt-6">
       @foreach ($produk as $prod)
-      <div class="bg-white p-6 rounded-lg shadow-md">
+      <div class="bg-white p-10 rounded-lg shadow-md">
         <h4 class="text-xl font-semibold text-gray-800">{{ $prod->nama_produk }}</h4>
         <img src="{{ asset('images/' . $prod->gambar_produk) }}" alt="Gambar Produk" class="w-full h-50 object-cover rounded-md mt-4">
         <p class="text-gray-600">Kategori: {{ $prod->Kategori_Produk->nama_kategori ?? 'Tidak ada kategori' }}</p>

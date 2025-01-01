@@ -1,8 +1,8 @@
 <nav class="bg-gradient-to-b from-blue-800 to-blue-900 border-gray-200">
-    <div class="flex items-center justify-between w-full px-8 py-4">
+    <div class="flex items-center w-full px-8 py-4">
 
         {{-- logo dan nama JuLi --}}
-        <a href="{{ route('dashboard-pelanggan') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="{{ route('dashboard-penjual') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
             <svg class="w-[34px] h-[34px] text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                 height="24" fill="currentColor" viewBox="0 0 24 24">
                 <path fill-rule="evenodd"
@@ -12,7 +12,7 @@
             <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">JuLi</span>
         </a>
 
-        <div class="hidden md:block">
+        <div>
             <div class="ml-10 flex items-baseline space-x-4">
                 <a href="dashboard-penjual" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Dashboard</a>
                 <a href="diskons" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Diskon</a>
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class="flex items-center space-x-6 px-4">
+        <div class="flex items-center space-x-6 px-4" style="margin-left: 800px;">
             {{-- Masuk ke toko --}}
             @if (Auth::user()->penjuals)
             <a href="{{ route('dashboard-pelanggan') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kembali</a>

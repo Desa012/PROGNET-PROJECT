@@ -74,6 +74,9 @@ Route::middleware([AuthPelanggan::class])->group(function () {
 });
 
 Route::get('/toko', [TokoController::class, 'index'])->name('toko.index');
+Route::get('/toko/{id_penjual}', [TokoController::class, 'show'])->name('toko.detail');
+
+
 
 
 

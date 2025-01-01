@@ -1,31 +1,18 @@
 <x-layout-pelanggan>
-    <div class="kontainer-toko py-8" style="margin-left: -50px; margin-right: -50px;">
-        <!-- Toko List -->
-        <div class="toko-list space-y-6">
-            @if($penjuals->isEmpty())
-            <p class="text-center text-gray-500">Toko tidak ditemukan</p>
-            @else
-            @foreach($penjuals as $penjual)
-            <div class="toko-item border rounded-lg p-6 shadow-md flex items-start bg-white">
-                <!-- Informasi Toko -->
-                <div class="toko-info w-1/4 pr-6 border-r border-gray-200">
-                    <h3 class="text-lg font-bold text-gray-800">{{ $penjual->nama_toko }}</h3>
-                    <p class="text-gray-700 mb-4">{{ $penjual->deskripsi_toko }}</p>
-                    
-                    <p class="text-gray-500 text-sm mb-2">Alamat: {{ $penjual->alamats->where('is_default', 1)->first()->kota }}</p>
-                    <a
-                        href="{{ route('toko.detail', $penjual->id_penjual) }}"
-                        class="inline-block mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
-                        Kunjungi Toko
-                    </a>
-                </div>
+    <div class="kontainer py-8">
+        <!-- Header Toko -->
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+            <h1 class="text-3xl font-bold text-blue-900 mb-2">{{ $penjual->nama_toko }}</h1>
+            <p class="text-gray-700 mb-4">{{ $penjual->deskripsi_toko }}</p>
+            <p class="text-gray-500 text-sm mb-4"><strong>Alamat:</strong> {{ $alamat_default->kecamatan }}, {{ $alamat_default->kota }}, {{ $alamat_default->provinsi }}</p>
+        </div>
 
-                <!-- Produk List -->
-                <div class="produk-list w-3/4 grid grid-cols-4 gap-6 pl-6">
+        <!-- Produk List -->
+        <div class="produk-list max-w grid grid-cols-5 gap-6">
                     @if($penjual->produks->isEmpty())
                     <p class="col-span-full text-gray-500 text-center">Tidak ada produk di toko ini.</p>
                     @else
-                    @foreach($penjual->produks->take(4) as $product)
+                    @foreach($penjual->produks as $product)
                     <div class="produk-item bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
                         <a href="{{ route('produks.show', $product->id_produk) }}">
                             <img
@@ -101,9 +88,5 @@
                     @endforeach
                     @endif
                 </div>
-            </div>
-            @endforeach
-            @endif
-        </div>
     </div>
 </x-layout-pelanggan>
