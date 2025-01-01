@@ -6,6 +6,7 @@ use App\Models\Produk;
 use App\Models\Penjual;
 use App\Models\Kategori_Produk;
 use App\Models\Diskon;
+use App\Models\Alamat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -87,6 +88,34 @@ class ProdukController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+
+    public function productsByCategory($id_kategori)
+    {
+        // Cari kategori berdasarkan ID
+        $kategori = Kategori_Produk::with('produks.diskon')->findOrFail($id_kategori);
+
+        // Ambil produk yang terkait dengan kategori ini
+        $produks = $kategori->produks;
+
+        foreach ($produks as $produk) {
+
+                $penjual = $produk->penjual;
+
+                if ($penjual) {
+                    $alamat_default = Alamat::where('id_user', $penjual->id_user)->where('is_default', 1)->first();
+
+                    if ($alamat_default) {
+                        $produk->alamat_penjual = collect([
+                            'alamat' => $alamat_default->alamat,
+                            'kota' => $alamat_default->kota,
+                        ]);
+                    }
+            }
+        }
+
+        return view('produk-kategori', compact('kategori', 'produks'));
+    }
+
     public function edit(string $id_produk)
     {
         $produk = Produk::find($id_produk);

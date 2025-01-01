@@ -54,7 +54,7 @@
         @foreach($kategoriProduks as $kategori)
         <div class="kategori-header flex justify between items-center border-gray-100 px-4 py-2 rounded-md shadow">
             <h3 class="font-semibold text-black-800">{{ $kategori->nama_kategori }}</h3> <!-- Nama kategori -->
-            <a href="#" class="text-sm text-black-500 hover:underline">
+            <a href="{{ route('kategori.produks', $kategori->id_kategori) }}" class="text-sm text-black-500 hover:underline">
                 Lihat selengkapnya
             </a>
         </div>

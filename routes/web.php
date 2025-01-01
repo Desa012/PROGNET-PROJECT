@@ -93,6 +93,8 @@ Route::get('/toko/{id_penjual}', [TokoController::class, 'show'])->name('toko.de
 
 
 
+Route::get('/kategori/{id_kategori}/produks', [ProdukController::class, 'productsByCategory'])->name('kategori.produks');
+
 
 
 
