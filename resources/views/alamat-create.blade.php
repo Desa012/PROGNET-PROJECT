@@ -2,7 +2,7 @@
     <div class="max-w-lg mx-auto mt-12 bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold text-center mb-8">Tambah Alamat</h2>
 
-        <form method="POST" action="{{ route('alamats.store') }}">
+        <form method="POST" action="{{ route('alamat.store') }}">
             @csrf
             <div class="mb-5">
                 <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>

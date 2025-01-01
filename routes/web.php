@@ -69,8 +69,23 @@ Route::get('pesanans/index', [PesananController::class, 'index'])->name('pesanan
 Route::post('pesanans/store', [PesananController::class, 'store'])->name('pesanan.store');
 
 Route::middleware([AuthPelanggan::class])->group(function () {
-    Route::get('alamats/create', [AlamatController::class, 'create'])->name('alamats.create');
-    Route::post('alamats/store', [AlamatController::class, 'store'])->name('alamats.store');
+    // Halaman daftar alamat
+    Route::get('/alamat', [AlamatController::class, 'index'])->name('alamat.index');
+
+    // Halaman form create alamat
+    Route::get('/alamat/create', [AlamatController::class, 'create'])->name('alamat.create');
+
+    // Menyimpan alamat baru
+    Route::post('/alamat', [AlamatController::class, 'store'])->name('alamat.store');
+
+    // Halaman form edit alamat
+    Route::get('alamat/{id_alamat}/edit', [AlamatController::class, 'edit'])->name('alamat.edit');
+
+    // Mengupdate alamat
+    Route::put('alamat/{id_alamat}', [AlamatController::class, 'update'])->name('alamat.update');
+
+    // Menghapus alamat
+    Route::delete('alamat/{id_alamat}', [AlamatController::class, 'destroy'])->name('alamat.destroy');
 });
 
 Route::get('/toko', [TokoController::class, 'index'])->name('toko.index');
