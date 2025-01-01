@@ -198,7 +198,7 @@
         }
 
         .info-produk h2 {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: bold;
             font-family: Arial, sans-serif;
             color: #000000;
@@ -207,13 +207,14 @@
 
         .info-produk .deskripsi {
             font-size: 16px;
-            color: #666;
+            color: #202020;
             line-height: 1.5;
+            margin-bottom: 70px;
         }
 
         .info-produk .penjual {
             font-size: 14px;
-            color: #333;
+            color: #202020;
         }
 
         .info-pembelian {

@@ -20,9 +20,34 @@
                 {{ $produk->nama_produk }}
             </h2>
 
+            {{-- Diskon jika ada --}}
+            @if ($produk->diskon->isNotEmpty())
+                {{-- Harga setelah diskon --}}
+                <p class="text-3xl font-bold mb-1">
+                    Rp{{ number_format($produk->harga - ($produk->harga * $produk->diskon->first()->persentase_diskon / 100), 0, ',', '.') }}
+                </p>
+
+                <div class="flex items-center mb-5">
+                    {{-- Harga produk --}}
+                    <p class="text-md line-through mr-2">
+                        Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                    </p>
+
+                    {{-- Persentase diskon --}}
+                    <p class="text-lg text-red-600">
+                        ({{ $produk->diskon->first()->persentase_diskon }}%)
+                    </p>
+                </div>
+            @else
+                {{-- Harga produk --}}
+                <p class="text-3xl font-bold mb-10">
+                    Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                </p>
+            @endif
+
             {{-- Deskripsi produk --}}
             <p class="deskripsi">
-                Deskripsi: {{ $produk->deskripsi_produk }}
+                {{ $produk->deskripsi_produk }}
             </p>
 
             {{-- Nama penjual --}}
@@ -52,27 +77,49 @@
 
                 {{-- Diskon jika ada --}}
                 @if ($produk->diskon->isNotEmpty())
-                    {{-- Harga setelah diskon --}}
-                    <p class="text-2xl font-bold mb-1">
-                        Rp{{ number_format($produk->harga - ($produk->harga * $produk->diskon->first()->persentase_diskon / 100), 0, ',', '.') }}
-                    </p>
 
-                    <div class="flex items-center mb-5">
+                    <div>
+                        <div class="flex items-center mt-12 mb-4 space-x-16">
+                            <p class="text-md font-semibold ml-1">
+                                Subtotal:
+                            </p>
+                        </div>
+
+                        <div>
+                            {{-- Harga setelah diskon --}}
+                            <p class="text-2xl font-bold mb-1">
+                                Rp{{ number_format($produk->harga - ($produk->harga * $produk->diskon->first()->persentase_diskon / 100), 0, ',', '.') }}
+                            </p>
+
+                            <div class="flex items-center mb-5">
+                                {{-- Harga produk --}}
+                                <p class="text-md line-through mr-2">
+                                    Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                                </p>
+
+                                {{-- Persentase diskon --}}
+                                <p class="text-lg text-red-600">
+                                    ({{ $produk->diskon->first()->persentase_diskon }}%)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="flex items-center mt-12 mb-4 space-x-16">
+
+                        <div>
+                            <p class="text-md font-semibold ml-1">
+                                Subtotal:
+                            </p>
+                        </div>
+
                         {{-- Harga produk --}}
-                        <p class="text-md line-through mr-2">
+                        <p class="text-xl font-bold ">
                             Rp{{ number_format($produk->harga, 0, ',', '.') }}
                         </p>
 
-                        {{-- Persentase diskon --}}
-                        <p class="text-lg text-red-600">
-                            ({{ $produk->diskon->first()->persentase_diskon }}%)
-                        </p>
                     </div>
-                @else
-                    {{-- Harga produk --}}
-                    <p class="text-2xl font-bold mb-3">
-                        Rp{{ number_format($produk->harga, 0, ',', '.') }}
-                    </p>
+
                 @endif
 
 
