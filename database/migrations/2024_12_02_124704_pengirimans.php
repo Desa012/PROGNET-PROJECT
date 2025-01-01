@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id('id_pengiriman');
             $table->unsignedbigInteger('id_pesanan');
             $table->enum('status_pengiriman',['dikemas', 'dikirm', 'selesai']);
+            $table->dateTime('tanggal_pengiriman')->nullable();
+            $table->dateTime('tanggal_diterima')->nullable();
+            $table->string('no_resi')->nullable();
             $table->timestamps();
         });
     }

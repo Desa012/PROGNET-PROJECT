@@ -14,6 +14,7 @@ use App\Http\Controllers\PesananController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AlamatController;
+use App\Http\Controllers\TokoController;
 
 
 // Route untuk halaman home
@@ -71,6 +72,9 @@ Route::middleware([AuthPelanggan::class])->group(function () {
     Route::get('alamats/create', [AlamatController::class, 'create'])->name('alamats.create');
     Route::post('alamats/store', [AlamatController::class, 'store'])->name('alamats.store');
 });
+
+Route::get('/toko', [TokoController::class, 'index'])->name('toko.index');
+
 
 
 

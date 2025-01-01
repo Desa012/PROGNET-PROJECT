@@ -21,33 +21,48 @@
             </div>
         </div>
 
-        {{-- Profil pelanggan --}}
-        <div class="flex items-center md:order-2 space-x-4 md:space-x-2 rtl:space-x-reverse relative">
+        <div class="flex items-center space-x-6 px-4">
+            {{-- Masuk ke toko --}}
+            @if (Auth::user()->penjuals)
+            <a href="{{ route('dashboard-pelanggan') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kembali</a>
+            @endif
 
-            {{-- Gambar profil --}}
-            <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover"
-                class="flex items-center space-x-3 bg-transparent focus:outline-none">
-                <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300" alt="user photo">
+            {{-- Profil pelanggan --}}
+            <div class="flex items-center md:order-2 space-x-4 md:space-x-2 rtl:space-x-reverse relative">
 
-                {{-- Nama pelanggan --}}
-                <span class="text-sm font-medium text-gray-900 text-white whitespace-nowrap">{{ Auth::user()->penjuals->nama_toko }}</span>
+                {{-- Gambar profil --}}
+                <button id="dropdownHoverButton" data-dropdown-toggle="dropdownHover" data-dropdown-trigger="hover"
+                    class="flex items-center space-x-3 bg-transparent focus:outline-none">
+                    <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300" alt="user photo">
 
-            </button>
+                    {{-- Nama pelanggan --}}
+                    <span class="text-sm font-medium text-gray-900 text-white whitespace-nowrap">{{ Auth::user()->penjuals->nama_toko }}</span>
 
-            <!-- Dropdown menu -->
-            <div id="dropdownHover"
-                class="absolute hidden z-50 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
-                <div class="px-4 py-3">
-                    <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
+                </button>
+
+                <!-- Dropdown menu -->
+                <div id="dropdownHover"
+                    class="absolute hidden z-50 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <div class="px-4 py-3">
+                        <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
+                    </div>
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
+                        <li>
+                            @if(Auth::check() && Auth::user()->role === 'penjual')
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Keluar
+                            </a>
+                            <!-- Form Logout Tersembunyi -->
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
+                            @endif
+                        </li>
+                    </ul>
                 </div>
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
-                    <li>
-                        @if(Auth::check() && Auth::user()->role === 'penjual')
-                        <a href="{{ route('dashboard-pelanggan') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar</a>
-                        @endif
-                    </li>
-                </ul>
             </div>
-
         </div>
 </nav>
