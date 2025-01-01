@@ -49,7 +49,7 @@
     </script>
 
 
-    <div class="container">
+    <div class="kontainer">
         {{-- Menampilkan produk berdasarkan kategori --}}
         @foreach($kategoriProduks as $kategori)
         <div class="kategori-header flex justify between items-center border-gray-100 px-4 py-2 rounded-md shadow">
@@ -161,8 +161,8 @@
             </div>
 
             <!-- Navigasi -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next--{{ $kategori->id_kategori }}"></div>
+            <div class="swiper-button-prev--{{ $kategori->id_kategori }}"></div>
             <div class="swiper-pagination"></div>
         </div>
 
@@ -179,13 +179,43 @@
                 spaceBetween: 10, // Jarak antar produk
                 loop: false, // Looping slider
                 navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
+                    nextEl: '.swiper-button-next--{{ $kategori->id_kategori }}',
+                    prevEl: '.swiper-button-prev--{{ $kategori->id_kategori }}',
                 },
                 pagination: {
                     el: '.swiper-pagination',
                     clickable: true,
                 },
+                on: {
+                    slideChange: function() {
+                        const swiper = this;
+                        const nextButton = document.querySelector('.swiper-button-next--{{ $kategori->id_kategori }}');
+                        const prevButton = document.querySelector('.swiper-button-prev--{{ $kategori->id_kategori }}');
+
+                        if (swiper.isBeginning) {
+                            prevButton.classList.add('swiper-button-disabled');
+                        } else {
+                            prevButton.classList.remove('swiper-button-disabled');
+                        }
+
+                        if (swiper.isEnd) {
+                            nextButton.classList.add('swiper-button-disabled');
+                        } else {
+                            nextButton.classList.remove('swiper-button-disabled');
+                        }
+                    },
+
+                    reachBeginning: function() {
+                        document.querySelector('.swiper-button-prev--{{ $kategori->id_kategori }}').classList.add('swiper-button-disabled');
+                    },
+                    reachEnd: function() {
+                        document.querySelector('.swiper-button-next--{{ $kategori->id_kategori }}').classList.add('swiper-button-disabled');
+                    },
+                    fromEdge: function() {
+                        document.querySelector('.swiper-button-prev--{{ $kategori->id_kategori }}').classList.remove('swiper-button-disabled');
+                        document.querySelector('.swiper-button-next--{{ $kategori->id_kategori }}').classList.remove('swiper-button-disabled');
+                    }
+                }
             });
             @endforeach
         });

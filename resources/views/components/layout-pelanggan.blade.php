@@ -62,16 +62,75 @@
             font-size: 8px;
         }
 
-        /* Kustom CSS untuk Swiper Button */
-        .swiper-button-next,
-        .swiper-button-prev {
-            opacity:0;
-            transition: opacity 0.3s ease;
+        [class^="swiper-button-next--"]::before,
+        [class^="swiper-button-prev--"]::before {
+            content: ''; /* Bersihkan konten default */
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-style: solid;
+            border-width: 4px 4px 0 0; /* Membuat panah */
+            /* transform: rotate(45deg); Menyesuaikan arah */
+            position: absolute;
         }
 
-        .swiper-container:hover .swiper-button-next,
-        .swiper-container:hover .swipper-button-prev {
+        [class^="swiper-button-prev--"]::before {
+            /* transform: rotate(-135deg); Panah mengarah ke kiri */
+            left: 22px; /* Penyesuaian posisi */
+            top: 50%;
+            transform: translateY(-50%) rotate(-135deg);
+        }
+
+        [class^="swiper-button-next--"]::before {
+            /* transform: rotate(45deg); Panah mengarah ke kanan */
+            right: 22px; /* Penyesuaian posisi */
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        /* Kustom CSS untuk Swiper Button */
+        [class^="swiper-button-next--"],
+        [class^="swiper-button-prev--"] {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border-radius: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease, background-color 0.3s ease;
+            opacity: 0.5;
+        }
+
+        [class^="swiper-button-prev--"] {
+            left: -10px;
+        }
+
+        [class^="swiper-button-next--"] {
+            right: -10px;
+        }
+
+        .swiper-button-disabled {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        [class^="swiper-button-next--"]:hover,
+        [class^="swiper-button-prev--"]:hover {
             opacity: 1;
+            background-color: #000000;
+        }
+
+        .swiper-container {
+            height: auto;
+            max-height: 300px;
+            overflow: hidden;
+            position: relative;
         }
 
         .image-container {
