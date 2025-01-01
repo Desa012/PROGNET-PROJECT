@@ -62,12 +62,12 @@
         <!-- Slider untuk produk per kategori -->
         <div class="swiper-container category-slider-{{ $kategori->id_kategori }}">
             <div class="swiper-wrapper">
-                @foreach($kategori->produks as $produk)
+                @foreach($kategori->produks->take(10) as $produk)
                 <div class="swiper-slide">
                     <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="max-width: 200px; height: 300px;">
                         {{-- Gambar produk --}}
                         <div class="image-container">
-                            <a href="{{ route('produks.show', $produk->id_produk) }}">
+                            <a href="{{ route('produksdetail.show', $produk->id_produk) }}">
                                 <img src="{{ asset('images/' . $produk->gambar_produk) }}" alt="{{ $produk->nama_produk }}">
                             </a>
                         </div>
@@ -75,7 +75,7 @@
                         <div class="flex flex-col h-full">
 
                             {{-- Nama produk --}}
-                            <a href="{{ route('produks.show', $produk->id_produk) }}" class="mx-3 mb-3">
+                            <a href="{{ route('produksdetail.show', $produk->id_produk) }}" class="mx-3 mb-3">
                                 <h5 class="text-sm font-normal tracking-tight text-gray-900 dark:text-white mt-1.5">{{ $produk->nama_produk }}</h5>
                             </a>
 
@@ -203,6 +203,9 @@
                 pagination: {
                     el: '.swiper-pagination',
                     clickable: true,
+                    renderBullet: function (index, className) {
+                        return '<span class="' + className + '"></span>';
+                    },
                 },
                 on: {
                     slideChange: function() {

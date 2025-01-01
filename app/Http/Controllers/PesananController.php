@@ -128,7 +128,6 @@ class PesananController extends Controller
 
     public function updatePengiriman(Request $request, $id)
     {
-
         $request->validate([
             'status_pengiriman' => 'required|in:dikemas,dikirim,selesai',
         ]);

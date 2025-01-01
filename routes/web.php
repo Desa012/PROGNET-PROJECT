@@ -15,6 +15,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AlamatController;
 use App\Http\Controllers\TokoController;
+use App\Http\Controllers\ProdukDetailController;
 
 
 // Route untuk halaman home
@@ -52,6 +53,9 @@ Route::resource('diskons', DiskonController::class)->middleware(AuthPenjual::cla
 
 // Route untuk produk
 Route::resource('produks', ProdukController::class)->middleware(AuthPenjual::class);
+Route::middleware([AuthPelanggan::class])->group(function () {
+    Route::get('produks/show/{id_produk}', [ProdukDetailController::class, 'produk_detail'])->name('produksdetail.show');
+});
 
 // Route untuk kelola pesanan
 Route::get('kelola-pesanan', [PesananController::class, 'kelolaPesanan'])->name('pesanan.kelola');

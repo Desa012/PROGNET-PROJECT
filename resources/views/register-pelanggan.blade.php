@@ -25,7 +25,7 @@
         <form method="POST" action="{{ route('post-register-pelanggan') }}">
             @csrf
             <div class="mb-5">
-                <label for="nama" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                <label for="nama" class="block text-sm font-medium text-gray-700">Username</label>
                 <input type="text" name="nama" id="nama" class="block w-full mt-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
             </div>
 

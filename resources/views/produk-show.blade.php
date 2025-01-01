@@ -5,7 +5,13 @@
         {{-- Gambar produk --}}
 
         <div class="gambar-produk sticky">
-            <img src="{{ asset('images/' . $produk->gambar_produk) }}" alt="{{ $produk->nama_produk }}" class="img-fluid">
+            @if ($produk->gambar_produk)
+                <img src="{{ asset('images/' . $produk->gambar_produk) }}" alt="{{ $produk->nama_produk }}" class="img-fluid">
+            @else
+                <p class="text-gray-500">
+                    Tidak ada gambar produk.
+                </p>
+            @endif
         </div>
 
         <div class="info-produk">
@@ -14,37 +20,18 @@
                 {{ $produk->nama_produk }}
             </h2>
 
-            {{-- Stok produk --}}
-            <p>
-                Stok: {{ $produk->stok }}
-            </p>
-
             {{-- Deskripsi produk --}}
             <p class="deskripsi">
                 Deskripsi: {{ $produk->deskripsi_produk }}
             </p>
 
             {{-- Nama penjual --}}
-            <p class="oenjual">
+            <p class="penjual">
                 {{ $produk->penjual->nama_toko }}
             </p>
         </div>
 
         <div class="info-pembelian">
-            {{-- Harga produk --}}
-            <h2>
-                Harga: Rp{{ number_format($produk->harga, 0, ',', '.') }}
-            </h2>
-
-            {{-- Diskon jika ada --}}
-            @if ($produk->diskon->isNotEmpty())
-                <p>
-                    Diskon: {{ $produk->diskon->first()->persentase_diskon }}%
-                </p>
-                <p>
-                    Harga setelah diskon: Rp{{ number_format($produk->harga - ($produk->harga * $produk->diskon->first()->persentase_diskon / 100), 0, ',', '.') }}
-                </p>
-            @endif
 
             {{-- Tambah ke keranjang --}}
             <form action="{{ route('keranjangs.store') }}" method="POST">
@@ -53,7 +40,42 @@
                 <label for="jumlah">
                     Jumlah:
                 </label>
-                <input type="number" name="jumlah" id="jumlah" value="1" min="1" class="form-control mb-3">
+
+                <div class="flex items-center mb-2">
+                    <input type="number" name="jumlah" id="jumlah" value="1" min="1" class="form-control mb-4 mt-2 text-center" style="width: 50%;">
+
+                    {{-- Stok produk --}}
+                    <p class="text-lg font-semibold ml-4">
+                        Stok: {{ $produk->stok }}
+                    </p>
+                </div>
+
+                {{-- Diskon jika ada --}}
+                @if ($produk->diskon->isNotEmpty())
+                    {{-- Harga setelah diskon --}}
+                    <p class="text-2xl font-bold mb-1">
+                        Rp{{ number_format($produk->harga - ($produk->harga * $produk->diskon->first()->persentase_diskon / 100), 0, ',', '.') }}
+                    </p>
+
+                    <div class="flex items-center mb-5">
+                        {{-- Harga produk --}}
+                        <p class="text-md line-through mr-2">
+                            Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                        </p>
+
+                        {{-- Persentase diskon --}}
+                        <p class="text-lg text-red-600">
+                            ({{ $produk->diskon->first()->persentase_diskon }}%)
+                        </p>
+                    </div>
+                @else
+                    {{-- Harga produk --}}
+                    <p class="text-2xl font-bold mb-3">
+                        Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                    </p>
+                @endif
+
+
                 <button type="submit" class="btn btn-primary">
                     Tambah ke Keranjang
                 </button>

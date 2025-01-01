@@ -170,4 +170,10 @@ class ProdukController extends Controller
         $produk->delete();
         return redirect()->route('produks.index');
     }
+
+    public function produk_detail(string $id_produk) {
+        $produk = Produk::with(['diskon', 'penjual'])->findOrFail($id_produk);
+
+        return view('produk-show', compact('produk'));
+    }
 }

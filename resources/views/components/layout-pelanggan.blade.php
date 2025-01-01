@@ -133,6 +133,29 @@
             position: relative;
         }
 
+        .swiper-pagination-bullet {
+            width: 50px;
+            height: 5px;
+            margin: 0 5px;
+            background-color: #17416e;
+            border-radius: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .swiper-pagination-bullet-active {
+            background-color: #007bff;
+            transform: scale(1.1);
+        }
+
+        .swiper-pagination {
+            opacity: 0.5;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s ease;
+        }
+
         .image-container {
             width: 100%;
             height: 150px;
@@ -150,19 +173,24 @@
         .container {
             display: grid;
             grid-template-columns: 1fr 2fr 1fr;
-            gap: 20px;
-            margin: 20px;
+            gap: 50px;
+            margin: 20px -20px;
         }
 
         .gambar-produk {
+            width: 350px;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border-radius: 20px;
             position: sticky;
             top: 20px;
         }
 
         .gambar-produk img {
             width: 100%;
-            display: block;
-            margin-bottom: 10px;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .info-produk {
@@ -170,7 +198,10 @@
         }
 
         .info-produk h2 {
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            color: #000000;
             margin-bottom: 10px;
         }
 
@@ -190,6 +221,7 @@
             padding: 20px;
             border-radius: 5px;
             background-color: #f9f9f9;
+            height: 75%;
         }
 
         .info-pembelian h2 {
@@ -198,7 +230,7 @@
             margin-bottom: 15px;
         }
 
-        .purcase.info input {
+        .info-pembelian input {
             width: 100%;
             margin-bottom: 10px;
             padding: 8px;
@@ -234,7 +266,7 @@
         .kontainer-gambar-pesanan img {
             width: 100%;
             height: 100%;
-            object-fit:cover;
+            object-fit: cover;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
         }
     </style>
@@ -244,7 +276,7 @@
     <div class="min-h-full">
         <x-navbar-pelanggan></x-navbar-pelanggan>
       <main>
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-4 py-6">
           {{ $slot }}
         </div>
       </main>

@@ -9,7 +9,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <div class="flex justify-between items-center">
-                            <h2 class="text-lg font-bold mr-5">
+                            <h2 class="text-lg font-bold mr-7">
                                 Pesanan
                             </h2>
 
