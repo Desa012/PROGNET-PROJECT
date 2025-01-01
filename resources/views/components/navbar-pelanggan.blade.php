@@ -14,11 +14,14 @@
 
         {{-- Kolom pencarian --}}
         <form class="flex-grow mx-4" style="width: 300px;" method="GET" action="{{ route('toko.index') }}">
-            <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <label for="default-search"
+                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
                 <input type="search" id="default-search" name="search"
@@ -44,12 +47,14 @@
                     clip-rule="evenodd" />
             </svg>
             {{-- Jumlah uang --}}
-            <span class="text-sm font-medium text-gray-800 dark:text-white">Rp{{ number_format(Auth::user()->saldo, 0, ',', '.') }}</span>
+            <span
+                class="text-sm font-medium text-gray-800 dark:text-white">Rp{{ number_format(Auth::user()->saldo, 0, ',', '.') }}</span>
         </div>
 
 
         {{-- Ikon dan Profil --}}
         <div class="flex items-center space-x-6 px-4">
+
 
             {{-- Logo keranjang --}}
             <a href="{{ route('keranjangs.index') }}">
@@ -61,6 +66,10 @@
                 </svg>
             </a>
 
+            {{-- Notifikasi pesanan --}}
+            <a href="{{ route('pesanan.index') }}"
+                class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Lihat Pesanan</a>
+
             {{-- Logo bel notif --}}
             <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                 fill="currentColor" viewBox="0 0 24 24">
@@ -70,9 +79,11 @@
 
             {{-- Masuk ke toko --}}
             @if (Auth::user()->penjuals)
-            <a href="{{ route('dashboard-penjual') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Masuk ke Toko</a>
+                <a href="{{ route('dashboard-penjual') }}"
+                    class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Masuk ke Toko</a>
             @else
-            <a href="{{ route('register-penjual') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Daftar Toko</a>
+                <a href="{{ route('register-penjual') }}"
+                    class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Daftar Toko</a>
             @endif
 
             {{-- Profil pelanggan --}}
@@ -84,7 +95,8 @@
                     <img class="w-8 h-8 rounded-full" src="https://picsum.photos/200/300" alt="user photo">
 
                     {{-- Nama pelanggan --}}
-                    <span class="text-sm font-medium text-gray-900 text-white whitespace-nowrap">{{ Auth::user()->nama }}</span>
+                    <span
+                        class="text-sm font-medium text-gray-900 text-white whitespace-nowrap">{{ Auth::user()->nama }}</span>
 
                 </button>
 
@@ -93,7 +105,8 @@
                 <div id="dropdownHover"
                     class="absolute hidden z-50 mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
                     <div class="px-4 py-3">
-                        <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
+                        <span
+                            class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ Auth::user()->email }}</span>
                     </div>
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownHoverButton">
                         <li>
@@ -110,16 +123,15 @@
                         </li>
                         <li>
                             @if(Auth::check() && Auth::user()->role === 'pelanggan' || Auth::user()->role === 'penjual')
-                            <a href="#"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Keluar
-                            </a>
-                            <!-- Form Logout Tersembunyi -->
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                style="display: none;">
-                                @csrf
-                            </form>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Keluar
+                                </a>
+                                <!-- Form Logout Tersembunyi -->
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             @endif
                         </li>
                     </ul>
