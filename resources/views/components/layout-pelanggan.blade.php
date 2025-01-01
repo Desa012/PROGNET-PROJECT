@@ -14,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Document</title>
 
     <style>
@@ -38,7 +40,6 @@
 
         .kategori-header {
             border: 2px solid #e5e7eb;
-            background-color: #f9fafb;
             border-radius: 6px;
             padding: 10px;
             margin-top: 120px;
@@ -134,6 +135,8 @@
         }
 
         .swiper-pagination-bullet {
+            top: 10.5px;
+            position: relative;
             width: 50px;
             height: 5px;
             margin: 0 5px;
@@ -150,9 +153,11 @@
         .swiper-pagination {
             opacity: 0.5;
             margin-top: 10px;
-            display: flex;
+            display: grid;
+            grid-auto-flow: column;
             justify-content: center;
             align-items: center;
+            gap: 10px;
             transition: opacity 0.3s ease;
         }
 
@@ -270,6 +275,147 @@
             object-fit: cover;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
         }
+
+        .gambar-toko-produk {
+            width: 60px;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.5)
+        }
+
+        .gambar-toko-produk img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .info-toko-produk {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            width: 100%;
+            /* max-width: 400px; */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        /* .kontainer-keranjang-layout {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        } */
+
+        /* .kontainer-keranjang {
+            flex: 3;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        } */
+
+        .keranjang-item {
+            width: 100%;
+            display: flex;
+            gap: 50px;
+        }
+
+        .keranjang-detail-toko {
+            width: 100%;
+            height: 210px;
+            background-color: #f2f2f2;
+            border: 2px solid #1a64b4;
+            border-radius: 8px;
+            padding: 2%;
+            padding-top: 3%;
+            margin-bottom: 5%;
+        }
+
+        .keranjang-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 3%;
+        }
+
+        .keranjang-detail {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+            width: 800px;
+        }
+
+        .keranjang-gambar-produk {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .keranjang-detail-produk {
+            flex-grow: 1;
+        }
+
+        .keranjang-nama-produk {
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .keranjang-harga-produk {
+            display: flex;
+            background-color: #046ad6;
+            color: #f4f4f4;
+            font-size: 95%;
+            font-weight: 400;
+            margin-top: 10%;
+            padding: 5px 10px;
+            border-radius: 6px;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+        }
+
+        .keranjang-aksi-produk {
+            margin-right: 60px;
+            margin-top: 8%;
+        }
+
+        .keranjang-hapus-barang {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .keranjang-ringkasan-belanja {
+            position: sticky;
+            height : fit-content;
+            width: 75%;
+            padding: 20px 20px;
+            border: 2px solid #1a64b4;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        .btn-beli {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
     </style>
 </head>
 

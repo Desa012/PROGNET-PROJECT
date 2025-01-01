@@ -1,7 +1,6 @@
 <x-layout-pelanggan>
 
     <div class="container">
-
         {{-- Gambar produk --}}
 
         <div class="gambar-produk sticky">
@@ -50,10 +49,27 @@
                 {{ $produk->deskripsi_produk }}
             </p>
 
-            {{-- Nama penjual --}}
-            <p class="penjual">
-                {{ $produk->penjual->nama_toko }}
-            </p>
+            <div class="info-toko-produk">
+                {{-- Gambar penjual --}}
+                <div class="gambar-toko-produk flex-shrink-0 mr-5">
+                    <img src="https://loremflickr.com/300/200" alt="{{ $produk->penjual->nama_toko }}">
+                </div>
+
+                {{-- Informasi toko --}}
+                <div class="">
+                    <a href="{{ route('toko.detail', $produk->penjual->id_penjual) }}">
+                        <h3 class="penjual text-lg font-bold text-gray-800">
+                            {{ $produk->penjual->nama_toko }}
+                        </h3>
+                    </a>
+                    <p class="text-xs text-gray-600">
+                        {{ $produk->penjual->alamats->first()->kota }}
+                    </p>
+                    <p class="text-xs text-gray-600">
+                        {{ $produk->penjual->deskripsi_toko }}
+                    </p>
+                </div>
+            </div>
         </div>
 
         <div class="info-pembelian">
@@ -67,7 +83,10 @@
                 </label>
 
                 <div class="flex items-center mb-2">
-                    <input type="number" name="jumlah" id="jumlah" value="1" min="1" class="form-control mb-4 mt-2 text-center" style="width: 50%;">
+                    <input type="number" name="jumlah" id="jumlah" value="1" min="1" class="form-control mb-4 mt-2 text-center"
+                        data-harga="{{ $produk->harga }}"
+                        data-diskon="{{ $produk->diskon->isNotEmpty() ? $produk->diskon->first()->persentase_diskon : 0 }}"
+                        style="width: 50%;">
 
                     {{-- Stok produk --}}
                     <p class="text-lg font-semibold ml-4">
@@ -78,7 +97,7 @@
                 {{-- Diskon jika ada --}}
                 @if ($produk->diskon->isNotEmpty())
 
-                    <div>
+                    <div class="flex items-center mt-2 space-x-16">
                         <div class="flex items-center mt-12 mb-4 space-x-16">
                             <p class="text-md font-semibold ml-1">
                                 Subtotal:
@@ -87,11 +106,11 @@
 
                         <div>
                             {{-- Harga setelah diskon --}}
-                            <p class="text-2xl font-bold mb-1">
+                            <p id="subtotal" class="text-2xl font-bold mb-1">
                                 Rp{{ number_format($produk->harga - ($produk->harga * $produk->diskon->first()->persentase_diskon / 100), 0, ',', '.') }}
                             </p>
 
-                            <div class="flex items-center mb-5">
+                            <div class="flex items-center">
                                 {{-- Harga produk --}}
                                 <p class="text-md line-through mr-2">
                                     Rp{{ number_format($produk->harga, 0, ',', '.') }}
@@ -114,7 +133,7 @@
                         </div>
 
                         {{-- Harga produk --}}
-                        <p class="text-xl font-bold ">
+                        <p id="subtotal" class="text-xl font-bold ">
                             Rp{{ number_format($produk->harga, 0, ',', '.') }}
                         </p>
 
@@ -129,5 +148,46 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const jumlah_input = document.getElementById('jumlah');
+            const sub_total_element = document.getElementById('subtotal');
+
+            if (!jumlah_input || !sub_total_element) {
+                console.error("Element 'jumlah' or 'subtotal' not found");
+                return;
+            }
+
+            jumlah_input.addEventListener('input', function () {
+                // Ambil harga dari atribut data
+                const harga = parseFloat(jumlah_input.dataset.harga);
+
+                // Ambil diskon dari atribut data
+                const diskon = parseFloat(jumlah_input.dataset.diskon);
+
+                // Default jumlah ke 1 jika kosong atau tidak valid
+                const jumlah = parseInt(jumlah_input.value) || 1;
+
+                console.log("Harga:", harga, "Diskon:", diskon, "Jumlah:", jumlah);
+
+                if (isNaN(harga) || isNaN(diskon)) {
+                    console.error("Harga atau diskon tidak valid");
+                    return;
+                }
+
+                // Hitung total
+                const harga_diskon = harga - (harga * (diskon / 100));
+                const subtotal = harga_diskon * jumlah;
+
+                sub_total_element.textContent = 'Rp' + subtotal.toLocaleString('id-ID', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+
+                consloge.log("Subtotal:", subtotal);
+            });
+        });
+    </script>
 
 </x-layout-pelanggan>

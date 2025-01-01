@@ -52,7 +52,7 @@
     <div class="kontainer">
         {{-- Menampilkan produk berdasarkan kategori --}}
         @foreach($kategoriProduks as $kategori)
-        <div class="kategori-header flex justify between items-center text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 px-4 py-2 rounded-md shadow">
+        <div class="kategori-header flex text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 rounded-md shadow">
             <h3 class="font-semibold text-black-800">{{ $kategori->nama_kategori }}</h3> <!-- Nama kategori -->
             <a href="{{ route('kategori.produks', $kategori->id_kategori) }}" class="text-sm text-black-500 hover:underline">
                 Lihat selengkapnya
@@ -64,7 +64,7 @@
             <div class="swiper-wrapper">
                 @foreach($kategori->produks->take(10) as $produk)
                 <div class="swiper-slide">
-                    <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="max-width: 200px; height: 300px;">
+                    <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 pb-2.5" style="max-width: 200px; max-height: 300px;">
                         {{-- Gambar produk --}}
                         <div class="image-container">
                             <a href="{{ route('produksdetail.show', $produk->id_produk) }}">

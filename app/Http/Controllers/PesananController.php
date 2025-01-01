@@ -99,10 +99,10 @@ class PesananController extends Controller
 
 
         // Menambahkan produk ke dalam pesanan
-        
+
         foreach ($keranjangs as $keranjang) {
             $produk = $keranjang->produks;
-            
+
             // Periksa apakah stok cukup
             if ($produk->stok < $keranjang->jumlah) {
                 return redirect()->back()->withErrors(['stok' => "Stok untuk produk {$produk->nama_produk} tidak mencukupi."]);
@@ -155,5 +155,23 @@ class PesananController extends Controller
         $pesanan = Pesanan::with(['detail_pesanans.produk'])->findOrFail($id_pesanan);
 
         return view('detail-pesanan', compact('pesanan'));
+    }
+
+    public function selesaikan($id_pesanan)
+    {
+        // Cari pesanan berdasarkan ID
+        $pesanan = Pesanan::with('pengiriman')->get()->findOrFail($id_pesanan);
+
+        // Pastikan status saat ini sudah bayar sebelum mengubah ke selesai
+        if ($pesanan->status === 'sudah bayar') {
+            // Update status di tabel pengirimans
+            $pengiriman = $pesanan->pengiriman;
+            $pengiriman->status_pengiriman = 'selesai';
+            $pengiriman->save();
+
+            return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil selesai.');
+        }
+
+        return redirect()->back()->with('error', 'Status pesanan harus sudah bayar sebelum selesai.');
     }
 }

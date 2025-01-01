@@ -12,7 +12,7 @@ class ProdukDetailController extends Controller
 {
     public function produk_detail(string $id_produk)
     {
-        $produk = Produk::with(['diskon', 'penjual'])->findOrFail($id_produk);
+        $produk = Produk::with(['diskon', 'penjual.alamats'])->findOrFail($id_produk);
 
         return view('produk-show', compact('produk'));
     }

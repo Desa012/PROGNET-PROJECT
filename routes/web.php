@@ -73,6 +73,7 @@ Route::middleware([AuthPelanggan::class])->group(function () {
     Route::get('pesanans/index', [PesananController::class, 'index'])->name('pesanan.index');
     Route::post('pesanans/store', [PesananController::class, 'store'])->name('pesanan.store');
     Route::get('/pesanans/{id_pesanan}', [PesananController::class, 'show'])->name('pesanan.show');
+    Route::put('/pesanans/{id_pesanan}/selesaikan', [PesananController::class, 'selesaikan'])->name('pesanan.selesaikan');
 });
 
 Route::middleware([AuthPelanggan::class])->group(function () {
