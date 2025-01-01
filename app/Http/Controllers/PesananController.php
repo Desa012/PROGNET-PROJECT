@@ -22,8 +22,9 @@ class PesananController extends Controller
             return $item->produks->harga * $item->jumlah;
         });
 
-        $pesanans = Pesanan::where('id_user', $user)
-            ->with('pengiriman') // Pastikan relasi pengiriman di-load
+        $pesanans = Pesanan::with(['detail_pesanans.produk', 'pengiriman', 'metode_pembayaran'])
+            ->where('id_user', $user)
+            ->orderBy('tanggal_pesanan', 'desc')
             ->get();
 
         return view('pesanan-index', compact('keranjangs', 'total_harga', 'pesanans'));
@@ -128,5 +129,12 @@ class PesananController extends Controller
         $pengiriman->save();
 
         return redirect()->back()->with('success', 'Pengiriman berhasil diperbarui.');
+    }
+
+    public function show($id_pesanan)
+    {
+        $pesanan = Pesanan::with(['detail_pesanans.produk'])->findOrFail($id_pesanan);
+
+        return view('detail-pesanan', compact('pesanan'));
     }
 }

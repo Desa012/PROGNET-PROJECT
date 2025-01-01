@@ -223,6 +223,20 @@
             background-color: #054080;
             color: #fff;
         }
+
+        .kontainer-gambar-pesanan {
+            width: 80px;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .kontainer-gambar-pesanan img {
+            width: 100%;
+            height: 100%;
+            object-fit:cover;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 

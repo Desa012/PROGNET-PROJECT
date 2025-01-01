@@ -64,9 +64,12 @@ Route::resource('keranjangs', KeranjangController::class)->middleware(AuthPelang
 Route::put('/keranjang/{id}', [KeranjangController::class, 'update'])->middleware(AuthPelanggan::class)->name('keranjangs.update');
 
 // Route untuk pemesanan
-Route::get('pesanans/create', [PesananController::class, 'create'])->name('pesanan.create');
-Route::get('pesanans/index', [PesananController::class, 'index'])->name('pesanan.index');
-Route::post('pesanans/store', [PesananController::class, 'store'])->name('pesanan.store');
+Route::middleware([AuthPelanggan::class])->group(function () {
+    Route::get('pesanans/create', [PesananController::class, 'create'])->name('pesanan.create');
+    Route::get('pesanans/index', [PesananController::class, 'index'])->name('pesanan.index');
+    Route::post('pesanans/store', [PesananController::class, 'store'])->name('pesanan.store');
+    Route::get('/pesanans/{id_pesanan}', [PesananController::class, 'show'])->name('pesanan.show');
+});
 
 Route::middleware([AuthPelanggan::class])->group(function () {
     // Halaman daftar alamat

@@ -36,6 +36,7 @@ class Pesanan extends Model
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
+
     public function penjual(): BelongsTo
     {
         return $this->belongsTo(Penjual::class, 'id_penjual');

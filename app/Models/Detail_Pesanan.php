@@ -9,6 +9,8 @@ class Detail_Pesanan extends Model
 {
     protected $table = 'detail_pesanans';
 
+    protected $primaryKey = 'id_detail';
+
     protected $fillable = [
         'id_pesanan',
         'id_produk',
