@@ -54,12 +54,19 @@
                         @endif
                     </div>
 
-                    {{-- Alamat Penjual --}}
-                    <div class="mt-3">
-                        <span class="text-xs text-gray-600">
-                            {{ $produk->alamat_penjual?->kota ?? '' }}
-                        </span>
-                    </div>
+                    @if ($produk->alamat_penjual)
+                        {{-- Alamat Penjual --}}
+                        <div class="mt-3">
+                            <span class="text-xs text-gray-600">
+                                {{ $produk->alamat_penjual->kota}}
+                            </span>
+                        </div>
+                    @else
+                        <p>
+
+                        </p>
+                    @endif
+
 
                     {{-- Rating Produk --}}
                     <div class="flex items-center mt-3">

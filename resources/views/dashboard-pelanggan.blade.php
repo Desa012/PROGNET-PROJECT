@@ -103,7 +103,7 @@
                                 </div>
 
                                 {{-- Harga sebelum diskon --}}
-                                <div class="mb-2" style="margin-top: -5px;">
+                                <div class="" style="margin-top: -5px;">
                                     <span class="text-xs text-gray-500 line-through ml-3">
                                         Rp{{ number_format($produk->harga, 0, ',', '.') }}
                                     </span>
@@ -114,11 +114,20 @@
                                     </span>
                                 </div>
 
-                                <div class="mb-2 mx-3">
-                                    <h5 class="text-xs font-normal text-gray-600">
-                                        {{$produk->alamat_penjual?->kota ?? ''}}
-                                    </h5>
-                                </div>
+                                @if ($produk->alamat_penjual)
+                                    {{-- Alamat Penjual --}}
+                                    <div class="mb-1 mx-3">
+                                        <span class="text-xs font-normal text-gray-600">
+                                            {{ $produk->alamat_penjual['kota']}}
+                                        </span>
+                                    </div>
+                                @else
+                                    <div class="mb-1 mx-3">
+                                        <span class="text-xs font-normal text-gray-600">
+
+                                        </span>
+                                    </div>
+                                @endif
 
                                 <div class="flex items-center pt-1 mx-3">
                                     <div class="flex items-center space-x-1 rtl:space-x-reverse">
@@ -139,11 +148,20 @@
                                     </span>
                                 </div>
 
+                                @if ($produk->alamat_penjual)
+                                    {{-- Alamat Penjual --}}
+                                    <div class="mb-2 mx-3">
+                                        <h5 class="text-xs font-normal text-gray-600">
+                                            {{$produk->alamat_penjual['kota']}}
+                                        </h5>
+                                    </div>
+                                @else
                                 <div class="mb-2 mx-3">
                                     <h5 class="text-xs font-normal text-gray-600">
-                                        {{$produk->alamat_penjual?->kota ?? ''}}
+
                                     </h5>
                                 </div>
+                                @endif
 
                                 <div class="flex items-center pt-1 mx-3">
                                     <div class="flex items-center space-x-1 rtl:space-x-reverse">
