@@ -55,8 +55,10 @@ class PesananController extends Controller
         return view('pesanan-create', compact('keranjangs', 'alamats', 'total_harga', 'metode_pembayaran', 'toko'));
     }
 
+
     public function store(Request $request)
     {
+
         $request->validate([
             'id_alamat' => 'required|exists:alamats,id_alamat',
             'total_harga' => 'required|numeric',
@@ -64,22 +66,18 @@ class PesananController extends Controller
         ]);
 
         $user = Auth::user();
-
-        // Ambil keranjang pengguna
-        $keranjangs = Keranjang::where('id_user', $user->id_user)->with('produks.penjual')->get();
-
-        // Pastikan keranjang tidak kosong
-        if ($keranjangs->isEmpty()) {
-            return redirect()->back()->withErrors(['keranjang' => 'Keranjang Anda kosong.']);
+        $saldo_user = $user->saldo;
+        if ($saldo_user < $request->total_harga) {
+            return redirect()->back()->withErrors(['saldo' => 'Saldo tidak mencukupi']);
+        } else {
+            $kurang_saldo = $saldo_user - $request->total_harga;
+            $user->saldo = $kurang_saldo;
+            $user->save();
         }
 
-        // Ambil penjual dari produk pertama di keranjang
-        $penjual = $keranjangs->first()->produks->penjual;
-
-        // Buat pesanan
         $pesanan = Pesanan::create([
             'id_user' => $user->id_user,
-            'id_penjual' => $penjual->id_penjual, // Penjual berasal dari produk pertama
+            'id_penjual' => $user->penjuals->id_penjual,
             'id_alamat' => $request->id_alamat,
             'id_metode' => $request->metode_pembayaran,
             'tanggal_pesanan' => Carbon::now(),
@@ -87,11 +85,13 @@ class PesananController extends Controller
             'status' => 'Sudah Bayar',
         ]);
 
-        // Tambahkan detail pesanan dan perbarui stok
+
+        // Menambahkan produk ke dalam pesanan
+        $keranjangs = Keranjang::where('id_user', $user->id_user)->with('produks')->get();
         foreach ($keranjangs as $keranjang) {
             $produk = $keranjang->produks;
 
-            // Periksa stok
+            // Periksa apakah stok cukup
             if ($produk->stok < $keranjang->jumlah) {
                 return redirect()->back()->withErrors(['stok' => "Stok untuk produk {$produk->nama_produk} tidak mencukupi."]);
             }
@@ -113,7 +113,6 @@ class PesananController extends Controller
 
         return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil dibuat');
     }
-
 
     public function kelolaPesanan()
     {

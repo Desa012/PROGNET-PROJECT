@@ -44,7 +44,7 @@
                     clip-rule="evenodd" />
             </svg>
             {{-- Jumlah uang --}}
-            <span class="text-sm font-medium text-gray-800 dark:text-white">Rp 1.000.000</span>
+            <span class="text-sm font-medium text-gray-800 dark:text-white">Rp{{ number_format(Auth::user()->saldo, 0, ',', '.') }}</span>
         </div>
 
 

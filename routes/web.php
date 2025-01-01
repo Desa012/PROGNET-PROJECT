@@ -104,4 +104,3 @@ Route::get('/kategori/{id_kategori}/produks', [ProdukController::class, 'product
 
 
 
-
