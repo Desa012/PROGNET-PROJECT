@@ -29,12 +29,28 @@
                                         {{ $item->produks->nama_produk }}
                                     </p>
 
-                                    {{-- Harga produk --}}
-                                    <p class="keranjang-harga-produk">
-                                        Total: Rp<span
-                                            id="total-{{ $item->id_keranjang }}">{{ number_format($item->produks->harga * $item->jumlah, 0, ',', '.') }}
-                                        </span>
-                                    </p>
+                                    @if ($item->produks->diskon->isNotEmpty())
+
+                                        {{-- {{dd($item->produks->harga)}} --}}
+                                        {{-- {{dd()}} --}}
+                                        {{-- {{dd($item->produks->harga * $item->produks->diskon->first()->persentase_diskon / 100)}} --}}
+                                        {{-- Harga produk --}}
+                                        <p class="keranjang-harga-produk">
+                                            Total: Rp<span
+                                                id="total-{{ $item->id_keranjang }}">{{ number_format(($item->produks->harga - ($item->produks->harga * $item->produks->diskon->first()->persentase_diskon / 100)) * $item->jumlah, 0, ',', '.') }}
+                                            </span>
+                                        </p>
+
+                                    @else
+
+                                        {{-- Harga produk --}}
+                                        <p class="keranjang-harga-produk">
+                                            Total: Rp<span
+                                                id="total-{{ $item->id_keranjang }}">{{ number_format($item->produks->harga * $item->jumlah, 0, ',', '.') }}
+                                            </span>
+                                        </p>
+
+                                    @endif
 
                                     {{-- <p class="keranjang-harga-produk">
                                         Rp{{ number_format($item->produks->harga, 0, ',', '.') }}
@@ -78,12 +94,26 @@
                         Total Harga Belanja
                     </h3>
 
-                    {{-- Jumlah Harga --}}
-                    <p id="total-all" style="font-size: 20px; font-weight: 400; margin-bottom: 4%;">
-                        Rp{{number_format($keranjangs->sum(function ($item) {
-                            return $item->produks->harga * $item->jumlah; }), 0, ',', '.')
-                        }}
-                    </p>
+                    @if ($item->produks->diskon->isNotEmpty())
+
+                        {{-- Jumlah Harga --}}
+                        <p id="total-all" style="font-size: 20px; font-weight: 400; margin-bottom: 4%;">
+                            Rp{{number_format($keranjangs->sum(function ($item) {
+                                $diskon = $item->produks->diskon->first();
+                                $harga_produk = $item->produks->harga - ($item->produks->harga * $diskon->persentase_diskon / 100);
+                                return $harga_produk * $item->jumlah; }), 0, ',', '.')
+                            }}
+                        </p>
+
+                    @else
+
+                        <p id="total-all" style="font-size: 20px; font-weight: 400; margin-bottom: 4%;">
+                            Rp{{number_format($keranjangs->sum(function ($item) {
+                                return $item->produks->harga * $item->jumlah; }), 0, ',', '.')
+                            }}
+                        </p>
+
+                    @endif
 
                     @if ($keranjangs->isNotEmpty())
                         <a href="{{ route('pesanan.create') }}" class="btn-beli bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
@@ -138,8 +168,11 @@
                 success: function (response) {
                     // Update jumlah input dan total harga setiap item
                     jumlah_input.val(jumlah);
+
+                    // Perbarui total harga per produk
                     $('#total-' + keranjang_id).text(response.total_harga);
 
+                    // Perbarui total harga seluruhnya
                     $('#total-all').text('Rp ' + response.total_harga_keranjang);
                 },
                 error: function (err) {

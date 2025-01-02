@@ -36,12 +36,19 @@ class PesananController extends Controller
         $user = auth()->user();
 
         $keranjangs = Keranjang::where('id_user', $user->id_user)
-            ->with('produks')
+            ->with('produks.diskon')
             ->get();
+
 
         // Hitung total harga
         $total_harga = $keranjangs->sum(function ($keranjang) {
-            return $keranjang->produks->harga * $keranjang->jumlah;
+
+            // dd($keranjang->produks->diskon->first()->persentase_diskon);
+            $harga_diskon = $keranjang->produks->diskon->isNotEmpty()
+            ? $keranjang->produks->harga - ($keranjang->produks->harga * $keranjang->produks->diskon->first()->persentase_diskon / 100)
+            : $item->produks->harga;
+
+            return $harga_diskon * $keranjang->jumlah;
         });
 
         // Ambil metode pembayaran
@@ -112,11 +119,16 @@ class PesananController extends Controller
             $produk->stok -= $keranjang->jumlah;
             $produk->save();
 
+            $diskon = $produk->diskon->first();
+            $harga_diskon = $diskon
+                ? $produk->harga - ($produk->harga * $diskon->persentase_diskon / 100)
+                : $produk->harga;
+
             // Tambahkan detail pesanan
             $pesanan->detail_pesanans()->create([
                 'id_produk' => $produk->id_produk,
                 'jumlah' => $keranjang->jumlah,
-                'subtotal' => $produk->harga * $keranjang->jumlah,
+                'subtotal' => $harga_diskon * $keranjang->jumlah,
             ]);
         }
 

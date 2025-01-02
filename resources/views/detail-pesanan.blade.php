@@ -45,7 +45,7 @@
                         </div>
 
                         <p>
-                            {{ $detail->produk->nama_produk }} - {{ $detail->jumlah }} x Rp{{ number_format($detail->produk->harga, 0, ',', '.') }}
+                            {{ $detail->produk->nama_produk }} - {{ $detail->jumlah }} x Rp{{ number_format($detail->subtotal / $detail->jumlah, 0, ',', '.') }}
                             (Subtotal: Rp{{ number_format($detail->subtotal, 0, ',', '.') }})
                         </p>
                     </div>

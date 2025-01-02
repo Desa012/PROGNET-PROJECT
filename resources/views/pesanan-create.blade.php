@@ -10,12 +10,20 @@
                 </h3>
 
                 @foreach ($keranjangs as $keranjang)
+
+                    {{-- {{dd($keranjang->produks)}} --}}
+                    @php
+                        $diskon = $keranjang->produks->diskon->first();
+                        $harga_produk = $diskon ? $keranjang->produks->harga - ($keranjang->produks->harga * $diskon->persentase_diskon / 100)
+                        : $keranjang->produks->harga;
+                    @endphp
+
                     <div class="produk-item">
                         <p class="produk-nama">
                             {{ $keranjang->produks->nama_produk }}
                         </p>
                         <p class="produk-harga">
-                            Harga: Rp {{ number_format($keranjang->produks->harga, 0, ',', '.') }}
+                            Harga: Rp {{ number_format($harga_produk * $keranjang->jumlah, 0, ',', '.') }}
                         </p>
                         <p class="produk-jumlah">
                             Jumlah: {{ $keranjang->jumlah }}
@@ -51,6 +59,7 @@
                             @endforeach
                         </select>
                     </div>
+
 
                     <div class="total-harga">
                         <p class="harga-total">

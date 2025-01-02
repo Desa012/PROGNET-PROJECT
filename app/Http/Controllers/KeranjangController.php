@@ -16,7 +16,7 @@ class KeranjangController extends Controller
     public function index()
     {
         $user = Auth::id();
-        $keranjangs = Keranjang::where('id_user', $user)->with('produks')->get();
+        $keranjangs = Keranjang::where('id_user', $user)->with('produks.diskon')->get();
         return view('keranjang-index', compact('keranjangs'));
     }
 
@@ -102,17 +102,32 @@ class KeranjangController extends Controller
         ]);
 
         $keranjang = Keranjang::findOrFail($id);
-        $keranjang->update([
-            'id_produk' => $request->id_produk,
-            'jumlah' => $request->jumlah,
-        ]);
+
+        $produk = $keranjang->produks;
+        $keranjang->jumlah = $request->jumlah;
+        $keranjang->save();
+
+        $diskon = $produk->diskon->first();
+        $harga_produk = $diskon ? $produk->harga - ($produk->harga * $diskon->persentase_diskon / 100) : $produk->harga;
+
+        // $keranjang->update([
+        //     'id_produk' => $request->id_produk,
+        //     'jumlah' => $request->jumlah,
+        // ]);
         //    $keranjang->save();
 
-        $total_harga = $keranjang->produks->harga * $keranjang->jumlah;
+        $total_harga = $keranjang->jumlah * $harga_produk;
 
-        $total_harga_keranjang = Keranjang::where('id_user', $user)->with('produks')->get()->sum(function ($item) {
-            return $item->produks->harga * $item->jumlah;
-        });
+        // $total_harga_keranjang = Keranjang::where('id_user', $user)->with('produks')->get()->sum(function ($item) {
+        //     return $item->produks->harga * $item->jumlah;
+        // });
+
+        $total_harga_keranjang = Keranjang::where('id_user', $user)->get()
+            ->sum(function ($item) {
+                $diskon = $item->produks->diskon->first();
+                $harga_produk = $diskon ? $item->produks->harga - ($item->produks->harga * $diskon->persentase_diskon / 100) : $item->produks->harga;
+                return $item->jumlah * $harga_produk;
+            });
 
         $formatted_total_harga_keranjang = number_format($total_harga_keranjang, 0, ',', '.');
 
