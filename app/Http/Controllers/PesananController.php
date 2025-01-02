@@ -46,7 +46,7 @@ class PesananController extends Controller
             // dd($keranjang->produks->diskon->first()->persentase_diskon);
             $harga_diskon = $keranjang->produks->diskon->isNotEmpty()
             ? $keranjang->produks->harga - ($keranjang->produks->harga * $keranjang->produks->diskon->first()->persentase_diskon / 100)
-            : $item->produks->harga;
+            : $keranjang->produks->harga;
 
             return $harga_diskon * $keranjang->jumlah;
         });
