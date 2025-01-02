@@ -120,10 +120,17 @@ class PesananController extends Controller
             ]);
         }
 
+        $pengiriman = Pesanan::find($pesanan->id_pesanan)->pengiriman();
+        $pengiriman->create([
+            'id_pesanan' => $pesanan->id_pesanan,
+            'status_pengiriman' => 'dikemas',
+        ]);
+
+
         // Kosongkan keranjang setelah pemesanan
         Keranjang::where('id_user', $user->id_user)->delete();
 
-        return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil dibuat');
+        return redirect()->route('pesanan.index')->with('success', 'Pesanan telah dibuat.');
     }
 
     public function kelolaPesanan()

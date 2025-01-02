@@ -24,6 +24,7 @@
                 @endforeach
             </div>
 
+<<<<<<< Updated upstream
             <div class="kolom-kanan">
                 <form action="{{ route('pesanan.store') }}" method="POST" class="form-konfirmasi">
                     @csrf
@@ -37,6 +38,13 @@
                             @endforeach
                         </select>
                     </div>
+=======
+            <div>
+                <label for="tanggal_pesanan">Tanggal Pemesanan</label>
+                <p></p>
+                <input type="date" id="tanggal_pesanan" name="tanggal_pesanan" required>
+            </div>
+>>>>>>> Stashed changes
 
                     <div class="form-group">
                         <label for="alamat" class="label">
@@ -63,12 +71,39 @@
                     </div>
 
                     <button type="submit"
-                        class="btn-pesan bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">Lanjutkan
-                        Pemesanan
+                        class="btn-pesan bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                        Lanjutkan Pemesanan
                     </button>
                 </form>
             </div>
         </div>
+
+        @if(session('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session('success') }}',
+                    timer: 3000, // Durasi pop-up dalam milidetik
+                    showConfirmButton: false,
+                    // confirmButtonText: 'OK',
+                    timerProgressBar: true,
+                });
+            </script>
+        @endif
+
+        @if(session('error'))
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: '{{ session('error') }}',
+                    timer: 3000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
+            </script>
+        @endif
 
     </div>
 

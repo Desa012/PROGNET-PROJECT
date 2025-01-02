@@ -31,7 +31,7 @@
 
                             <div>
                                 <div>
-                                    @if($pesanan->detail_pesanans->isNotEmpty() && $pesanan->detail_pesanans->first()->produk)
+                                    @if ($pesanan->detail_pesanans->isNotEmpty() && $pesanan->detail_pesanans->first()->produk)
                                         <p class="text-sm font-bold text-gray-900">
                                             {{ $pesanan->detail_pesanans->first()->produk->nama_produk }}
                                         </p>
@@ -62,7 +62,7 @@
                             <strong>Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</strong>
                         </p>
 
-                        @if($pesanan->pengiriman->status_pengiriman !== 'selesai')
+                        @if ($pesanan->pengiriman->status_pengiriman == 'dikemas' || $pesanan->pengiriman->status_pengiriman == 'dikirim')
                             <div style="margin-top: 25%; display: flex; gap: 20px; align-items: center">
                                 <a href="{{ route('pesanan.show', $pesanan->id_pesanan) }}">
                                     Tampilkan Detail Transaksi

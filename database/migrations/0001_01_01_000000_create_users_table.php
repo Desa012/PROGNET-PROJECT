@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email')->unique();
             $table->string('password');
+            $table->decimal('saldo', 10, 0)->default(0);
             $table->enum('role', ['pelanggan', 'penjual'])->default('pelanggan');
+            $table->enum('role', ['pembeli', 'penjual'])->default('pembeli');
             $table->rememberToken();
             $table->timestamps();
         });
