@@ -20,32 +20,27 @@
                 </thead>
                 <tbody>
                     @forelse ($pesananBelumSelesai as $index => $pesanan)
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="px-4 py-2 text-center">{{ $index + 1 }}</td>
-                            <td class="px-4 py-2">{{ optional($pesanan->users)->nama ?? 'Data pelanggan tidak tersedia' }}</td>
-                            <td class="px-4 py-2">{{ $pesanan->alamats->alamat }}</td>
-                            <td class="px-4 py-2">{{ $pesanan->tanggal_pesanan}}</td>
-                            @foreach ($pesanan->detail_pesanans as $detail)
-                                <td class="px-4 py-2">{{ $detail->produk->nama_produk }}</td>
-                            @endforeach
-                            <td class="px-4 py-2 currency">Rp {{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
-                            <td class="px-4 py-2">{{ $pesanan->status }}</td>
-                            <td class="px-4 py-2 text-center">
-                                <form action="{{ route('pengiriman.update', $pesanan->id_pesanan) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <select name="status_pengiriman" class="border p-1 rounded w-full">
-                                        <option value="dikemas" {{ optional($pesanan->pengiriman)->status_pengiriman == 'dikemas' ? 'selected' : '' }}>Dikemas</option>
-                                        <option value="dikirim" {{ optional($pesanan->pengiriman)->status_pengiriman == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
-                                    </select>
-                                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full">Update</button>
-                                </form>
-                            </td>
-                        </tr>
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-4 py-2 text-center">{{ $index + 1 }}</td>
+                        <td class="px-4 py-2">{{ optional($pesanan->users)->nama ?? 'Data pelanggan tidak tersedia' }}</td>
+                        <td class="px-4 py-2">{{ $pesanan->alamats->alamat }}</td>
+                        <td class="px-4 py-2">{{ $pesanan->tanggal_pesanan}}</td>
+                        @foreach ($pesanan->detail_pesanans->take(1) as $detail)
+                        <td class="px-4 py-2">{{ $detail->produk->nama_produk }}</td>
+                        @endforeach
+                        <td class="px-4 py-2 currency">Rp {{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
+                        <td class="px-4 py-2">{{ $pesanan->status }}</td>
+                        <td class="px-4 py-2 text-center">
+                            <a href="{{ route('detail.kelola', $pesanan->id_pesanan) }}"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                                Detail
+                            </a>
+                        </td>
+                    </tr>
                     @empty
-                        <tr>
-                            <td colspan="8" class="px-4 py-2 text-center">Belum ada pesanan.</td>
-                        </tr>
+                    <tr>
+                        <td colspan="8" class="px-4 py-2 text-center">Belum ada pesanan.</td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>

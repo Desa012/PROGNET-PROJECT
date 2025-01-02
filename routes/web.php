@@ -59,6 +59,7 @@ Route::middleware([AuthPelanggan::class])->group(function () {
 
 // Route untuk kelola pesanan
 Route::get('kelola-pesanan', [PesananController::class, 'kelolaPesanan'])->name('pesanan.kelola');
+Route::get('detail-kelola/{id_pesanan}', [PesananController::class, 'detailKelola'])->name('detail.kelola');
 
 // Route untuk riwayat pesanan
 Route::get('riwayat-pesanan', [PesananController::class, 'riwayatPesanan'])->name('pesanan.riwayat');

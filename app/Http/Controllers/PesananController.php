@@ -160,6 +160,24 @@ class PesananController extends Controller
         return view('kelola-pesanan', compact('pesananBelumSelesai'));
     }
 
+    public function detailKelola($id_pesanan)
+    {
+        $penjual = Auth::user()->penjuals;
+
+        $pesananBelumSelesai = Pesanan::where('id_penjual', $penjual->id_penjual)
+            ->with(['users', 'alamats', 'detail_pesanans.produk', 'pengiriman'])->where('id_pesanan', $id_pesanan)
+            ->get();
+
+        $pesanan = Pesanan::where('id_penjual', $penjual->id_penjual)
+        ->whereHas('pengiriman', function ($query) {
+            $query->where('status_pengiriman', '!=', 'selesai');
+        })
+        ->with(['users', 'alamats', 'detail_pesanans.produk', 'pengiriman'])->findOrFail($id_pesanan);
+
+
+        return view('detail-kelola', compact('pesananBelumSelesai', 'pesanan'));
+    }
+
     public function riwayatPesanan()
     {
         $penjual = Auth::user()->penjuals;

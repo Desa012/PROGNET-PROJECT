@@ -47,12 +47,6 @@
         </main>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gradient-to-b from-blue-800 to-blue-900 border-gray-200">
-        <div class="container mx-auto text-center justify-between w-full px-8 py-4">
-            <p>&copy; 2024 Dashboard Penjual. All rights reserved.</p>
-        </div>
-    </footer>
 </body>
 
 </html>
