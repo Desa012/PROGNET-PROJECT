@@ -62,7 +62,20 @@
                             <strong>Rp{{ number_format($pesanan->total_harga, 0, ',', '.') }}</strong>
                         </p>
 
-                        @if ($pesanan->pengiriman->status_pengiriman == 'dikemas' || $pesanan->pengiriman->status_pengiriman == 'dikirim')
+                        @if ($pesanan->pengiriman->status_pengiriman == 'dikemas')
+
+                            <div style="margin-top: 25%; display: flex; gap: 20px; align-items: center">
+                                <a href="{{ route('pesanan.show', $pesanan->id_pesanan) }}">
+                                    Tampilkan Detail Transaksi
+                                </a>
+
+                                <p class="text-sm bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 text-white py-2 px-4 rounded">
+                                    Menunggu Penjual Mengirim
+                                </p>
+
+                            </div>
+
+                        @elseif ($pesanan->pengiriman->status_pengiriman == 'dikirim')
                             <div style="margin-top: 25%; display: flex; gap: 20px; align-items: center">
                                 <a href="{{ route('pesanan.show', $pesanan->id_pesanan) }}">
                                     Tampilkan Detail Transaksi
@@ -76,6 +89,7 @@
                                     </button>
                                 </form>
                             </div>
+
                         @else
                             <div style="margin-top: 25%; display: flex; gap: 20px; align-items: center">
                                 <a href="{{ route('pesanan.show', $pesanan->id_pesanan) }}">

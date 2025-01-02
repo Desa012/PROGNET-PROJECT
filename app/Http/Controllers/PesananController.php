@@ -92,7 +92,7 @@ class PesananController extends Controller
             'id_penjual' => $penjual->id_penjual,
             'id_alamat' => $request->id_alamat,
             'id_metode' => $request->metode_pembayaran,
-            'tanggal_pesanan' => Carbon::now(),
+            'tanggal_pesanan' => Carbon::now('Asia/Singapore'),
             'total_harga' => $request->total_harga,
             'status' => 'Sudah Bayar',
         ]);
@@ -194,6 +194,7 @@ class PesananController extends Controller
             // Update status di tabel pengirimans
             $pengiriman = $pesanan->pengiriman;
             $pengiriman->status_pengiriman = 'selesai';
+            $pengiriman->tanggal_diterima = Carbon::now('Asia/Singapore');
             $pengiriman->save();
 
             return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil selesai.');

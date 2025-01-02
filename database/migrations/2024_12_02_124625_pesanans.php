@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedbigInteger('id_penjual');
             $table->unsignedbigInteger('id_alamat');
             $table->unsignedbigInteger('id_metode');
-            $table->date('tanggal_pesanan');
+            $table->datetime('tanggal_pesanan');
             $table->enum('status', ['sudah bayar', 'belum bayar']);
             $table->float('total_harga');
             $table->timestamps();
