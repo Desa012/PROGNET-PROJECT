@@ -102,10 +102,20 @@
     <script>
         // Ketika tombol tambah jumlah (+) atau kurangi jumlah (-) ditekan
         $(document).on('click', '.plus, .minus', function () {
+
+            // Mengambil aksi plus atau minus
             var action = $(this).data('action');
+
+            // Mengambil id keranjang
             var keranjang_id = $(this).data('id');
+
+            // Mengambil id produk
             var produk_id = $(this).data('id-produk');
+
+            // Mengambil input jumlah barang
             var jumlah_input = $('#jumlah-' + keranjang_id);
+
+            // Mengambil jumlah barang saat ini
             var jumlah = parseInt(jumlah_input.val());
 
             if (action == 'plus') {

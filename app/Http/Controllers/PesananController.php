@@ -179,7 +179,7 @@ class PesananController extends Controller
 
     public function show($id_pesanan)
     {
-        $pesanan = Pesanan::with(['detail_pesanans.produk'])->findOrFail($id_pesanan);
+        $pesanan = Pesanan::with(['detail_pesanans.produk', 'pengiriman'])->findOrFail($id_pesanan);
 
         return view('detail-pesanan', compact('pesanan'));
     }

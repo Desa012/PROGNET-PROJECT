@@ -11,6 +11,14 @@
                 </p>
 
                 <p>
+                    <strong>Tanggal Dikirim:</strong> {{ $pesanan->pengiriman->tanggal_pengiriman }}
+                </p>
+
+                <p>
+                    <strong>Tanggal Diterima:</strong> {{ $pesanan->pengiriman->tanggal_diterima }}
+                </p>
+
+                <p>
                     <strong>Status:</strong>
                     <span class="{{ $pesanan->status == 'sudah bayar' ? 'text-green-500' : 'text-red-500' }}">
                         {{ $pesanan->status }}
@@ -28,14 +36,22 @@
                     Detail Produk:
                 </h2>
 
-                <ul class="mt-2 list-disc list-inside">
+                <div class="mt-2 list-disc list-inside">
                     @foreach ($pesanan->detail_pesanans as $detail)
-                        <li>
-                            {{ $detail->produk->nama_produk }} - {{ $detail->jumlah }} x Rp{{ number_format($detail->produk->harga, 0, ',', '.') }}
-                            (Subtotal: Rp{{ number_format($detail->subtotal, 0, ',', '.') }})
-                        </li>
+
+                        <div class="flex items-center mb-6">
+                            <div style="width: 60px; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; margin-right: 15px;">
+                                <img style="width: 100%; height: 100%; object-fit: cover;" class="" src="{{ asset('images/'. $detail->produk->gambar_produk) }}" alt="{{ $detail->produk->nama_produk }}">
+                            </div>
+
+                            <p>
+                                {{ $detail->produk->nama_produk }} - {{ $detail->jumlah }} x Rp{{ number_format($detail->produk->harga, 0, ',', '.') }}
+                                (Subtotal: Rp{{ number_format($detail->subtotal, 0, ',', '.') }})
+                            </p>
+                        </div>
+
                     @endforeach
-                </ul>
+                </div>
             </div>
         </div>
 
