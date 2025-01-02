@@ -6,7 +6,7 @@
         <h2 class="text-xl font-bold mt-6 mb-4">Pesanan Belum Selesai</h2>
         <div class="table-container">
             <table class="table-auto w-full bg-white shadow-lg rounded-lg">
-                <thead class="bg-gradient-to-b from-blue-800 to-blue-900 text-white">
+                <thead class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 text-white">
                     <tr>
                         <th class="px-4 py-2">No.</th>
                         <th class="px-4 py-2">Nama Pelanggan</th>

@@ -1,5 +1,5 @@
 <nav class="bg-gradient-to-b from-blue-800 to-blue-900 border-gray-200">
-    <div class="flex items-center w-full px-8 py-4">
+    <div class="flex items-center justify-between w-full px-8 py-4">
 
         {{-- logo dan nama JuLi --}}
         <a href="{{ route('dashboard-penjual') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -13,16 +13,30 @@
         </a>
 
         <div>
-            <div class="ml-10 flex items-baseline space-x-4">
-                <a href="diskons" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Diskon</a>
-                <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Produk</a>
-                <a href="kelola-pesanan" class="rounded-md {{ request()->is('kelola-pesanan')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Pesanan</a>
-                <a href="riwayat-pesanan" class="rounded-md {{ request()->is('riwayat-pesanan')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Riwayat Pesanan</a>
+            <div class="ml-10 mr-10 w-full">
+                <a href="diskons" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kelola Diskon</a>
+            </div>
+        </div>
+
+        <div>
+            <div class="mr-10 w-full">
+                <a href="produks" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kelola Produk</a>
+            </div>
+        </div>
+
+        <div>
+            <div class="mr-10 w-full">
+                <a href="kelola-pesanan" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kelola Pesanan</a>
+            </div>
+        </div>
+
+        <div>
+            <div class="mr-10 w-full">
+                <a href="riwayat-pesanan" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Riwayat Pesanan</a>
             </div>
         </div>
 
         <div class="flex items-center space-x-6 px-4" style="margin-left: 800px;">
-            {{-- Masuk ke toko --}}
             @if (Auth::user()->penjuals)
             <a href="{{ route('dashboard-pelanggan') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kembali</a>
             @endif

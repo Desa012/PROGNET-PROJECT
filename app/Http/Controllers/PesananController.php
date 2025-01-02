@@ -169,7 +169,9 @@ class PesananController extends Controller
         ]);
 
         $pengiriman = Pengiriman::firstOrNew(['id_pesanan' => $id]);
+        $pengiriman->tanggal_pengiriman = Carbon::now();
         $pengiriman->status_pengiriman = $request->status_pengiriman;
+
         $pengiriman->save();
 
         return redirect()->back()->with('success', 'Pengiriman berhasil diperbarui.');
