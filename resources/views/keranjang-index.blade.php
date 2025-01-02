@@ -119,8 +119,10 @@
             var jumlah = parseInt(jumlah_input.val());
 
             if (action == 'plus') {
+                // Jika tombol plus ditekan, tambah pada jumlah
                 jumlah++;
             } else if (action == 'minus' && jumlah > 1) {
+                // Jika tombol minus ditekan, mengurangi jumlah dengan tidak boleh kurang dari 1
                 jumlah--;
             }
 

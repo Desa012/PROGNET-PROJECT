@@ -37,15 +37,6 @@
                             @endforeach
                         </select>
                     </div>
-<<<<<<< Updated upstream
-
-            <div>
-                <label for="tanggal_pesanan">Tanggal Pemesanan</label>
-                <p></p>
-                <input type="date" id="tanggal_pesanan" name="tanggal_pesanan" required>
-            </div>
-=======
->>>>>>> Stashed changes
 
                     <div class="form-group">
                         <label for="alamat" class="label">
