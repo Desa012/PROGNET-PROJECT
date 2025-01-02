@@ -162,6 +162,23 @@ class PesananController extends Controller
         return view('riwayat-pesanan', compact('pesananSelesai'));
     }
 
+    public function detailRiwayat($id_pesanan)
+    {
+        $penjual = Auth::user()->penjuals;
+
+        $pesananSelesai = Pesanan::where('id_penjual', $penjual->id_penjual)
+            ->with(['users', 'alamats', 'detail_pesanans.produk', 'pengiriman'])->where('id_pesanan', $id_pesanan)
+            ->get();
+
+        $pesanan = Pesanan::where('id_penjual', $penjual->id_penjual)
+            ->whereHas('pengiriman', function ($query) {
+                $query->where('status_pengiriman', 'selesai');
+            })
+            ->with(['users', 'alamats', 'detail_pesanans.produk', 'pengiriman'])->findOrFail($id_pesanan);
+
+        return view('detail-riwayat', compact('pesananSelesai', 'pesanan'));
+    }
+
     public function updatePengiriman(Request $request, $id)
     {
         $request->validate([

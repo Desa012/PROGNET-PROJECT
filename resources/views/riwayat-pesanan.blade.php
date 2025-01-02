@@ -15,6 +15,7 @@
                         <th class="px-4 py-2">Nama Produk</th>
                         <th class="px-4 py-2">Total Harga</th>
                         <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Aksi</th> <!-- Kolom untuk Tombol -->
                     </tr>
                 </thead>
                 <tbody>
@@ -23,16 +24,22 @@
                         <td class="px-4 py-2 text-center">{{ $index + 1 }}</td>
                         <td class="px-4 py-2">{{ optional($pesanan->users)->nama ?? 'Data pelanggan tidak tersedia' }}</td>
                         <td class="px-4 py-2">{{ $pesanan->alamats->alamat }}</td>
-                        <td class="px-4 py-2">{{ $pesanan->tanggal_pesanan->format('d-m-Y') }}</td>
-                        @foreach ($pesanan->detail_pesanans as $detail)
+                        <td class="px-4 py-2">{{ $pesanan->tanggal_pesanan }}</td>
+                        @foreach ($pesanan->detail_pesanans->take(1) as $detail)
                         <td class="px-4 py-2">{{ $detail->produk->nama_produk }}</td>
                         @endforeach
                         <td class="px-4 py-2 currency">Rp {{ number_format($pesanan->total_harga, 0, ',', '.') }}</td>
                         <td class="px-4 py-2">{{ $pesanan->status }}</td>
+                        <td class="px-4 py-2 text-center">
+                            <a href="{{ route('detail.riwayat', $pesanan->id_pesanan) }}"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                                Detail
+                            </a>
+                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-4 py-2 text-center">Belum ada pesanan selesai.</td>
+                        <td colspan="8" class="px-4 py-2 text-center">Belum ada pesanan selesai.</td>
                     </tr>
                     @endforelse
                 </tbody>

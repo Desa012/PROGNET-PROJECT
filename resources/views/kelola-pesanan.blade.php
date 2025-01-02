@@ -24,7 +24,7 @@
                             <td class="px-4 py-2 text-center">{{ $index + 1 }}</td>
                             <td class="px-4 py-2">{{ optional($pesanan->users)->nama ?? 'Data pelanggan tidak tersedia' }}</td>
                             <td class="px-4 py-2">{{ $pesanan->alamats->alamat }}</td>
-                            <td class="px-4 py-2">{{ $pesanan->tanggal_pesanan->format('d-m-Y') }}</td>
+                            <td class="px-4 py-2">{{ $pesanan->tanggal_pesanan}}</td>
                             @foreach ($pesanan->detail_pesanans as $detail)
                                 <td class="px-4 py-2">{{ $detail->produk->nama_produk }}</td>
                             @endforeach

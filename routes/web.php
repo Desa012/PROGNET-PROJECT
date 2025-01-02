@@ -62,6 +62,7 @@ Route::get('kelola-pesanan', [PesananController::class, 'kelolaPesanan'])->name(
 
 // Route untuk riwayat pesanan
 Route::get('riwayat-pesanan', [PesananController::class, 'riwayatPesanan'])->name('pesanan.riwayat');
+Route::get('detail-riwayat/{id_pesanan}', [PesananController::class, 'detailRiwayat'])->name('detail.riwayat');
 
 //Pengiriman
 Route::patch('/pengiriman{id}', [PesananController::class, 'updatePengiriman'])->name('pengiriman.update');
@@ -105,6 +106,3 @@ Route::get('/toko/{id_penjual}', [TokoController::class, 'show'])->name('toko.de
 
 
 Route::get('/kategori/{id_kategori}/produks', [ProdukController::class, 'productsByCategory'])->name('kategori.produks');
-
-
-
