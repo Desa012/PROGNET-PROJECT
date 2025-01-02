@@ -16,7 +16,8 @@
             <div class="ml-10 flex items-baseline space-x-4">
                 <a href="diskons" class="rounded-md {{ request()->is('diskons')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Diskon</a>
                 <a href="produks" class="rounded-md {{ request()->is('produks')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Produk</a>
-                <a href="kelola-pesanan" class="rounded-md {{ request()->is('')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Pesanan</a>
+                <a href="kelola-pesanan" class="rounded-md {{ request()->is('kelola-pesanan')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Kelola Pesanan</a>
+                <a href="riwayat-pesanan" class="rounded-md {{ request()->is('riwayat-pesanan')?'bg-gray-900 text-white':'text-gray-300 hover:bg-gray-700 hover:text-white' }}">Riwayat Pesanan</a>
             </div>
         </div>
 

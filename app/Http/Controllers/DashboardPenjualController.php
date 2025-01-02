@@ -26,7 +26,17 @@ class DashboardPenjualController extends Controller
         // Hitung total produk
         $totalProduk = Produk::where('id_penjual', $toko->id_penjual)->count();
 
-        $totalPesanan = Pesanan::where('id_penjual', $toko->id_penjual)->count();
+        // Total pesanan selesai
+        $pesananSelesai = Pesanan::where('id_penjual', $toko->id_penjual)
+            ->whereHas('pengiriman', function ($query) {
+                $query->where('status_pengiriman', 'selesai');
+            })->count();
+
+        // Total pesanan belum selesai
+        $pesananBelumSelesai = Pesanan::where('id_penjual', $toko->id_penjual)
+            ->whereHas('pengiriman', function ($query) {
+                $query->whereIn('status_pengiriman', ['dikemas', 'dikirim']);
+            })->count();
 
         $pesanan = Pesanan::where('id_penjual', $toko->id_penjual)->with('users')->get();
 
@@ -34,6 +44,6 @@ class DashboardPenjualController extends Controller
             ->where('status', 'sudah bayar')
             ->sum('total_harga');
 
-        return view('dashboard-penjual', compact('produk', 'totalProduk', 'pesanan', 'toko', 'totalPesanan', 'totalPendapatan')); // Kirim data produk ke view
+        return view('dashboard-penjual', compact('produk', 'totalProduk', 'pesanan', 'toko', 'totalPendapatan', 'pesananSelesai', 'pesananBelumSelesai')); // Kirim data produk ke view
     }
 }

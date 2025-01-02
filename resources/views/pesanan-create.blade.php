@@ -24,7 +24,6 @@
                 @endforeach
             </div>
 
-<<<<<<< Updated upstream
             <div class="kolom-kanan">
                 <form action="{{ route('pesanan.store') }}" method="POST" class="form-konfirmasi">
                     @csrf
@@ -38,13 +37,12 @@
                             @endforeach
                         </select>
                     </div>
-=======
+
             <div>
                 <label for="tanggal_pesanan">Tanggal Pemesanan</label>
                 <p></p>
                 <input type="date" id="tanggal_pesanan" name="tanggal_pesanan" required>
             </div>
->>>>>>> Stashed changes
 
                     <div class="form-group">
                         <label for="alamat" class="label">

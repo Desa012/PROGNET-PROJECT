@@ -4,7 +4,7 @@
     <div class="bg-blue-900 text-white py-10">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold mb-6 text-center">Dashboard Penjual</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="bg-blue-700 p-6 rounded-lg shadow-md text-center">
                     <h3 class="text-lg font-bold">Total Produk</h3>
                     <p class="text-3xl mt-2">{{ $totalProduk }}</p>
@@ -14,8 +14,12 @@
                     <p class="text-3xl mt-2">Rp{{ number_format($totalPendapatan, 0, ',', '.') }}</p>
                 </div>
                 <div class="bg-blue-700 p-6 rounded-lg shadow-md text-center">
-                    <h3 class="text-lg font-bold">Total Pesanan</h3>
-                    <p class="text-3xl mt-2">{{ $totalPesanan }}</p>
+                    <h3 class="text-lg font-bold">Pesanan Selesai</h3>
+                    <p class="text-3xl mt-2">{{ $pesananSelesai }}</p>
+                </div>
+                <div class="bg-blue-700 p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-lg font-bold">Pesanan Belum selesai</h3>
+                    <p class="text-3xl mt-2">{{ $pesananBelumSelesai }}</p>
                 </div>
             </div>
         </div>
