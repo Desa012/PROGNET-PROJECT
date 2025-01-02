@@ -169,7 +169,7 @@ class PesananController extends Controller
         ]);
 
         $pengiriman = Pengiriman::firstOrNew(['id_pesanan' => $id]);
-        $pengiriman->tanggal_pengiriman = Carbon::now();
+        $pengiriman->tanggal_pengiriman = Carbon::now('Asia/Singapore');
         $pengiriman->status_pengiriman = $request->status_pengiriman;
 
         $pengiriman->save();
