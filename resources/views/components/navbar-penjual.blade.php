@@ -12,30 +12,22 @@
             <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">JuLi</span>
         </a>
 
-        <div>
+        <div class="flex space-x-3">
             <div class="ml-10 mr-10 w-full">
-                <a href="diskons" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kelola Diskon</a>
+                <a href="{{ route('diskons.index') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kelola Diskon</a>
             </div>
-        </div>
-
-        <div>
             <div class="mr-10 w-full">
-                <a href="produks" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kelola Produk</a>
+                <a href="{{ route('produks.index') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kelola Produk</a>
             </div>
-        </div>
-
-        <div>
             <div class="mr-10 w-full">
-                <a href="kelola-pesanan" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kelola Pesanan</a>
+                <a href="{{route('pesanan.kelola') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kelola Pesanan</a>
             </div>
-        </div>
-
-        <div>
             <div class="mr-10 w-full">
-                <a href="riwayat-pesanan" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Riwayat Pesanan</a>
+                <a href="{{ route('pesanan.riwayat') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Riwayat Pesanan</a>
             </div>
         </div>
 
+        
         <div class="flex items-center space-x-6 px-4" style="margin-left: 800px;">
             @if (Auth::user()->penjuals)
             <a href="{{ route('dashboard-pelanggan') }}" class="text-sm font-medium text-gray-900 text-white whitespace-nowrap hover:underline">Kembali</a>
